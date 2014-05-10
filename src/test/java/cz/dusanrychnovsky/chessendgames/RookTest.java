@@ -6,33 +6,41 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class RookTest
+import cz.dusanrychnovsky.chessendgames.Player.Color;
+
+/**
+ * 
+ * @author Dušan Rychnovský
+ *
+ */
+public class RookTest extends PieceTest
 {
-	private static final Rook rook = new Rook();
+	private static final Player player = Player.get(Color.WHITE);
+	private static final Rook rook = new Rook(player);
 	
 	@Test
 	public void generatesCorrectSetOfMovesWhenLocatedInCenterOfTheBoard()
 	{
 		Position position = Position.get(Column.CC, Row.R3);
-		List<Position> result = rook.generateMoves(position);
+		List<Move> result = rook.generateMoves(position);
 		
 		assertEquals(14, result.size());
 		
-		assertTrue(result.contains(Position.get(Column.CC, Row.R8)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R7)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R6)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R5)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R4)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R2)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R8)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R7)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R6)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R5)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R4)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R2)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R1)));
 		
-		assertTrue(result.contains(Position.get(Column.CA, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CB, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CD, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CE, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CF, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CG, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CH, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CB, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CD, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CE, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CF, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CG, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CH, Row.R3)));
 	}
 	
 
@@ -40,24 +48,24 @@ public class RookTest
 	public void generatesCorrectSetOfMovesWhenLocatedInACornerOfTheBoard()
 	{
 		Position position = Position.get(Column.CA, Row.R1);
-		List<Position> result = rook.generateMoves(position);
+		List<Move> result = rook.generateMoves(position);
 		
 		assertEquals(14, result.size());
 		
-		assertTrue(result.contains(Position.get(Column.CA, Row.R8)));
-		assertTrue(result.contains(Position.get(Column.CA, Row.R7)));
-		assertTrue(result.contains(Position.get(Column.CA, Row.R6)));
-		assertTrue(result.contains(Position.get(Column.CA, Row.R5)));
-		assertTrue(result.contains(Position.get(Column.CA, Row.R4)));
-		assertTrue(result.contains(Position.get(Column.CA, Row.R3)));
-		assertTrue(result.contains(Position.get(Column.CA, Row.R2)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R8)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R7)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R6)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R5)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R4)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R3)));
+		assertTrue(containsPosition(result, Position.get(Column.CA, Row.R2)));
 		
-		assertTrue(result.contains(Position.get(Column.CB, Row.R1)));
-		assertTrue(result.contains(Position.get(Column.CC, Row.R1)));
-		assertTrue(result.contains(Position.get(Column.CD, Row.R1)));
-		assertTrue(result.contains(Position.get(Column.CE, Row.R1)));
-		assertTrue(result.contains(Position.get(Column.CF, Row.R1)));
-		assertTrue(result.contains(Position.get(Column.CG, Row.R1)));
-		assertTrue(result.contains(Position.get(Column.CH, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CB, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CC, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CD, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CE, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CF, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CG, Row.R1)));
+		assertTrue(containsPosition(result, Position.get(Column.CH, Row.R1)));
 	}
 }

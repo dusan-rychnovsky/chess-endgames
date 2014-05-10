@@ -3,17 +3,30 @@ package cz.dusanrychnovsky.chessendgames;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Dušan Rychnovský
+ *
+ */
 public class Rook extends Piece
 {
+	/**
+	 * 
+	 * @param player
+	 */
+	public Rook(Player player) {
+		super(player);
+	}
+
 	@Override
-	public List<Position> generateMoves(Position position)
+	public List<Move> generateMoves(Position from)
 	{
-		List<Position> result = new ArrayList<Position>();
+		List<Move> result = new ArrayList<Move>();
 		
-		List<Position> horizontalMoves = generateHorizontalMoves(position);
+		List<Move> horizontalMoves = generateHorizontalMoves(from);
 		result.addAll(horizontalMoves);
 		
-		List<Position> verticalMoves = generateVerticalMoves(position);
+		List<Move> verticalMoves = generateVerticalMoves(from);
 		result.addAll(verticalMoves);
 		
 		return result;
@@ -21,17 +34,19 @@ public class Rook extends Piece
 	
 	/**
 	 * 
-	 * @param position
+	 * @param from
 	 * @return
 	 */
-	private List<Position> generateVerticalMoves(Position position)
+	private List<Move> generateVerticalMoves(Position from)
 	{
-		List<Position> result = new ArrayList<Position>();
+		List<Move> result = new ArrayList<Move>();
 		
 		for (Row row : Row.values())
 		{
-			if (!row.equals(position.getRow())) {
-				result.add(Position.get(position.getColumn(), row));
+			if (!row.equals(from.getRow())) 
+			{
+				Position to = Position.get(from.getColumn(), row); 
+				result.add(new Move(this, from, to));
 			}
 		}
 		
@@ -40,20 +55,42 @@ public class Rook extends Piece
 	
 	/**
 	 * 
-	 * @param position
+	 * @param from
 	 * @return
 	 */
-	private List<Position> generateHorizontalMoves(Position position)
+	private List<Move> generateHorizontalMoves(Position from)
 	{
-		List<Position> result = new ArrayList<Position>();
+		List<Move> result = new ArrayList<Move>();
 		
 		for (Column column : Column.values())
 		{
-			if (!column.equals(position.getColumn())) {
-				result.add(Position.get(column, position.getRow()));
+			if (!column.equals(from.getColumn())) 
+			{
+				Position to = Position.get(column, from.getRow());
+				result.add(new Move(this, from, to));
 			}
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode() + "Rook".hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof Rook)) {
+			return false;
+		}
+		
+		return super.equals(obj);
+	}
+	
+	@Override
+	public String toString() {
+		return getPlayer().toString() + " Rook";
 	}
 }

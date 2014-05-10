@@ -124,7 +124,7 @@ public class Range implements Iterable<Position>
 	private void addPosition(Position position) {
 		positions.add(position);
 	}
-	
+
 	@Override
 	public Iterator<Position> iterator() {
 		return positions.iterator();

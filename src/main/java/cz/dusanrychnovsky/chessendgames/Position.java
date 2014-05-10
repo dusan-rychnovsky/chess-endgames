@@ -47,6 +47,22 @@ public class Position
 	}
 	
 	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public boolean isNeighbour(Position other)
+	{
+		if (this.equals(other)) {
+			return false;
+		}
+		
+		return 
+			(column.distance(other.column) <= 1) &&
+			(row.distance(other.row) <= 1);
+	}
+	
+	/**
 	 * Returns a (correctly ordered) range of positions, starting with the
 	 * represented one and ending with the given one.
 	 * 
