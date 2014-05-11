@@ -121,6 +121,15 @@ public class Situation
 	}
 	
 	/**
+	 * 
+	 * @param piece
+	 * @return
+	 */
+	public boolean isActive(Piece piece) {
+		return pieces.containsKey(piece);
+	}
+	
+	/**
 	 * Returns a list of all (mutually different) situations which can be
 	 * reached using a single valid move of the given player.
 	 * 
@@ -133,6 +142,10 @@ public class Situation
 		
 		for (Piece piece : player.getPieces())
 		{
+			if (!isActive(piece)) {
+				continue;
+			}
+			
 			Position currPiecePosition = getPosition(piece);
 			for (Move move : piece.generateMoves(currPiecePosition))
 			{
@@ -165,6 +178,10 @@ public class Situation
 		
 		for (Piece piece : otherPlayer.getPieces())
 		{
+			if (!isActive(piece)) {
+				continue;
+			}
+			
 			if (piece.equals(otherKing)) {
 				continue;
 			}

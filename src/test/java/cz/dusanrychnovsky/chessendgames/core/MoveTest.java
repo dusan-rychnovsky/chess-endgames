@@ -69,6 +69,23 @@ public class MoveTest
 	}
 	
 	@Test
+	public void aKingCannotTakeTheRookIfHeWouldEndUpNearTheOtherKing()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CA, Row.R8));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CB, Row.R7));
+		
+		Move move = new Move(
+			blackKing,
+			Position.get(Column.CA, Row.R8),
+			Position.get(Column.CB, Row.R7)
+		);
+		
+		assertFalse(move.isValid(situation));
+	}
+	
+	@Test
 	public void aKingCannotBeExposedToAttack()
 	{
 		Situation situation = new Situation();
