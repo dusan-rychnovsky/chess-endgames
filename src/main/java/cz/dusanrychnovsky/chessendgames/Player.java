@@ -13,6 +13,14 @@ public class Player
 {
 	public enum Color { BLACK, WHITE }
 	
+	private static final Player whitePlayer = new Player(Color.WHITE);
+	private static final Player blackPlayer = new Player(Color.BLACK);
+	
+	static {
+		whitePlayer.setOpponent(blackPlayer);
+		blackPlayer.setOpponent(whitePlayer);
+	}
+	
 	private final Color color;
 	
 	private final List<Piece> pieces = new ArrayList<Piece>();
@@ -25,8 +33,19 @@ public class Player
 	 * @param color
 	 * @return
 	 */
-	public static Player get(Color color) {
-		return new Player(color);
+	public static Player get(Color color)
+	{
+		if (color.equals(Color.WHITE)) {
+			return whitePlayer;
+		}
+		
+		if (color.equals(Color.BLACK)) {
+			return blackPlayer;
+		}
+		
+		throw new IllegalArgumentException(
+			"Unexpected player color [" + color + "]."
+		);
 	}
 	
 	/**
@@ -41,7 +60,7 @@ public class Player
 	 * 
 	 * @param opponent
 	 */
-	public void setOpponent(Player opponent)
+	private void setOpponent(Player opponent)
 	{
 		if (this.opponent != null) {
 			throw new IllegalArgumentException("Opponent has already been set.");
@@ -70,6 +89,15 @@ public class Player
 		}
 		
 		pieces.add(piece);
+	}
+	
+	/**
+	 * 
+	 */
+	public void removeAllPieces()
+	{
+		pieces.clear();
+		king = null;
 	}
 	
 	/**

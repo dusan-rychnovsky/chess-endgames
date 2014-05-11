@@ -23,20 +23,19 @@ public class MoveTest
 	public void setUp()
 	{
 		Player blackPlayer = Player.get(Color.BLACK);
+		blackPlayer.removeAllPieces();
 		
 		blackKing = new King(blackPlayer);
 		blackPlayer.addPiece(blackKing);
 		
 		Player whitePlayer = Player.get(Color.WHITE);
+		whitePlayer.removeAllPieces();
 		
 		whiteKing = new King(whitePlayer);
 		whitePlayer.addPiece(whiteKing);
 		
 		whiteRook = new Rook(whitePlayer);
 		whitePlayer.addPiece(whiteRook);
-		
-		blackPlayer.setOpponent(whitePlayer);
-		whitePlayer.setOpponent(blackPlayer);
 	}
 	
 	@Test
