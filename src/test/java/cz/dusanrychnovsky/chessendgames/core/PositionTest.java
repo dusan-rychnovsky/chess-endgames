@@ -1,6 +1,7 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.core;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 /**

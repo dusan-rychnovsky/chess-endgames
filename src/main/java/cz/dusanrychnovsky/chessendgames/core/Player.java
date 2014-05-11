@@ -1,4 +1,4 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.core;
 
 import java.util.ArrayList;
 import java.util.Collections;

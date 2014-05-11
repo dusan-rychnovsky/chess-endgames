@@ -1,8 +1,9 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.core;
 
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 /**

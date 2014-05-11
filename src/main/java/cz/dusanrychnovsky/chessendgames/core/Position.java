@@ -1,4 +1,4 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.core;
 
 /**
  * 

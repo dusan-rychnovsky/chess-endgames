@@ -1,4 +1,4 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.core;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import cz.dusanrychnovsky.chessendgames.Player.Color;
+import cz.dusanrychnovsky.chessendgames.core.Player.Color;
 
 /**
  * 
