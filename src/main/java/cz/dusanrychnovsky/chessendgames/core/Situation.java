@@ -121,6 +121,8 @@ public class Situation
 	}
 	
 	/**
+	 * Returns true if and only if the given piece is on the board in the
+	 * represented situation.
 	 * 
 	 * @param piece
 	 * @return
@@ -200,6 +202,120 @@ public class Situation
 		return false;
 	}
 	
+	/**
+	 * Returns true if and only the given king piece is in stalemate in the
+	 * represented situation.
+	 * 
+	 * @param king
+	 * @return
+	 */
+	public boolean isStalemate(King king) {
+		return !isCheck(king) && !canMove(king);
+	}
+	
+	/**
+	 * Returns true if and only the given king piece is in checkmate in the
+	 * represented situation.
+	 * 
+	 * @param king
+	 * @return
+	 */
+	public boolean isCheckmate(King king) {
+		return isCheck(king) && !canMove(king);
+	}
+	
+	/**
+	 * 
+	 * @param king
+	 * @return
+	 */
+	private boolean canMove(King king)
+	{
+		Position from = pieces.get(king);
+		List<Move> moves = king.generateMoves(from);
+		
+		for (Move move : moves)
+		{
+			if (move.isValid(this)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Returns true if and only if the given situation is final, i.e. if it is
+	 * either a stalemate or a checkmate with regards to one of the kings.
+	 *  
+	 * @return
+	 */
+	public boolean isFinal()
+	{
+		List<King> kings = getKings();
+		
+		for (King king : kings)
+		{
+			if (isStalemate(king) || isCheckmate(king)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * If the represented situation is final, returns the appropriate game
+	 * result. Otherwise throws an {@link IllegalStateException}.
+	 * 
+	 * @return
+	 */
+	public Result getResult() 
+	{
+		List<King> kings = getKings();
+		
+		for (King king : kings)
+		{
+			if (isStalemate(king)) {
+				return new Draw();
+			}
+			
+			if (isCheckmate(king))
+			{
+				Player winner = king.getPlayer();
+				return new Win(winner);
+			}
+		}
+		
+		throw new IllegalStateException(
+			"The game is not finished yet."
+		);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private List<King> getKings()
+	{
+		List<King> result = new ArrayList<King>();
+		
+		for (Piece piece : pieces.keySet())
+		{
+			if (piece instanceof King) {
+				result.add((King) piece);
+			}
+		}
+		
+		if (result.size() != 2) {
+			throw new IllegalStateException(
+				"A king piece is missing or superfluous."
+			);
+		}
+		
+		return result;
+	}
+	
 	@Override
 	public int hashCode() {
 		return pieces.hashCode();
@@ -214,5 +330,10 @@ public class Situation
 		
 		Situation other = (Situation) obj;
 		return pieces.equals(other.pieces);
+	}
+	
+	@Override
+	public String toString() {
+		return pieces.toString();
 	}
 }

@@ -98,6 +98,47 @@ public class SituationTest
 		
 		assertFalse(situation.isCheck(blackKing));
 	}
+
+	// ========================================================================
+	// IS STALEMATE?
+	// ========================================================================
+	
+	@Test
+	public void aSituationIsAStalemateIfTheKingIsNotInCheckButCannotMove()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CA, Row.R8));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CB, Row.R7));
+		
+		assertTrue(situation.isStalemate(blackKing));
+	}
+
+	@Test
+	public void aSituationIsNotAStalemateIfTheKingCanMove()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CA, Row.R8));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CC, Row.R7));
+		
+		assertFalse(situation.isStalemate(blackKing));
+	}
+	
+	// ========================================================================
+	// IS CHECKMATE?
+	// ========================================================================
+	
+	@Test
+	public void aSituationIsACheckmateIfTheKingIsInCheckAndCannotMove()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CA, Row.R8));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CC, Row.R8));
+		
+		assertTrue(situation.isCheckmate(blackKing));
+	}
 	
 	// ========================================================================
 	// SUCCESSORS

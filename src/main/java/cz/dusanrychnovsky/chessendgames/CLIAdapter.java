@@ -1,0 +1,239 @@
+package cz.dusanrychnovsky.chessendgames;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import cz.dusanrychnovsky.chessendgames.core.Game;
+import cz.dusanrychnovsky.chessendgames.core.King;
+import cz.dusanrychnovsky.chessendgames.core.Move;
+import cz.dusanrychnovsky.chessendgames.core.Piece;
+import cz.dusanrychnovsky.chessendgames.core.Player;
+import cz.dusanrychnovsky.chessendgames.core.Position;
+import cz.dusanrychnovsky.chessendgames.core.Result;
+import cz.dusanrychnovsky.chessendgames.core.Rook;
+import cz.dusanrychnovsky.chessendgames.core.Situation;
+import cz.dusanrychnovsky.chessendgames.core.Player.Color;
+import cz.dusanrychnovsky.chessendgames.core.strategies.Dummy;
+import cz.dusanrychnovsky.chessendgames.core.strategies.Strategy;
+
+public class CLIAdapter
+{
+	private final BufferedReader in;
+	private final BufferedWriter out;
+	
+	private Player whitePlayer = Player.get(Color.WHITE);
+	private Player blackPlayer = Player.get(Color.BLACK);
+	
+	/**
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws IOException
+	{
+		BufferedReader in = null;
+		BufferedWriter out = null;
+		
+		try 
+		{
+			in = new BufferedReader(new InputStreamReader(System.in));
+			out = new BufferedWriter(new OutputStreamWriter(System.out));
+			
+			CLIAdapter adapter = new CLIAdapter(in, out);
+			adapter.run();
+		}
+		finally
+		{
+			if (in != null) {
+				in.close();
+			}
+			
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param in
+	 * @param out
+	 */
+	public CLIAdapter(BufferedReader in, BufferedWriter out) {
+		this.in = in;
+		this.out = out;
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void run() throws IOException
+	{
+		printIntroduction();
+		
+		Situation situation = setUpInitialSituation();
+		printLine("Current situation: " + situation);
+		
+		Strategy strategy = new Dummy();
+		Game game = new Game(strategy, situation, blackPlayer);
+		
+		while (!situation.isFinal())
+		{
+			Move move = getMove(situation);
+			
+			situation = game.doMove(move);
+			if (situation.isFinal()) {
+				break;
+			}
+			
+			situation = game.playMove();
+			printLine("Current situation: " + situation);
+		}
+		
+		Result result = situation.getResult();
+		printLine("Result: " + result);
+	}
+	
+	/**
+	 * 
+	 * @param situation
+	 * @return
+	 * @throws IOException
+	 */
+	private Move getMove(Situation situation) throws IOException 
+	{
+		printLine("Please give your next move ([from] - [to]):");
+		
+		while (true)
+		{
+			String line = in.readLine();
+			
+			try 
+			{
+				String[] tokens = line.split("-");
+				if (tokens.length != 2) {
+					throw new IllegalArgumentException(
+						"Invalid move definition [" + line + "]."
+					);
+				}
+				
+				Position from = Position.get(tokens[0]);
+				Piece piece = situation.getPiece(from);
+				
+				Position to = Position.get(tokens[1]);
+				
+				return new Move(piece, from, to);
+			}
+			catch (IllegalArgumentException ex) {
+				printLine("The given move is invalid. Try again, please.");
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	private Situation setUpInitialSituation() throws IOException
+	{
+		Situation initialSituation = new Situation();
+		
+		setUpWhiteKing(initialSituation);
+		setUpBlackKing(initialSituation);
+		setUpBlackRook(initialSituation);
+		
+		return initialSituation;
+	}
+	
+	/**
+	 * 
+	 * @param situation
+	 * @throws IOException
+	 */
+	private void setUpBlackRook(Situation situation) throws IOException
+	{
+		printLine("Please give black rook coordinates:");
+		
+		Rook blackRook = new Rook(blackPlayer);
+		Position position = readPosition();
+		
+		situation.addPiece(blackRook, position);
+	}
+	
+	/**
+	 * 
+	 * @param situation
+	 * @throws IOException
+	 */
+	private void setUpBlackKing(Situation situation) throws IOException 
+	{
+		printLine("Please give black king coordinates:");
+		
+		King blackKing = new King(blackPlayer);
+		Position position = readPosition();
+		
+		situation.addPiece(blackKing, position);
+	}
+	
+	/**
+	 * 
+	 * @param situation
+	 * @throws IOException
+	 */
+	private void setUpWhiteKing(Situation situation) throws IOException 
+	{
+		printLine("Please give white king coordinates:");
+		
+		King whiteKing = new King(whitePlayer);
+		Position position = readPosition();
+		
+		situation.addPiece(whiteKing, position);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	private Position readPosition() throws IOException
+	{
+		while (true)
+		{
+			String line = in.readLine();
+			
+			try {
+				Position result = Position.get(line);
+				return result;
+			}
+			catch (IllegalArgumentException ex) {
+				printLine("The given position is invalid. Try again, please.");
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void printIntroduction() throws IOException {
+		printLine("Wellcome to Chess Endgames!");
+	}
+	
+	/**
+	 * 
+	 * @param line
+	 * @throws IOException
+	 */
+	private void printLine(String line) throws IOException
+	{
+		out.write(line);
+		out.newLine();
+		
+		out.flush();
+	}
+}

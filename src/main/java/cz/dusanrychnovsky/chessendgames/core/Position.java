@@ -22,6 +22,30 @@ public class Position
 	
 	/**
 	 * 
+	 * @param line
+	 * @return
+	 */
+	public static Position get(String line)
+	{
+		line = line.trim();
+		
+		if (line.length() != 2) {
+			throw new IllegalArgumentException(
+				"Line does not consist of two characters [" + line + "]."
+			);
+		}
+		
+		String columnVal = "C" + line.charAt(0);
+		Column column = Column.valueOf(columnVal);
+		
+		String rowVal = "R" + line.charAt(1);
+		Row row = Row.valueOf(rowVal);
+		
+		return new Position(column, row);
+	}
+	
+	/**
+	 * 
 	 * @param column
 	 * @param row
 	 */
