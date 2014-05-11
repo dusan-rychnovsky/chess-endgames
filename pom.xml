@@ -18,6 +18,12 @@
 	</properties>
 	
 	<dependencies>
+		<!-- APACHE COMMONS -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
 		<!-- LOGGING -->
 		<dependency>
 			<groupId>log4j</groupId>
