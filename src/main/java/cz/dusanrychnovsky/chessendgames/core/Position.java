@@ -1,5 +1,10 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 /**
  * 
  * @author Dušan Rychnovský
@@ -7,6 +12,21 @@ package cz.dusanrychnovsky.chessendgames.core;
  */
 public class Position
 {
+	private static final Map<Pair<Column, Row>, Position> POSITIONS = new HashMap<Pair<Column, Row>, Position>();
+	
+	static 
+	{
+		for (Column column : Column.values()) {
+			for (Row row : Row.values())
+			{
+				Pair<Column, Row> key = Pair.of(column, row);
+				Position position = new Position(column, row);
+				
+				POSITIONS.put(key, position);
+			}
+		}
+	}
+	
 	private final Column column;
 	private final Row row;
 	
@@ -17,7 +37,7 @@ public class Position
 	 * @return
 	 */
 	public static Position get(Column column, Row row) {
-		return new Position(column, row);
+		return POSITIONS.get(Pair.of(column, row));
 	}
 	
 	/**
@@ -41,7 +61,7 @@ public class Position
 		String rowVal = "R" + line.charAt(1);
 		Row row = Row.valueOf(rowVal);
 		
-		return new Position(column, row);
+		return Position.get(column, row);
 	}
 	
 	/**
