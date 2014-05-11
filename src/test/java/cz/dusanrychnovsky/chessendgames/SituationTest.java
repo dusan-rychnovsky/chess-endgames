@@ -29,16 +29,12 @@ public class SituationTest
 		blackPlayer.removeAllPieces();
 		
 		blackKing = new King(blackPlayer);
-		blackPlayer.addPiece(blackKing);
 		
 		whitePlayer = Player.get(Color.WHITE);
 		whitePlayer.removeAllPieces();
 		
 		whiteKing = new King(whitePlayer);
-		whitePlayer.addPiece(whiteKing);
-		
 		whiteRook = new Rook(whitePlayer);
-		whitePlayer.addPiece(whiteRook);
 	}
 	
 	// ========================================================================

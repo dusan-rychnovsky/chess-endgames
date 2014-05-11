@@ -15,8 +15,10 @@ public abstract class Piece
 	 * 
 	 * @param player
 	 */
-	public Piece(Player player) {
+	public Piece(Player player) 
+	{
 		this.player = player;
+		player.addPiece(this);
 	}
 	
 	/**
