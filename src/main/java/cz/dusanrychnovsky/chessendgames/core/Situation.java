@@ -214,6 +214,44 @@ public class Situation
 	}
 	
 	/**
+	 * Returns true if and only if the represented situation is a draw, i.e.
+	 * if only the kings remain active or if one of the kings is in stalemate.
+	 * 
+	 * @return
+	 */
+	public boolean isDraw()
+	{
+		if (onlyKingsRemainActive()) {
+			return true;
+		}
+		
+		for (King king : getKings())
+		{
+			if (isStalemate(king)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean onlyKingsRemainActive()
+	{
+		for (Piece piece : pieces.keySet())
+		{
+			if (!(piece instanceof King)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Returns true if and only the given king piece is in checkmate in the
 	 * represented situation.
 	 * 
@@ -246,17 +284,19 @@ public class Situation
 	
 	/**
 	 * Returns true if and only if the given situation is final, i.e. if it is
-	 * either a stalemate or a checkmate with regards to one of the kings.
+	 * either a draw or if one of the kings is in checkmate.
 	 *  
 	 * @return
 	 */
 	public boolean isFinal()
 	{
-		List<King> kings = getKings();
+		if (isDraw()) {
+			return true;
+		}
 		
-		for (King king : kings)
+		for (King king : getKings())
 		{
-			if (isStalemate(king) || isCheckmate(king)) {
+			if (isCheckmate(king)) {
 				return true;
 			}
 		}
@@ -272,23 +312,21 @@ public class Situation
 	 */
 	public Result getResult() 
 	{
-		List<King> kings = getKings();
+		if (isDraw()) {
+			return new Draw();
+		}
 		
-		for (King king : kings)
+		for (King king : getKings())
 		{
-			if (isStalemate(king)) {
-				return new Draw();
-			}
-			
 			if (isCheckmate(king))
 			{
-				Player winner = king.getPlayer();
+				Player winner = king.getPlayer().getOpponent();
 				return new Win(winner);
 			}
 		}
 		
-		throw new IllegalStateException(
-			"The game is not finished yet."
+		throw new UnsupportedOperationException(
+			"Non-final situations do not have results."
 		);
 	}
 	

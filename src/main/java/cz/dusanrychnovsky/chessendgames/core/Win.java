@@ -18,6 +18,22 @@ public class Win extends Result
 	}
 	
 	@Override
+	public int hashCode() {
+		return "win".hashCode() + player.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof Win)) {
+			return false;
+		}
+		
+		Win other = (Win) obj;
+		return player.equals(other.player);
+	}
+	
+	@Override
 	public String toString() {
 		return player + " won!";
 	}

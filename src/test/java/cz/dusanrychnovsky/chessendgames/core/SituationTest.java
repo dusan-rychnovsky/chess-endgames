@@ -141,6 +141,57 @@ public class SituationTest
 	}
 	
 	// ========================================================================
+	// FINAL SITUATIONS AND THE RESPECTIVE RESULTS
+	// ========================================================================
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void nonFinalSituationsDoNotHaveResultsAssigned()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CD, Row.R4));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CE, Row.R5));
+		
+		assertFalse(situation.isFinal());
+		situation.getResult();
+	}
+	
+	@Test
+	public void aSituationIsADrawIfOnlyTheTwoKingsRemainActive()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CD, Row.R4));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		
+		assertTrue(situation.isFinal());
+		assertEquals(new Draw(), situation.getResult());
+	}
+	
+	@Test
+	public void aSituationIsADrawIfOneOfTheKingsIsInStalemate()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CA, Row.R8));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CB, Row.R7));
+		
+		assertTrue(situation.isFinal());
+		assertEquals(new Draw(), situation.getResult());
+	}
+	
+	@Test
+	public void aSituationIsAWinForAPlayerIfTheOppositePlayerIsInCheckmate()
+	{
+		Situation situation = new Situation();
+		situation.addPiece(blackKing, Position.get(Column.CA, Row.R8));
+		situation.addPiece(whiteKing, Position.get(Column.CB, Row.R6));
+		situation.addPiece(whiteRook, Position.get(Column.CC, Row.R8));
+		
+		assertTrue(situation.isFinal());
+		assertEquals(new Win(whitePlayer), situation.getResult());
+	}
+	
+	// ========================================================================
 	// SUCCESSORS
 	// ========================================================================
 	
