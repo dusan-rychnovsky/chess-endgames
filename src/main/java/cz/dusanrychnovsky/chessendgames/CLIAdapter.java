@@ -2,6 +2,7 @@ package cz.dusanrychnovsky.chessendgames;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -31,15 +32,19 @@ public class CLIAdapter
 	private final King blackKing = new King(blackPlayer);
 	private final Rook blackRook = new Rook(blackPlayer);
 	
-	private final Strategy strategy = PrecomputedValues.get(whiteKing, blackKing, blackRook, 5);
+	private final Strategy strategy;
 	
 	/**
 	 * 
 	 * @param args
 	 * @throws IOException
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
+		File dataFile = new File(CLIAdapter.class.getResource("strategy.dat").getFile());
+		Strategy strategy = PrecomputedValues.load(dataFile);
+				
 		BufferedReader in = null;
 		BufferedWriter out = null;
 		
@@ -48,7 +53,7 @@ public class CLIAdapter
 			in = new BufferedReader(new InputStreamReader(System.in));
 			out = new BufferedWriter(new OutputStreamWriter(System.out));
 			
-			CLIAdapter adapter = new CLIAdapter(in, out);
+			CLIAdapter adapter = new CLIAdapter(strategy, in, out);
 			adapter.run();
 		}
 		finally
@@ -65,10 +70,12 @@ public class CLIAdapter
 	
 	/**
 	 * 
+	 * @param strategy
 	 * @param in
 	 * @param out
 	 */
-	public CLIAdapter(BufferedReader in, BufferedWriter out) {
+	public CLIAdapter(Strategy strategy, BufferedReader in, BufferedWriter out) {
+		this.strategy = strategy;
 		this.in = in;
 		this.out = out;
 	}

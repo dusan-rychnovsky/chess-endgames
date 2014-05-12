@@ -1,9 +1,9 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -13,8 +13,10 @@ import org.apache.commons.lang3.tuple.Pair;
  * @author Dušan Rychnovský
  *
  */
-public class Position
+public class Position implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private static final Map<Pair<Column, Row>, Position> POSITIONS = new HashMap<Pair<Column, Row>, Position>();
 	
 	static 

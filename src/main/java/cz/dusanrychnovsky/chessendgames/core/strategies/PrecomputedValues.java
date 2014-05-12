@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core.strategies;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,13 +9,20 @@ import org.apache.commons.lang3.tuple.Pair;
 import cz.dusanrychnovsky.chessendgames.core.King;
 import cz.dusanrychnovsky.chessendgames.core.Move;
 import cz.dusanrychnovsky.chessendgames.core.Player;
+import cz.dusanrychnovsky.chessendgames.core.Player.Color;
 import cz.dusanrychnovsky.chessendgames.core.Position;
 import cz.dusanrychnovsky.chessendgames.core.Rook;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
-import cz.dusanrychnovsky.chessendgames.core.Player.Color;
 
-public class PrecomputedValues extends Strategy
+/**
+ * 
+ * @author Dušan Rychnovský
+ *
+ */
+public class PrecomputedValues extends Strategy implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private final Map<Pair<Situation, Player>, Integer> cache = new HashMap<Pair<Situation, Player>, Integer>();
 	private final Map<Pair<Situation, Player>, Move> moves = new HashMap<Pair<Situation, Player>, Move>();
 	
@@ -25,29 +33,29 @@ public class PrecomputedValues extends Strategy
 	private final King blackKing;
 	private final Rook blackRook;
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		Player whitePlayer = Player.get(Color.WHITE);
-		King whiteKing = new King(whitePlayer);
-		
-		Player blackPlayer = Player.get(Color.BLACK);
-		King blackKing = new King(blackPlayer);
-		Rook blackRook = new Rook(blackPlayer);
-		
-		PrecomputedValues strategy = PrecomputedValues.get(whiteKing, blackKing, blackRook, 3);
+        Player whitePlayer = Player.get(Color.WHITE);
+        King whiteKing = new King(whitePlayer);
+        
+        Player blackPlayer = Player.get(Color.BLACK);
+        King blackKing = new King(blackPlayer);
+        Rook blackRook = new Rook(blackPlayer);
+        
+        PrecomputedValues strategy = PrecomputedValues.get(whiteKing, blackKing, blackRook, 5);
+        strategy.save(new File("D:/strategy.dat"));
+        
+        System.out.println("DONE");
 	}
 	
-	private Situation get(String whiteKingPos, String blackKingPos, String blackRookPos)
-	{
-		Situation result = new Situation();
-		
-		result.addPiece(whiteKing, Position.get(whiteKingPos));
-		result.addPiece(blackKing, Position.get(blackKingPos));
-		result.addPiece(blackRook, Position.get(blackRookPos));
-		
-		return result;
-	}
-
+	/**
+	 * 
+	 * @param whiteKing
+	 * @param blackKing
+	 * @param blackRook
+	 * @param numOfIterations
+	 * @return
+	 */
 	public static PrecomputedValues get(King whiteKing, King blackKing, Rook blackRook, int numOfIterations)
 	{
 		PrecomputedValues result = new PrecomputedValues(whiteKing, blackKing, blackRook);
@@ -86,6 +94,71 @@ public class PrecomputedValues extends Strategy
 		this.blackPlayer = blackKing.getPlayer();
 		this.blackKing = blackKing;
 		this.blackRook = blackRook;
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @throws IOException
+	 */
+	public void save(File file) throws IOException
+	{
+		ObjectOutputStream out = null;
+		
+		try {
+			
+			out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+			save(out);
+		}		
+		finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param out
+	 * @throws IOException
+	 */
+	public void save(ObjectOutput out) throws IOException {
+		out.writeObject(this);
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static PrecomputedValues load(File file) throws IOException, ClassNotFoundException
+	{
+		ObjectInputStream in = null;
+		
+		try {
+			in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
+			return load(in);
+		}
+		finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param in
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static PrecomputedValues load(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		PrecomputedValues result = (PrecomputedValues) in.readObject();	
+		return result;
 	}
 	
 	/**

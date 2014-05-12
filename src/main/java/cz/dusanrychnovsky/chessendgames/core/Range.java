@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
  * @author Dušan Rychnovský
  *
  */
-public class Range implements Iterable<Position>
+public class Range implements Iterable<Position>, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private final List<Position> positions = new ArrayList<Position>();
 	
 	/**

@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class King extends Piece
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 * @param player

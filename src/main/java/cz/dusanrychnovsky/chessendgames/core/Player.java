@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
  * @author Dušan Rychnovský
  *
  */
-public class Player
+public class Player implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	public enum Color { BLACK, WHITE }
 	
 	private static final Player whitePlayer = new Player(Color.WHITE);

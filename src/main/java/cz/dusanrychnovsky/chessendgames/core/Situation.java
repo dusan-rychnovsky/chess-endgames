@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,10 @@ import java.util.Map.Entry;
  * @author Dušan Rychnovský
  *
  */
-public class Situation
+public class Situation implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private final Map<Piece, Position> pieces = new HashMap<Piece, Position>();
 	
 	/**

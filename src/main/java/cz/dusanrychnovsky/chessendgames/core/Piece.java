@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,8 +8,10 @@ import java.util.List;
  * @author Dušan Rychnovský
  *
  */
-public abstract class Piece
+public abstract class Piece implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private final Player player;
 	
 	/**

@@ -1,12 +1,16 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Dušan Rychnovský
  *
  */
-public class Move
+public class Move implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private final Piece piece;
 	private final Range range;
 	private final Position from;
