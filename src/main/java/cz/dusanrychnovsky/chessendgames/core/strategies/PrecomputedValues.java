@@ -42,7 +42,7 @@ public class PrecomputedValues extends Strategy implements Serializable
         King blackKing = new King(blackPlayer);
         Rook blackRook = new Rook(blackPlayer);
         
-        PrecomputedValues strategy = PrecomputedValues.get(whiteKing, blackKing, blackRook, 5);
+        PrecomputedValues strategy = PrecomputedValues.get(whiteKing, blackKing, blackRook);
         strategy.save(new File("D:/strategy.dat"));
         
         System.out.println("DONE");
@@ -53,19 +53,20 @@ public class PrecomputedValues extends Strategy implements Serializable
 	 * @param whiteKing
 	 * @param blackKing
 	 * @param blackRook
-	 * @param numOfIterations
 	 * @return
 	 */
-	public static PrecomputedValues get(King whiteKing, King blackKing, Rook blackRook, int numOfIterations)
+	public static PrecomputedValues get(King whiteKing, King blackKing, Rook blackRook)
 	{
 		PrecomputedValues result = new PrecomputedValues(whiteKing, blackKing, blackRook);
 		
-		for (int i = 0; i < numOfIterations; i++) 
+		int i = 0, count;
+		do 
 		{
 			System.out.println("Walkthrough no. " + (i + 1));
+			i++;
 			
 			long startTime = System.currentTimeMillis();
-			int count = result.walkthrough();
+			count = result.walkthrough();
 			long finishTime = System.currentTimeMillis();
 			
 			long duration = finishTime - startTime; 
@@ -73,6 +74,7 @@ public class PrecomputedValues extends Strategy implements Serializable
 			
 			System.out.println(count + " new records");
 		}
+		while (count != 0);
 		
 		// the cache won't be needed anymore - allow to free the occupied memory
 		result.cache.clear();
