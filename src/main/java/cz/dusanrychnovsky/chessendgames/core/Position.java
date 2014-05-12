@@ -1,6 +1,9 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -29,6 +32,14 @@ public class Position
 	
 	private final Column column;
 	private final Row row;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static Collection<Position> getAllPositions() {
+		return Collections.unmodifiableCollection(POSITIONS.values());
+	}
 	
 	/**
 	 * 

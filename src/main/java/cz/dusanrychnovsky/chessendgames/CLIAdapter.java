@@ -16,7 +16,7 @@ import cz.dusanrychnovsky.chessendgames.core.Result;
 import cz.dusanrychnovsky.chessendgames.core.Rook;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
 import cz.dusanrychnovsky.chessendgames.core.Player.Color;
-import cz.dusanrychnovsky.chessendgames.core.strategies.Dummy;
+import cz.dusanrychnovsky.chessendgames.core.strategies.PrecomputedValues;
 import cz.dusanrychnovsky.chessendgames.core.strategies.Strategy;
 
 public class CLIAdapter
@@ -24,8 +24,14 @@ public class CLIAdapter
 	private final BufferedReader in;
 	private final BufferedWriter out;
 	
-	private Player whitePlayer = Player.get(Color.WHITE);
-	private Player blackPlayer = Player.get(Color.BLACK);
+	private final Player whitePlayer = Player.get(Color.WHITE);
+	private final King whiteKing = new King(whitePlayer);
+	
+	private final Player blackPlayer = Player.get(Color.BLACK);
+	private final King blackKing = new King(blackPlayer);
+	private final Rook blackRook = new Rook(blackPlayer);
+	
+	private final Strategy strategy = PrecomputedValues.get(whiteKing, blackKing, blackRook, 5);
 	
 	/**
 	 * 
@@ -78,7 +84,6 @@ public class CLIAdapter
 		Situation situation = setUpInitialSituation();
 		printLine("Current situation: " + situation);
 		
-		Strategy strategy = new Dummy();
 		Game game = new Game(strategy, situation, blackPlayer);
 		
 		while (!situation.isFinal())
@@ -159,9 +164,7 @@ public class CLIAdapter
 	{
 		printLine("Please give black rook coordinates:");
 		
-		Rook blackRook = new Rook(blackPlayer);
-		Position position = readPosition();
-		
+		Position position = readPosition();		
 		situation.addPiece(blackRook, position);
 	}
 	
@@ -174,9 +177,7 @@ public class CLIAdapter
 	{
 		printLine("Please give black king coordinates:");
 		
-		King blackKing = new King(blackPlayer);
-		Position position = readPosition();
-		
+		Position position = readPosition();		
 		situation.addPiece(blackKing, position);
 	}
 	
@@ -189,9 +190,7 @@ public class CLIAdapter
 	{
 		printLine("Please give white king coordinates:");
 		
-		King whiteKing = new King(whitePlayer);
-		Position position = readPosition();
-		
+		Position position = readPosition();		
 		situation.addPiece(whiteKing, position);
 	}
 	

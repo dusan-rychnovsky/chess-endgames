@@ -142,6 +142,25 @@ public class Situation
 	{
 		List<Situation> result = new ArrayList<Situation>();
 		
+		List<Move> validMoves = generateValidMoves(player);
+		for (Move move : validMoves)
+		{
+			Situation successor = Situation.get(this, move);
+			result.add(successor);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public List<Move> generateValidMoves(Player player)
+	{
+		List<Move> result = new ArrayList<Move>();
+		
 		for (Piece piece : player.getPieces())
 		{
 			if (!isActive(piece)) {
@@ -152,7 +171,7 @@ public class Situation
 			for (Move move : piece.generateMoves(currPiecePosition))
 			{
 				if (move.isValid(this)) {
-					result.add(Situation.get(this, move));
+					result.add(move);
 				}
 			}
 		}
