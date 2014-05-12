@@ -22,6 +22,23 @@ public enum Column
 	
 	/**
 	 * 
+	 * @param ordinal
+	 * @return
+	 */
+	public static Column get(int ordinal)
+	{
+		try {
+			return values[ordinal];
+		}
+		catch (ArrayIndexOutOfBoundsException ex) {
+			throw new IllegalArgumentException(
+				"Invalid column ordinal [" + ordinal + "]."
+			);
+		}
+	}
+	
+	/**
+	 * 
 	 * @param other
 	 * @return
 	 */

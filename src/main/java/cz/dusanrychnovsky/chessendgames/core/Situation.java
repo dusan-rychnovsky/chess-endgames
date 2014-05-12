@@ -3,6 +3,7 @@ package cz.dusanrychnovsky.chessendgames.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,7 +13,7 @@ import java.util.Map.Entry;
  * @author Dušan Rychnovský
  *
  */
-public class Situation implements Serializable
+public class Situation implements Iterable<Entry<Piece, Position>>, Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -374,6 +375,11 @@ public class Situation implements Serializable
 		}
 		
 		return result;
+	}
+
+	@Override
+	public Iterator<Entry<Piece, Position>> iterator() {
+		return pieces.entrySet().iterator();
 	}
 	
 	@Override

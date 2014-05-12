@@ -22,6 +22,23 @@ public enum Row
 	
 	/**
 	 * 
+	 * @param ordinal
+	 * @return
+	 */
+	public static Row get(int ordinal)
+	{
+		try {
+			return values[ordinal];
+		}
+		catch (ArrayIndexOutOfBoundsException ex) {
+			throw new IllegalArgumentException(
+				"Invalid row ordinal [" + ordinal + "]."
+			);
+		}
+	}
+	
+	/**
+	 * 
 	 * @param other
 	 * @return
 	 */
