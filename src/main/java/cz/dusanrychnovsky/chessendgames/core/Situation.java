@@ -54,6 +54,23 @@ public class Situation implements Iterable<Entry<Piece, Position>>, Serializable
 	
 	/**
 	 * 
+	 */
+	public Situation() {
+	}
+	
+	/**
+	 * 
+	 * @param other
+	 */
+	public Situation(Situation other)
+	{
+		for (Entry<Piece, Position> entry : other) {
+			pieces.put(entry.getKey(), entry.getValue());
+		}
+	}
+	
+	/**
+	 * 
 	 * @param piece
 	 * @param position
 	 */

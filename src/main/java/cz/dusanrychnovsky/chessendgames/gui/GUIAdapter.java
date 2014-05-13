@@ -35,9 +35,7 @@ public class GUIAdapter implements MouseEventListener
 	private final Strategy strategy;
 	private Game game;
 	
-	private Situation currentSituation = new Situation();
-	
-	private boolean initialized = false;
+	private GameState currentState;
 	
 	/**
 	 * 
@@ -47,88 +45,53 @@ public class GUIAdapter implements MouseEventListener
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, IOException
 	{
-		File dataFile = new File(CLIAdapter.class.getResource("strategy.dat").getFile());
-		Strategy strategy = PrecomputedValues.load(dataFile);
-		
-		new GUIAdapter(strategy);
+		new GUIAdapter();
 	}
 	
 	/**
 	 * 
 	 * @param strategy
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public GUIAdapter(Strategy strategy) 
+	public GUIAdapter() throws ClassNotFoundException, IOException 
 	{
-		this.strategy = strategy;
+		SplashScreen splashScreen = new SplashScreen();
 		
-		window = new Window(currentSituation, this);
-		window.setStatus("Click on a field to place the opponent's king.");
+		File dataFile = new File(CLIAdapter.class.getResource("strategy.dat").getFile());
+		strategy = PrecomputedValues.load(dataFile);
+		
+		splashScreen.close();
+		
+		window = new Window(this);
+		initGame();
+	}
+	
+	/**
+	 * 
+	 */
+	private void initGame()
+	{
+		Situation emptySituation = new Situation();
+		game = new Game(strategy, emptySituation, blackPlayer);
+		
+		currentState = new PlaceBlackKing(game, blackKing, blackRook, whiteKing);
+		
+		window.setSituation(currentState.getSituation());
+		window.setStatus(currentState.getStatusMessage());
 	}
 	
 	@Override
 	public void onMouseClicked(Position position)
 	{
-		if (!initialized)
-		{
-			if (!currentSituation.isActive(blackKing)) 
-			{
-				currentSituation.addPiece(blackKing, position);
-				window.setStatus("Click on a square to place the opponent's rook.");
-			}
-			else if (!currentSituation.isActive(blackRook)) 
-			{
-				currentSituation.addPiece(blackRook, position);
-				window.setStatus("Click on a square to place your king.");
-			}
-			else if (!currentSituation.isActive(whiteKing))
-			{
-				currentSituation.addPiece(whiteKing, position);
-				game = new Game(strategy, currentSituation, blackPlayer);
-				window.setStatus("Click on a square to make your move.");
-				initialized = true;
-
-				if (currentSituation.isFinal())
-				{
-					Result result = currentSituation.getResult();
-					window.setStatus(result.toString());
-				}
-			}
-			else {
-				throw new AssertionError();
-			}
-			
-			window.setSituation(currentSituation);
-			window.repaint();
-			
-			return;
-		}	
-
-		if (currentSituation.isFinal()) {
-			return;
-		}
+		currentState = currentState.handle(position);
 		
-		window.setStatus("Click on a square to make your move.");
-		
-		Position from = currentSituation.getPosition(whiteKing);
-		Position to = position;
-		Move move = new Move(whiteKing, from, to);
-		
-		try {
-			game.doMove(move);
-			currentSituation = game.playMove();
-		}
-		catch (IllegalArgumentException ex) {
-			window.setStatus("Invalid move. Click on a square to make your move.");
-			return;
-		}
-		
-		if (currentSituation.isFinal())
-		{
-			Result result = currentSituation.getResult();
-			window.setStatus(result.toString());
-		}
-		
+		Situation currentSituation = currentState.getSituation();
 		window.setSituation(currentSituation);
+		
+		String statusMessage = currentState.getStatusMessage();
+		window.setStatus(statusMessage);
+		
 		window.repaint();
 	}
 }

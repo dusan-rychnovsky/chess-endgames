@@ -20,10 +20,9 @@ public class Window extends JFrame
 	
 	/**
 	 * 
-	 * @param emptySituation
 	 * @param listener
 	 */
-	public Window(Situation emptySituation, MouseEventListener listener)
+	public Window(MouseEventListener listener)
 	{
 		setTitle("Chess Endgames");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -31,7 +30,7 @@ public class Window extends JFrame
 		
 		setLayout(new BorderLayout());
 		
-		board = new Board(emptySituation, listener); 
+		board = new Board(listener); 
         add(board, BorderLayout.CENTER);
         
         statusBar = new StatusBar();

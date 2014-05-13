@@ -64,4 +64,20 @@ public class Game
 		currentSituation = Situation.get(currentSituation, move);
 		return currentSituation;
 	}
+	
+	/**
+	 * 
+	 * @param situation
+	 */
+	public void setCurrentSituation(Situation situation) {
+		currentSituation = situation;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Situation getCurrentSituation() {
+		return currentSituation;
+	}
 }

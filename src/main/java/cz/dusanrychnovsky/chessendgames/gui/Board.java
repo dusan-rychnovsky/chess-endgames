@@ -41,17 +41,16 @@ public class Board extends JPanel implements MouseListener
 	
 	private final MouseEventListener listener;
 	
-	private Situation currentSituation;
+	private Situation currentSituation = null;
 	
 	/**
 	 * 
 	 * @param initialSituation
 	 * @param listener
 	 */
-	public Board(Situation initialSituation, MouseEventListener listener) 
+	public Board(MouseEventListener listener) 
 	{
 		this.listener = listener;
-		this.currentSituation = initialSituation;
 		
 		initPanel();
 		
@@ -95,7 +94,10 @@ public class Board extends JPanel implements MouseListener
 		Graphics2D g2d = (Graphics2D) g;
 		
 		paintBoard(g2d);
-		paintSituation(g2d, currentSituation);
+		
+		if (currentSituation != null) {
+			paintSituation(g2d, currentSituation);
+		}
 	}
 	
 	/**
