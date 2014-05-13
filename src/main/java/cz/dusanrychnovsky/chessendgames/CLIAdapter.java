@@ -1,10 +1,13 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 
 import cz.dusanrychnovsky.chessendgames.core.Game;
@@ -42,8 +45,7 @@ public class CLIAdapter
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
-		File dataFile = new File(CLIAdapter.class.getResource("strategy.dat").getFile());
-		Strategy strategy = PrecomputedValues.load(dataFile);
+		Strategy strategy = loadStrategy();
 				
 		BufferedReader in = null;
 		BufferedWriter out = null;
@@ -68,6 +70,26 @@ public class CLIAdapter
 		}
 	}
 	
+	private static Strategy loadStrategy() throws IOException, ClassNotFoundException 
+	{
+		InputStream is = null;
+		ObjectInputStream in = null;
+		
+		try 
+		{
+			is = PrecomputedValues.class.getResourceAsStream("strategy.dat");
+			in = new ObjectInputStream(new BufferedInputStream(is));
+			
+			return PrecomputedValues.load(in);	
+		}
+		finally
+		{
+			if (in != null) {
+				in.close();
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param strategy

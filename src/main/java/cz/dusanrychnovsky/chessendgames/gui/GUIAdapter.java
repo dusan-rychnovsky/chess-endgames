@@ -1,7 +1,11 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 
 import cz.dusanrychnovsky.chessendgames.CLIAdapter;
 import cz.dusanrychnovsky.chessendgames.core.Game;
@@ -58,8 +62,11 @@ public class GUIAdapter implements MouseEventListener
 	{
 		SplashScreen splashScreen = new SplashScreen();
 		
-		File dataFile = new File(CLIAdapter.class.getResource("strategy.dat").getFile());
-		strategy = PrecomputedValues.load(dataFile);
+		InputStream is = PrecomputedValues.class.getResourceAsStream("strategy.dat");
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(is));
+		
+		strategy = PrecomputedValues.load(in);
+		in.close();
 		
 		splashScreen.close();
 		
