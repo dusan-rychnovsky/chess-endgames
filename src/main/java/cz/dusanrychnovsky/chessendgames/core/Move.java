@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 
@@ -59,6 +60,12 @@ public class Move implements Serializable
 			return false;
 		}
 		
+		// only correct moves with respect to the associated piece are valid
+		List<Move> moves = piece.generateMoves(from);
+		if (!moves.contains(this)) {
+			return false;
+		}
+		
 		// move is not valid if there is a piece standing at an intermediary
 		// move position
 		for (Position position : range)
@@ -108,6 +115,26 @@ public class Move implements Serializable
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		return piece.hashCode() + from.hashCode() + to.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof Move)) {
+			return false;
+		}
+		
+		Move other = (Move) obj;
+		
+		return
+			piece.equals(other.piece) &&
+			from.equals(other.from) &&
+			to.equals(other.to);
 	}
 	
 	@Override
