@@ -7,6 +7,7 @@ import static cz.dusanrychnovsky.chessendgames.yaat.Column.*;
 import static cz.dusanrychnovsky.chessendgames.yaat.Row.*;
 
 public class Rook implements PieceType {
+  
   @Override
   public Iterable<Move> listAllMovesFromPosition(Position pos) {
 
@@ -30,5 +31,20 @@ public class Rook implements PieceType {
     }
 
     return result;
+  }
+  
+  @Override
+  public int hashCode() {
+    return 1;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof Rook;
+  }
+  
+  @Override
+  public String toString() {
+    return "ROOK";
   }
 }

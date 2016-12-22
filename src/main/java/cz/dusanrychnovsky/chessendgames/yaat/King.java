@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class King implements PieceType {
+  
   @Override
   public Iterable<Move> listAllMovesFromPosition(Position pos) {
 
@@ -27,5 +28,20 @@ public class King implements PieceType {
     }
 
     return result;
+  }
+
+  @Override
+  public int hashCode() {
+    return 1;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof King;
+  }
+
+  @Override
+  public String toString() {
+    return "KING";
   }
 }

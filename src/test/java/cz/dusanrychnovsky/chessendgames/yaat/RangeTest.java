@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Iterator;
 
 import static cz.dusanrychnovsky.chessendgames.yaat.Column.*;
+import static cz.dusanrychnovsky.chessendgames.yaat.Row.*;
 import static org.junit.Assert.*;
 
 public class RangeTest {

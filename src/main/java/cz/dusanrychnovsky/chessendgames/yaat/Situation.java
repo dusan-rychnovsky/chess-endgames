@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.yaat;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,10 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Iterables.contains;
 
 public class Situation {
-
-  // TODO: make immutable
 
   private final Map<Piece, Position> pieces;
   private final Color currentColor;
@@ -30,18 +30,75 @@ public class Situation {
     pieces.put(piece, position);
     return this;
   }
+  
+  public Position getPosition(Piece piece) {
+    checkArgument(pieces.containsKey(piece), "Piece [" + piece + "] not registered.");
+    return pieces.get(piece);
+  }
 
+  public Piece getPiece(Position position) {
+    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
+      if (entry.getValue().equals(position)) {
+        return entry.getKey();
+      }
+    }
+    throw new IllegalArgumentException("Position [" + position + "] not registered.");
+  }
+  
   public Color getCurrentColor() {
     return currentColor;
+  }
+  
+  public Color getOpponentColor() {
+    return currentColor.getOpponentColor();
   }
 
   // ==========================================================================
   // APPLY MOVE
   // ==========================================================================
 
-  private boolean isValidMove(Move move) {
-    // TODO
-    return false;
+  public boolean isValidMove(Move move) {
+    
+    Position fromPos = move.getFrom();
+    Position toPos = move.getTo();
+    
+    Piece piece = getPiece(move.getFrom());
+
+    if (!currentColor.equals(piece.getColor())) {
+      // not that player's turn
+      return false;
+    }
+    
+    if (!contains(piece.getType().listAllMovesFromPosition(fromPos), move)) {
+      // invalid move for that piece type
+      return false;
+    }
+    
+    if (pieces.containsValue(toPos)) {
+      // can capture only opponent's pieces
+      return getOpponentColor().equals(getPiece(toPos).getColor());
+    }
+    
+    for (Position pos : new ExcludingRange(fromPos, toPos)) {
+      if (pieces.containsValue(pos)) {
+        // cannot move across a piece
+        return false;
+      }
+    }
+    
+    if (piece.getType() instanceof King) {
+      // TODO: refactor
+      Piece otherKing = new Piece(getOpponentColor(), new King());
+      Position otherKingPos = getPosition(otherKing);
+      
+      Move moveToOtherKing = new Move(toPos, otherKingPos);
+      if (contains(new King().listAllMovesFromPosition(toPos), moveToOtherKing)) {
+        // king is not allowed next to opponent's king
+        return false;
+      }
+    }
+    
+    return true;
   }
 
   public Situation applyMove(Move move) {
@@ -74,6 +131,7 @@ public class Situation {
   }
 
   private boolean isCheck() {
+    // TODO
     return false;
   }
 
@@ -126,20 +184,6 @@ public class Situation {
 
   public static Builder builder(Color currentColor) {
     return new Builder(currentColor);
-  }
-
-  public Position getPosition(Piece piece) {
-    checkArgument(pieces.containsKey(piece), "Piece [" + piece + "] not registered.");
-    return pieces.get(piece);
-  }
-
-  public Piece getPiece(Position position) {
-    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
-      if (entry.getValue().equals(position)) {
-        return entry.getKey();
-      }
-    }
-    throw new IllegalArgumentException("Position [" + position + "] not registered.");
   }
 
   public static class Builder {
