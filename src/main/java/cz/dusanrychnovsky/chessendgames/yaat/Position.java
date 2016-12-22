@@ -5,6 +5,6 @@ import lombok.Value;
 @Value
 public class Position {
 
-  Column columns;
+  Column column;
   Row row;
 }

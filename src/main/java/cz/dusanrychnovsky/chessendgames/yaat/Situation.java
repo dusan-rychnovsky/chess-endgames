@@ -3,6 +3,8 @@ package cz.dusanrychnovsky.chessendgames.yaat;
 import com.google.common.base.Preconditions;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -33,15 +35,94 @@ public class Situation {
     return currentColor;
   }
 
+  // ==========================================================================
+  // APPLY MOVE
+  // ==========================================================================
+
+  private boolean isValidMove(Move move) {
+    // TODO
+    return false;
+  }
+
   public Situation applyMove(Move move) {
     // TODO
     return null;
   }
 
+  // ==========================================================================
+  // RESULT
+  // ==========================================================================
+
   public Result getResult() {
-    // TODO
-    return null;
+    if (isOnlyKingsRemaining()) {
+      return new Draw();
+    }
+    if (isCheck()) {
+      Piece currKing = new Piece(currentColor, new King());
+      // in a king+rook vs king end-game, check cannot be deflected
+      // other than by moving king away
+      if (!canMoveWithPiece(currKing)) {
+        return new Win(currentColor.getOpponentColor());
+      }
+    }
+    else {
+      if (!canMove()) {
+        return new Draw();
+      }
+    }
+    return new InProgress();
   }
+
+  private boolean isCheck() {
+    return false;
+  }
+
+  private boolean canMove() {
+    for (Piece piece : getCurrentPlayersPieces()) {
+      if (canMoveWithPiece(piece)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private Iterable<Piece> getCurrentPlayersPieces() {
+    List<Piece> result = new LinkedList<>();
+    for (Piece piece : pieces.keySet()) {
+      if (currentColor.equals(piece.getColor())) {
+        result.add(piece);
+      }
+    }
+    return result;
+  }
+
+  private boolean canMoveWithPiece(Piece piece) {
+    checkArgument(pieces.containsKey(piece));
+
+    Position fromPos = pieces.get(piece);
+    Iterable<Move> moves = piece.getType().listAllMovesFromPosition(fromPos);
+
+    for (Move move: moves) {
+      if (isValidMove(move)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private boolean isOnlyKingsRemaining() {
+    for (Piece piece : pieces.keySet()) {
+      if (!(piece.getType() instanceof King)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // ==========================================================================
+  // BUILDER
+  // ==========================================================================
 
   public static Builder builder(Color currentColor) {
     return new Builder(currentColor);
@@ -50,6 +131,15 @@ public class Situation {
   public Position getPosition(Piece piece) {
     checkArgument(pieces.containsKey(piece), "Piece [" + piece + "] not registered.");
     return pieces.get(piece);
+  }
+
+  public Piece getPiece(Position position) {
+    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
+      if (entry.getValue().equals(position)) {
+        return entry.getKey();
+      }
+    }
+    throw new IllegalArgumentException("Position [" + position + "] not registered.");
   }
 
   public static class Builder {

@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import static cz.dusanrychnovsky.chessendgames.yaat.Color.*;
 import static cz.dusanrychnovsky.chessendgames.yaat.Column.*;
+import static cz.dusanrychnovsky.chessendgames.yaat.Result.Status.DRAW;
+import static cz.dusanrychnovsky.chessendgames.yaat.Result.Status.IN_PROGRESS;
+import static cz.dusanrychnovsky.chessendgames.yaat.Result.Status.WIN;
 import static cz.dusanrychnovsky.chessendgames.yaat.Row.*;
 import static org.junit.Assert.*;
 
@@ -53,5 +56,98 @@ public class SituationTest {
     Situation.builder(SOME_COLOR)
       .addPiece(new Piece(WHITE, new King()), f4)
       .addPiece(new Piece(BLACK, new King()), f4);
+  }
+
+  // ==========================================================================
+  // GET RESULT
+  // ==========================================================================
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . K
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void onlyKings_draw() {
+
+    Situation situation = Situation.builder(SOME_COLOR)
+      .addPiece(new Piece(WHITE, new King()), new Position(CF, R2))
+      .addPiece(new Piece(BLACK, new King()), new Position(CH, R1))
+      .build();
+
+    assertEquals(DRAW, situation.getResult().getStatus());
+  }
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . K R .
+  // 1 | . . . . . . . K
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void stalemate_draw() {
+
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(new Piece(WHITE, new King()), new Position(CF, R2))
+      .addPiece(new Piece(WHITE, new Rook()), new Position(CG, R2))
+      .addPiece(new Piece(BLACK, new King()), new Position(CH, R1))
+      .build();
+
+    assertEquals(DRAW, situation.getResult().getStatus());
+  }
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . R
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . K
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void checkmate_win() {
+
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(new Piece(WHITE, new King()), new Position(CF, R2))
+      .addPiece(new Piece(WHITE, new Rook()), new Position(CH, R3))
+      .addPiece(new Piece(BLACK, new King()), new Position(CH, R1))
+      .build();
+
+    Result result = situation.getResult();
+    assertEquals(WIN, result.getStatus());
+    assertEquals(WHITE, ((Win) result).getWinnerColor());
+  }
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . R .
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . K
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void inProgress() {
+
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(new Piece(WHITE, new King()), new Position(CF, R2))
+      .addPiece(new Piece(WHITE, new Rook()), new Position(CG, R3))
+      .addPiece(new Piece(BLACK, new King()), new Position(CH, R1))
+      .build();
+
+    assertEquals(IN_PROGRESS, situation.getResult().getStatus());
   }
 }

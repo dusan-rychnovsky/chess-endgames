@@ -28,15 +28,15 @@ public class EngineTest {
       .build();
 
     List<Move> script = asList(
-      new Move(whiteRook, new Position(CB, R3), new Position(CF, R3)),
-      new Move(blackKing, new Position(CG, R2), new Position(CH, R2)),
-      new Move(whiteRook, new Position(CF, R3), new Position(CG, R3)),
-      new Move(blackKing, new Position(CH, R2), new Position(CH, R1)),
-      new Move(whiteKing, new Position(CF, R4), new Position(CF, R3)),
-      new Move(blackKing, new Position(CH, R1), new Position(CH, R2)),
-      new Move(whiteKing, new Position(CF, R3), new Position(CF, R2)),
-      new Move(blackKing, new Position(CH, R2), new Position(CH, R1)),
-      new Move(whiteRook, new Position(CG, R3), new Position(CH, R3))
+      new Move(new Position(CB, R3), new Position(CF, R3)), // whiteRook
+      new Move(new Position(CG, R2), new Position(CH, R2)), // blackKing
+      new Move(new Position(CF, R3), new Position(CG, R3)), // whiteRook
+      new Move(new Position(CH, R2), new Position(CH, R1)), // blackKing
+      new Move(new Position(CF, R4), new Position(CF, R3)), // whiteKing
+      new Move(new Position(CH, R1), new Position(CH, R2)), // blackKing
+      new Move(new Position(CF, R3), new Position(CF, R2)), // whiteKing
+      new Move(new Position(CH, R2), new Position(CH, R1)), // blackKing
+      new Move(new Position(CG, R3), new Position(CH, R3)) // whiteRook
     );
 
     Player whitePlayer = new ScriptedPlayer(WHITE, script);
@@ -69,7 +69,7 @@ public class EngineTest {
 
       while (scriptIt.hasNext()) {
         Move currMove = scriptIt.next();
-        if (color.equals(currMove.getPiece().getColor())) {
+        if (color.equals(situation.getPiece(currMove.getFrom()).getColor())) {
           return currMove;
         }
       }
