@@ -336,4 +336,27 @@ public class SituationTest {
     
     assertTrue(situation.isValidMove(new Move(b4, new Position(CC, R4))));
   }
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . K . R . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . K x . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void moveWithKingIntoCheck_notValid() {
+    
+    Position d2 = new Position(CD, R2);
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, d2)
+      .addPiece(WHITE_KING, new Position(CC, R5))
+      .addPiece(WHITE_ROOK, new Position(CE, R5))
+      .build();
+  
+    assertFalse(situation.isValidMove(new Move(d2, new Position(CE, R2))));
+  }
 }

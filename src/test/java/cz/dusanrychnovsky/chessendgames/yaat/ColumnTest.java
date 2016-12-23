@@ -48,4 +48,28 @@ public class ColumnTest {
     assertEquals(Optional.of(CG), CF.getNext());
     assertEquals(Optional.of(CH), CG.getNext());
   }
+  
+  // ==========================================================================
+  // GET DISTANCE
+  // ==========================================================================
+  
+  @Test
+  public void sameColumn_distanceZero() {
+    assertEquals(0, CC.getDistance(CC));
+  }
+  
+  @Test
+  public void nextColumn_distanceOne() {
+    assertEquals(1, CC.getDistance(CD));
+  }
+  
+  @Test
+  public void acrossBoard_distanceSeven() {
+    assertEquals(7, CA.getDistance(CH));
+  }
+  
+  @Test
+  public void distanceIsSymmetric() {
+    assertEquals(CC.getDistance(CE), CE.getDistance(CC));
+  }
 }

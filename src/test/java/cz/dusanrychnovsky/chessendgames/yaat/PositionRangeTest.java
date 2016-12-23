@@ -4,18 +4,42 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-import static cz.dusanrychnovsky.chessendgames.yaat.Column.CC;
-import static cz.dusanrychnovsky.chessendgames.yaat.Column.CD;
+import static cz.dusanrychnovsky.chessendgames.yaat.Column.*;
 import static cz.dusanrychnovsky.chessendgames.yaat.Row.*;
-import static cz.dusanrychnovsky.chessendgames.yaat.Row.R4;
 import static org.junit.Assert.*;
 
 public class PositionRangeTest {
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . X . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidRange() {
+    // neither vertical nor horizontal nor diagonal
+    new PositionRange(new Position(CC, R3), new Position(CD, R5));
+  }
   
   // ==========================================================================
   // VERTICAL RANGE
   // ==========================================================================
   
+  // 8 | . . X . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . X . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
   @Test
   public void verticalRange() {
     
@@ -28,7 +52,17 @@ public class PositionRangeTest {
     assertEquals(new Position(CC, R8), it.next());
     assertFalse(it.hasNext());
   }
-
+  
+  // 8 | . . X . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . X . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
   @Test
   public void reversedVerticalRange() {
   
@@ -46,6 +80,16 @@ public class PositionRangeTest {
   // HORIZONTAL RANGE
   // ==========================================================================
   
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . X X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
   @Test
   public void horizontalRange() {
     
@@ -57,6 +101,16 @@ public class PositionRangeTest {
     assertFalse(it.hasNext());
   }
   
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . X X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
   @Test
   public void reversedHorizontalRange() {
     
@@ -68,15 +122,95 @@ public class PositionRangeTest {
     assertFalse(it.hasNext());
   }
   
-  @Test(expected = IllegalArgumentException.class)
-  public void invalidRange() {
-    // neither vertical nor horizontal
-    new PositionRange(new Position(CC, R3), new Position(CD, R4));
-  }
-  
   // ==========================================================================
   // DIAGONAL RANGE
   // ==========================================================================
   
-  // TODO
+  // 8 | X . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test()
+  public void topLeftToBottomRightRange() {
+    
+    PositionRange range = new PositionRange(new Position(CA, R8), new Position(CD, R5));
+    Iterator<Position> it = range.iterator();
+    
+    assertEquals(new Position(CA, R8), it.next());
+    assertEquals(new Position(CB, R7), it.next());
+    assertEquals(new Position(CC, R6), it.next());
+    assertEquals(new Position(CD, R5), it.next());
+    assertFalse(it.hasNext());
+  }
+  
+  // 8 | X . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test()
+  public void bottomRightToTopLeftRange() {
+    
+    PositionRange range = new PositionRange(new Position(CD, R5), new Position(CA, R8));
+    Iterator<Position> it = range.iterator();
+    
+    assertEquals(new Position(CA, R8), it.next());
+    assertEquals(new Position(CB, R7), it.next());
+    assertEquals(new Position(CC, R6), it.next());
+    assertEquals(new Position(CD, R5), it.next());
+    assertFalse(it.hasNext());
+  }
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . X . . .
+  // 5 | . . . X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test()
+  public void bottomLeftToTopRightRange() {
+    
+    PositionRange range = new PositionRange(new Position(CD, R5), new Position(CE, R6));
+    Iterator<Position> it = range.iterator();
+    
+    assertEquals(new Position(CD, R5), it.next());
+    assertEquals(new Position(CE, R6), it.next());
+    assertFalse(it.hasNext());
+  }
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . X . . .
+  // 5 | . . . X . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test()
+  public void topRightToBottomLeftRange() {
+    
+    PositionRange range = new PositionRange(new Position(CE, R6), new Position(CD, R5));
+    Iterator<Position> it = range.iterator();
+    
+    assertEquals(new Position(CD, R5), it.next());
+    assertEquals(new Position(CE, R6), it.next());
+    assertFalse(it.hasNext());
+  }
 }

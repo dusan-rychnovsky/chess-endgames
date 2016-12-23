@@ -1,8 +1,5 @@
 package cz.dusanrychnovsky.chessendgames.yaat;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +13,11 @@ public class Situation {
   private final Map<Piece, Position> pieces;
   private final Color currentColor;
 
+  public Situation(Situation other, Color color) {
+    this.currentColor = color;
+    this.pieces = new HashMap<>(other.pieces);
+  }
+  
   private Situation(Color currentColor, Map<Piece, Position> pieces) {
     this.currentColor = currentColor;
     this.pieces = pieces;
@@ -76,7 +78,9 @@ public class Situation {
     
     if (pieces.containsValue(toPos)) {
       // can capture only opponent's pieces
-      return getOpponentColor().equals(getPiece(toPos).getColor());
+      if (currentColor.equals(getPiece(toPos).getColor())) {
+        return false;
+      }
     }
     
     for (Position pos : new ExcludingRange(fromPos, toPos)) {
@@ -98,9 +102,29 @@ public class Situation {
       }
     }
     
+    if (piece.getType() instanceof King) {
+      // king is not allowed to step into a check
+      if (changePosition(move).isCheck()) {
+        return false;
+      }
+    }
+    
     return true;
   }
-
+  
+  private Situation changePosition(Move move) {
+    Builder builder = Situation.builder(currentColor);
+    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
+      if (entry.getValue().equals(move.getFrom())) {
+        builder.addPiece(entry.getKey(), move.getTo());
+      }
+      else {
+        builder.addPiece(entry.getKey(), entry.getValue());
+      }
+    }
+    return builder.build();
+  }
+  
   public Situation applyMove(Move move) {
     // TODO
     return null;
@@ -131,10 +155,44 @@ public class Situation {
   }
 
   private boolean isCheck() {
-    // TODO
+    Piece currentKing = new Piece(currentColor, new King());
+    for (Piece piece : getOpponentsPieces()) {
+      if (canCapture(piece, currentKing)) {
+        return true;
+      }
+    }
     return false;
   }
-
+  
+  private boolean canCapture(Piece first, Piece second) {
+    
+    if (first.getType() instanceof King &&
+        second.getType() instanceof King) {
+      // TODO: is this needed?
+      return false;
+    }
+    
+    Situation opponentsView = new Situation(this, getOpponentColor());
+    Position fromPos = getPosition(first);
+    Position toPos = getPosition(second);
+    for (Move move : first.getType().listAllMovesFromPosition(fromPos)) {
+      if (toPos.equals(move.getTo()) && opponentsView.isValidMove(move)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private Iterable<Piece> getOpponentsPieces() {
+    List<Piece> result = new LinkedList<>();
+    for (Piece piece : pieces.keySet()) {
+      if (getOpponentColor().equals(piece.getColor())) {
+        result.add(piece);
+      }
+    }
+    return result;
+  }
+  
   private boolean canMove() {
     for (Piece piece : getCurrentPlayersPieces()) {
       if (canMoveWithPiece(piece)) {
