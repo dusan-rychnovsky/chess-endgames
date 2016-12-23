@@ -359,4 +359,121 @@ public class SituationTest {
   
     assertFalse(situation.isValidMove(new Move(d2, new Position(CE, R2))));
   }
+  
+  // ==========================================================================
+  // APPLY MOVE
+  // ==========================================================================
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . K . R . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . K x . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test(expected = IllegalArgumentException.class)
+  public void cannotApplyAnInvalidMove() {
+    
+    Position d2 = new Position(CD, R2);
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, d2)
+      .addPiece(WHITE_KING, new Position(CC, R5))
+      .addPiece(WHITE_ROOK, new Position(CE, R5))
+      .build();
+  
+    situation.applyMove(new Move(d2, new Position(CE, R2)));
+  }
+  
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . K R . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . K x . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void canApplyAValidMove() {
+    
+    Position d2 = new Position(CD, R2);
+    Situation fromSituation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, d2)
+      .addPiece(WHITE_KING, new Position(CC, R5))
+      .addPiece(WHITE_ROOK, new Position(CD, R5))
+      .build();
+  
+    Position e2 = new Position(CE, R2);
+    Situation toSituation = fromSituation.applyMove(new Move(d2, e2));
+    
+    assertEquals(
+      toSituation,
+      Situation.builder(WHITE)
+        .addPiece(BLACK_KING, e2)
+        .addPiece(WHITE_KING, new Position(CC, R5))
+        .addPiece(WHITE_ROOK, new Position(CD, R5))
+        .build()
+    );
+  }
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . K . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . R . . . . .
+  // 2 | . . . K . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void canApplyAValidCapture() {
+  
+    Position d2 = new Position(CD, R2);
+    Position c3 = new Position(CC, R3);
+    Situation fromSituation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, d2)
+      .addPiece(WHITE_KING, new Position(CC, R5))
+      .addPiece(WHITE_ROOK, c3)
+      .build();
+  
+    Situation toSituation = fromSituation.applyMove(new Move(d2, c3));
+  
+    assertEquals(
+      toSituation,
+      Situation.builder(WHITE)
+        .addPiece(BLACK_KING, c3)
+        .addPiece(WHITE_KING, new Position(CC, R5))
+        .build()
+    );
+  }
+  
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . K . . . . .
+  // 3 | . . R . . . . .
+  // 2 | . . . K . . . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test(expected = IllegalArgumentException.class)
+  public void cannotApplyAnInvalidCapture() {
+  
+    Position d2 = new Position(CD, R2);
+    Position c3 = new Position(CC, R3);
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, d2)
+      .addPiece(WHITE_KING, new Position(CC, R4))
+      .addPiece(WHITE_ROOK, c3)
+      .build();
+  
+    situation.applyMove(new Move(d2, c3));
+  }
 }

@@ -1,9 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.yaat;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.contains;
@@ -115,6 +112,9 @@ public class Situation {
   private Situation changePosition(Move move) {
     Builder builder = Situation.builder(currentColor);
     for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
+      if (entry.getValue().equals(move.getTo())) {
+        continue;
+      }
       if (entry.getValue().equals(move.getFrom())) {
         builder.addPiece(entry.getKey(), move.getTo());
       }
@@ -126,8 +126,25 @@ public class Situation {
   }
   
   public Situation applyMove(Move move) {
-    // TODO
-    return null;
+    checkArgument(isValidMove(move));
+    
+    Builder builder = Situation.builder(getOpponentColor());
+    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
+      if (move.getTo().equals(entry.getValue())) {
+        // remove captured piece
+        continue;
+      }
+      if (move.getFrom().equals(entry.getValue())) {
+        // move the moved piece
+        builder.addPiece(entry.getKey(), move.getTo());
+      }
+      else {
+        // retain other pieces
+        builder.addPiece(entry.getKey(), entry.getValue());
+      }
+    }
+    
+    return builder.build();
   }
 
   // ==========================================================================
@@ -235,7 +252,24 @@ public class Situation {
     }
     return true;
   }
-
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(currentColor, pieces);
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Situation)) {
+      return false;
+    }
+    
+    Situation other = (Situation) obj;
+    return
+      currentColor.equals(other.currentColor) &&
+      pieces.equals(other.pieces);
+  }
+  
   // ==========================================================================
   // BUILDER
   // ==========================================================================
