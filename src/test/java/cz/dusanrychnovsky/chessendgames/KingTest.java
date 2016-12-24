@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import static com.google.common.collect.Iterables.contains;
 import static com.google.common.collect.Iterables.size;
-import static cz.dusanrychnovsky.chessendgames.Column.*;
-import static cz.dusanrychnovsky.chessendgames.Row.*;
+import static cz.dusanrychnovsky.chessendgames.Position.*;
 import static org.junit.Assert.*;
 
 public class KingTest {
@@ -30,18 +29,17 @@ public class KingTest {
   @Test
   public void inCenterOfBoard_allEightMoves() {
 
-    Position c4 = new Position(CC, R4);
-    Iterable<Move> result = king.listAllMovesFromPosition(c4);
+    Iterable<Move> result = king.listAllMovesFromPosition(C4);
     assertEquals(8, size(result));
 
-    assertTrue(contains(result, new Move(c4, new Position(CB, R5))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R5))));
-    assertTrue(contains(result, new Move(c4, new Position(CD, R5))));
-    assertTrue(contains(result, new Move(c4, new Position(CB, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CD, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CB, R3))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R3))));
-    assertTrue(contains(result, new Move(c4, new Position(CD, R3))));
+    assertTrue(contains(result, new Move(C4, B5)));
+    assertTrue(contains(result, new Move(C4, C5)));
+    assertTrue(contains(result, new Move(C4, D5)));
+    assertTrue(contains(result, new Move(C4, B4)));
+    assertTrue(contains(result, new Move(C4, D4)));
+    assertTrue(contains(result, new Move(C4, B3)));
+    assertTrue(contains(result, new Move(C4, C3)));
+    assertTrue(contains(result, new Move(C4, D3)));
   }
 
   // 8 | K x . . . . . .
@@ -57,13 +55,12 @@ public class KingTest {
   @Test
   public void topLeftCorner_threeMoves() {
 
-    Position a8 = new Position(CA, R8);
-    Iterable<Move> result = king.listAllMovesFromPosition(a8);
+    Iterable<Move> result = king.listAllMovesFromPosition(A8);
     assertEquals(3, size(result));
 
-    assertTrue(contains(result, new Move(a8, new Position(CA, R7))));
-    assertTrue(contains(result, new Move(a8, new Position(CB, R7))));
-    assertTrue(contains(result, new Move(a8, new Position(CB, R8))));
+    assertTrue(contains(result, new Move(A8, A7)));
+    assertTrue(contains(result, new Move(A8, B7)));
+    assertTrue(contains(result, new Move(A8, B8)));
   }
 
   // 8 | . . . . . . x K
@@ -79,13 +76,12 @@ public class KingTest {
   @Test
   public void topRightCorner_threeMoves() {
 
-    Position h8 = new Position(CH, R8);
-    Iterable<Move> result = king.listAllMovesFromPosition(h8);
+    Iterable<Move> result = king.listAllMovesFromPosition(H8);
     assertEquals(3, size(result));
 
-    assertTrue(contains(result, new Move(h8, new Position(CH, R7))));
-    assertTrue(contains(result, new Move(h8, new Position(CG, R7))));
-    assertTrue(contains(result, new Move(h8, new Position(CG, R8))));
+    assertTrue(contains(result, new Move(H8, H7)));
+    assertTrue(contains(result, new Move(H8, G7)));
+    assertTrue(contains(result, new Move(H8, G8)));
   }
 
   // 8 | . . . . . . . .
@@ -101,14 +97,13 @@ public class KingTest {
   @Test
   public void bottomSide_fiveMoves() {
 
-    Position c1 = new Position(CC, R1);
-    Iterable<Move> result = king.listAllMovesFromPosition(c1);
+    Iterable<Move> result = king.listAllMovesFromPosition(C1);
     assertEquals(5, size(result));
 
-    assertTrue(contains(result, new Move(c1, new Position(CB, R2))));
-    assertTrue(contains(result, new Move(c1, new Position(CC, R2))));
-    assertTrue(contains(result, new Move(c1, new Position(CD, R2))));
-    assertTrue(contains(result, new Move(c1, new Position(CB, R1))));
-    assertTrue(contains(result, new Move(c1, new Position(CD, R1))));
+    assertTrue(contains(result, new Move(C1, B2)));
+    assertTrue(contains(result, new Move(C1, C2)));
+    assertTrue(contains(result, new Move(C1, D2)));
+    assertTrue(contains(result, new Move(C1, B1)));
+    assertTrue(contains(result, new Move(C1, D1)));
   }
 }

@@ -22,7 +22,7 @@ public class King implements PieceType {
     for (Column col : new Range<>(leftCol, rightCol)) {
       for (Row row : new Range<>(topRow, bottomRow)) {
         if (col != currColumn || row != currRow) {
-          result.add(new Move(pos, new Position(col, row)));
+          result.add(new Move(pos, Position.get(col, row)));
         }
       }
     }

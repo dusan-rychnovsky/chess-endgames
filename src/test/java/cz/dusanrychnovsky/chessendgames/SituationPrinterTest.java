@@ -3,8 +3,7 @@ package cz.dusanrychnovsky.chessendgames;
 import org.junit.Test;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
-import static cz.dusanrychnovsky.chessendgames.Column.*;
-import static cz.dusanrychnovsky.chessendgames.Row.*;
+import static cz.dusanrychnovsky.chessendgames.Position.*;
 
 import static org.junit.Assert.*;
 
@@ -28,9 +27,9 @@ public class SituationPrinterTest {
       ,
       printer.printSituation(
         Situation.builder(WHITE)
-          .addPiece(new Piece(WHITE, new King()), new Position(CF, R2))
-          .addPiece(new Piece(WHITE, new Rook()), new Position(CH, R3))
-          .addPiece(new Piece(BLACK, new King()), new Position(CH, R1))
+          .addPiece(new Piece(WHITE, new King()), F2)
+          .addPiece(new Piece(WHITE, new Rook()), H3)
+          .addPiece(new Piece(BLACK, new King()), H1)
           .build()
       )
     );

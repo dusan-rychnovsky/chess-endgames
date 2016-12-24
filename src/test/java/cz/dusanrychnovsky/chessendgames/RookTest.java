@@ -4,8 +4,7 @@ import org.junit.Test;
 
 import static com.google.common.collect.Iterables.contains;
 import static com.google.common.collect.Iterables.size;
-import static cz.dusanrychnovsky.chessendgames.Column.*;
-import static cz.dusanrychnovsky.chessendgames.Row.*;
+import static cz.dusanrychnovsky.chessendgames.Position.*;
 import static org.junit.Assert.*;
 
 public class RookTest {
@@ -29,27 +28,26 @@ public class RookTest {
   @Test
   public void inCenterOfBoard_wholeColumnAndRow() {
 
-    Position c4 = new Position(CC, R4);
-    Iterable<Move> result = rook.listAllMovesFromPosition(c4);
+    Iterable<Move> result = rook.listAllMovesFromPosition(C4);
     assertEquals(14, size(result));
 
     // row
-    assertTrue(contains(result, new Move(c4, new Position(CA, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CB, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CD, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CE, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CF, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CG, R4))));
-    assertTrue(contains(result, new Move(c4, new Position(CH, R4))));
+    assertTrue(contains(result, new Move(C4, A4)));
+    assertTrue(contains(result, new Move(C4, B4)));
+    assertTrue(contains(result, new Move(C4, D4)));
+    assertTrue(contains(result, new Move(C4, E4)));
+    assertTrue(contains(result, new Move(C4, F4)));
+    assertTrue(contains(result, new Move(C4, G4)));
+    assertTrue(contains(result, new Move(C4, H4)));
 
     // column
-    assertTrue(contains(result, new Move(c4, new Position(CC, R1))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R2))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R3))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R5))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R6))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R7))));
-    assertTrue(contains(result, new Move(c4, new Position(CC, R8))));
+    assertTrue(contains(result, new Move(C4, C1)));
+    assertTrue(contains(result, new Move(C4, C2)));
+    assertTrue(contains(result, new Move(C4, C3)));
+    assertTrue(contains(result, new Move(C4, C5)));
+    assertTrue(contains(result, new Move(C4, C6)));
+    assertTrue(contains(result, new Move(C4, C7)));
+    assertTrue(contains(result, new Move(C4, C8)));
   }
 
   // 8 | R x x x x x x x
@@ -65,26 +63,25 @@ public class RookTest {
   @Test
   public void inLeftCorner_wholeColumnAndRow() {
 
-    Position a8 = new Position(CA, R8);
-    Iterable<Move> result = rook.listAllMovesFromPosition(a8);
+    Iterable<Move> result = rook.listAllMovesFromPosition(A8);
     assertEquals(14, size(result));
 
     // row
-    assertTrue(contains(result, new Move(a8, new Position(CB, R8))));
-    assertTrue(contains(result, new Move(a8, new Position(CC, R8))));
-    assertTrue(contains(result, new Move(a8, new Position(CD, R8))));
-    assertTrue(contains(result, new Move(a8, new Position(CE, R8))));
-    assertTrue(contains(result, new Move(a8, new Position(CF, R8))));
-    assertTrue(contains(result, new Move(a8, new Position(CG, R8))));
-    assertTrue(contains(result, new Move(a8, new Position(CH, R8))));
+    assertTrue(contains(result, new Move(A8, B8)));
+    assertTrue(contains(result, new Move(A8, C8)));
+    assertTrue(contains(result, new Move(A8, D8)));
+    assertTrue(contains(result, new Move(A8, E8)));
+    assertTrue(contains(result, new Move(A8, F8)));
+    assertTrue(contains(result, new Move(A8, G8)));
+    assertTrue(contains(result, new Move(A8, H8)));
 
     // column
-    assertTrue(contains(result, new Move(a8, new Position(CA, R1))));
-    assertTrue(contains(result, new Move(a8, new Position(CA, R2))));
-    assertTrue(contains(result, new Move(a8, new Position(CA, R3))));
-    assertTrue(contains(result, new Move(a8, new Position(CA, R4))));
-    assertTrue(contains(result, new Move(a8, new Position(CA, R5))));
-    assertTrue(contains(result, new Move(a8, new Position(CA, R6))));
-    assertTrue(contains(result, new Move(a8, new Position(CA, R7))));
+    assertTrue(contains(result, new Move(A8, A1)));
+    assertTrue(contains(result, new Move(A8, A2)));
+    assertTrue(contains(result, new Move(A8, A3)));
+    assertTrue(contains(result, new Move(A8, A4)));
+    assertTrue(contains(result, new Move(A8, A5)));
+    assertTrue(contains(result, new Move(A8, A6)));
+    assertTrue(contains(result, new Move(A8, A7)));
   }
 }

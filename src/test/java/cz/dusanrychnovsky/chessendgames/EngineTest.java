@@ -7,9 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
-import static cz.dusanrychnovsky.chessendgames.Column.*;
+import static cz.dusanrychnovsky.chessendgames.Position.*;
 import static cz.dusanrychnovsky.chessendgames.Result.Status.WIN;
-import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
@@ -23,21 +22,21 @@ public class EngineTest {
     Piece blackKing = new Piece(BLACK, new King());
 
     Situation initialSituation = Situation.builder(WHITE)
-      .addPiece(whiteKing, new Position(CF, R4))
-      .addPiece(whiteRook, new Position(CB, R3))
-      .addPiece(blackKing, new Position(CG, R2))
+      .addPiece(whiteKing, F4)
+      .addPiece(whiteRook, B3)
+      .addPiece(blackKing, G2)
       .build();
 
     List<ScriptItem> script = asList(
-      new ScriptItem(WHITE, new Move(new Position(CB, R3), new Position(CF, R3))), // whiteRook
-      new ScriptItem(BLACK, new Move(new Position(CG, R2), new Position(CH, R2))), // blackKing
-      new ScriptItem(WHITE, new Move(new Position(CF, R3), new Position(CG, R3))), // whiteRook
-      new ScriptItem(BLACK, new Move(new Position(CH, R2), new Position(CH, R1))), // blackKing
-      new ScriptItem(WHITE, new Move(new Position(CF, R4), new Position(CF, R3))), // whiteKing
-      new ScriptItem(BLACK, new Move(new Position(CH, R1), new Position(CH, R2))), // blackKing
-      new ScriptItem(WHITE, new Move(new Position(CF, R3), new Position(CF, R2))), // whiteKing
-      new ScriptItem(BLACK, new Move(new Position(CH, R2), new Position(CH, R1))), // blackKing
-      new ScriptItem(WHITE, new Move(new Position(CG, R3), new Position(CH, R3))) // whiteRook
+      new ScriptItem(WHITE, new Move(B3, F3)), // whiteRook
+      new ScriptItem(BLACK, new Move(G2, H2)), // blackKing
+      new ScriptItem(WHITE, new Move(F3, G3)), // whiteRook
+      new ScriptItem(BLACK, new Move(H2, H1)), // blackKing
+      new ScriptItem(WHITE, new Move(F4, F3)), // whiteKing
+      new ScriptItem(BLACK, new Move(H1, H2)), // blackKing
+      new ScriptItem(WHITE, new Move(F3, F2)), // whiteKing
+      new ScriptItem(BLACK, new Move(H2, H1)), // blackKing
+      new ScriptItem(WHITE, new Move(G3, H3)) // whiteRook
     );
 
     Player whitePlayer = new ScriptedPlayer(WHITE, script);

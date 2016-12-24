@@ -19,14 +19,14 @@ public class Rook implements PieceType {
     // add row
     for (Column col : new Range<>(CA, CH)) {
       if (col != currColumn) {
-        result.add(new Move(pos, new Position(col, currRow)));
+        result.add(new Move(pos, Position.get(col, currRow)));
       }
     }
 
     // add column
     for (Row row : new Range<>(R1, R8)) {
       if (row != currRow) {
-        result.add(new Move(pos, new Position(currColumn, row)));
+        result.add(new Move(pos, Position.get(currColumn, row)));
       }
     }
 

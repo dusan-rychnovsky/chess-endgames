@@ -107,7 +107,7 @@ public class PositionRange implements Iterable<Position> {
     public Optional<Position> getNext(Position position) {
       Optional<Row> nextRow = position.getRow().getNext();
       if (nextRow.isPresent()) {
-        return Optional.of(new Position(position.getColumn(), nextRow.get()));
+        return Optional.of(Position.get(position.getColumn(), nextRow.get()));
       }
       else {
         return Optional.empty();
@@ -120,7 +120,7 @@ public class PositionRange implements Iterable<Position> {
     public Optional<Position> getNext(Position position) {
       Optional<Row> previousRow = position.getRow().getPrevious();
       if (previousRow.isPresent()) {
-        return Optional.of(new Position(position.getColumn(), previousRow.get()));
+        return Optional.of(Position.get(position.getColumn(), previousRow.get()));
       }
       else {
         return Optional.empty();
@@ -133,7 +133,7 @@ public class PositionRange implements Iterable<Position> {
     public Optional<Position> getNext(Position position) {
       Optional<Column> nextColumn = position.getColumn().getNext();
       if (nextColumn.isPresent()) {
-        return Optional.of(new Position(nextColumn.get(), position.getRow()));
+        return Optional.of(Position.get(nextColumn.get(), position.getRow()));
       }
       else {
         return Optional.empty();
@@ -146,7 +146,7 @@ public class PositionRange implements Iterable<Position> {
     public Optional<Position> getNext(Position position) {
       Optional<Column> previousColumn = position.getColumn().getPrevious();
       if (previousColumn.isPresent()) {
-        return Optional.of(new Position(previousColumn.get(), position.getRow()));
+        return Optional.of(Position.get(previousColumn.get(), position.getRow()));
       }
       else {
         return Optional.empty();
@@ -160,7 +160,7 @@ public class PositionRange implements Iterable<Position> {
       Optional<Column> nextColumn = position.getColumn().getNext();
       Optional<Row> nextRow = position.getRow().getNext();
       if (nextColumn.isPresent() && nextRow.isPresent()) {
-        return Optional.of(new Position(nextColumn.get(), nextRow.get()));
+        return Optional.of(Position.get(nextColumn.get(), nextRow.get()));
       }
       else {
         return Optional.empty();
@@ -174,7 +174,7 @@ public class PositionRange implements Iterable<Position> {
       Optional<Column> previousColumn = position.getColumn().getPrevious();
       Optional<Row> previousRow = position.getRow().getPrevious();
       if (previousColumn.isPresent() && previousRow.isPresent()) {
-        return Optional.of(new Position(previousColumn.get(), previousRow.get()));
+        return Optional.of(Position.get(previousColumn.get(), previousRow.get()));
       }
       else {
         return Optional.empty();
@@ -188,7 +188,7 @@ public class PositionRange implements Iterable<Position> {
       Optional<Column> nextColumn = position.getColumn().getNext();
       Optional<Row> previousRow = position.getRow().getPrevious();
       if (nextColumn.isPresent() && previousRow.isPresent()) {
-        return Optional.of(new Position(nextColumn.get(), previousRow.get()));
+        return Optional.of(Position.get(nextColumn.get(), previousRow.get()));
       }
       else {
         return Optional.empty();
@@ -202,7 +202,7 @@ public class PositionRange implements Iterable<Position> {
       Optional<Column> previousColumn = position.getColumn().getPrevious();
       Optional<Row> nextRow = position.getRow().getNext();
       if (previousColumn.isPresent() && nextRow.isPresent()) {
-        return Optional.of(new Position(previousColumn.get(), nextRow.get()));
+        return Optional.of(Position.get(previousColumn.get(), nextRow.get()));
       }
       else {
         return Optional.empty();

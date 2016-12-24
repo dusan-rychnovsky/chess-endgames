@@ -11,7 +11,7 @@ public class SituationPrinter {
     for (Row row : new Range<>(R8, R1)) { // TODO: inverted range
       result.append(row + " |");
       for (Column column : new Range<>(CA, CH)) {
-        Position position = new Position(column, row);
+        Position position = Position.get(column, row);
         result.append(
           " " +
           situation.getPiece(position)  // TODO: getPosition to return Optional
