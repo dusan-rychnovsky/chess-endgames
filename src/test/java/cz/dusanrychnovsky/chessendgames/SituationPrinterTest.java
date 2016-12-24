@@ -14,6 +14,7 @@ public class SituationPrinterTest {
   @Test
   public void printsSituation() {
     assertEquals(
+      "WHITE:\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
