@@ -13,9 +13,9 @@ public class PositionRangeTest {
   // 8 | . . . . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . . X . . . .
+  // 5 | . . . T . . . .
   // 4 | . . . . . . . .
-  // 3 | . . X . . . . .
+  // 3 | . . F . . . . .
   // 2 | . . . . . . . .
   // 1 | . . . . . . . .
   // --|----------------
@@ -30,10 +30,10 @@ public class PositionRangeTest {
   // VERTICAL RANGE
   // ==========================================================================
   
-  // 8 | . . X . . . . .
+  // 8 | . . T . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . X . . . . .
+  // 5 | . . F . . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -53,10 +53,10 @@ public class PositionRangeTest {
     assertFalse(it.hasNext());
   }
   
-  // 8 | . . X . . . . .
+  // 8 | . . F . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . X . . . . .
+  // 5 | . . T . . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -69,10 +69,10 @@ public class PositionRangeTest {
     PositionRange range = new PositionRange(new Position(CC, R8), new Position(CC, R5));
     Iterator<Position> it = range.iterator();
   
-    assertEquals(new Position(CC, R5), it.next());
-    assertEquals(new Position(CC, R6), it.next());
-    assertEquals(new Position(CC, R7), it.next());
     assertEquals(new Position(CC, R8), it.next());
+    assertEquals(new Position(CC, R7), it.next());
+    assertEquals(new Position(CC, R6), it.next());
+    assertEquals(new Position(CC, R5), it.next());
     assertFalse(it.hasNext());
   }
   
@@ -83,7 +83,7 @@ public class PositionRangeTest {
   // 8 | . . . . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . X X . . . .
+  // 5 | . . F T . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -104,7 +104,7 @@ public class PositionRangeTest {
   // 8 | . . . . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . X X . . . .
+  // 5 | . . T F . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -116,9 +116,9 @@ public class PositionRangeTest {
     
     PositionRange range = new PositionRange(new Position(CD, R5), new Position(CC, R5));
     Iterator<Position> it = range.iterator();
-    
-    assertEquals(new Position(CC, R5), it.next());
+  
     assertEquals(new Position(CD, R5), it.next());
+    assertEquals(new Position(CC, R5), it.next());
     assertFalse(it.hasNext());
   }
   
@@ -126,10 +126,10 @@ public class PositionRangeTest {
   // DIAGONAL RANGE
   // ==========================================================================
   
-  // 8 | X . . . . . . .
+  // 8 | F . . . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . . X . . . .
+  // 5 | . . . T . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -149,10 +149,10 @@ public class PositionRangeTest {
     assertFalse(it.hasNext());
   }
   
-  // 8 | X . . . . . . .
+  // 8 | T . . . . . . .
   // 7 | . . . . . . . .
   // 6 | . . . . . . . .
-  // 5 | . . . X . . . .
+  // 5 | . . . F . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -165,17 +165,17 @@ public class PositionRangeTest {
     PositionRange range = new PositionRange(new Position(CD, R5), new Position(CA, R8));
     Iterator<Position> it = range.iterator();
     
-    assertEquals(new Position(CA, R8), it.next());
-    assertEquals(new Position(CB, R7), it.next());
-    assertEquals(new Position(CC, R6), it.next());
     assertEquals(new Position(CD, R5), it.next());
+    assertEquals(new Position(CC, R6), it.next());
+    assertEquals(new Position(CB, R7), it.next());
+    assertEquals(new Position(CA, R8), it.next());
     assertFalse(it.hasNext());
   }
   
   // 8 | . . . . . . . .
   // 7 | . . . . . . . .
-  // 6 | . . . . X . . .
-  // 5 | . . . X . . . .
+  // 6 | . . . . T . . .
+  // 5 | . . . F . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -195,8 +195,8 @@ public class PositionRangeTest {
   
   // 8 | . . . . . . . .
   // 7 | . . . . . . . .
-  // 6 | . . . . X . . .
-  // 5 | . . . X . . . .
+  // 6 | . . . . F . . .
+  // 5 | . . . T . . . .
   // 4 | . . . . . . . .
   // 3 | . . . . . . . .
   // 2 | . . . . . . . .
@@ -208,9 +208,9 @@ public class PositionRangeTest {
     
     PositionRange range = new PositionRange(new Position(CE, R6), new Position(CD, R5));
     Iterator<Position> it = range.iterator();
-    
-    assertEquals(new Position(CD, R5), it.next());
+  
     assertEquals(new Position(CE, R6), it.next());
+    assertEquals(new Position(CD, R5), it.next());
     assertFalse(it.hasNext());
   }
 }

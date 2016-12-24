@@ -3,27 +3,58 @@ package cz.dusanrychnovsky.chessendgames;
 import com.google.common.collect.AbstractIterator;
 
 import java.util.Iterator;
+import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static cz.dusanrychnovsky.chessendgames.Assertions.check;
 
 public class PositionRange implements Iterable<Position> {
   
-  private final Iterable<Position> wrapped;
+  private final Navigator navigator;
+  private final Position from;
+  private final Position to;
   
   public PositionRange(Position from, Position to) {
     
+    this.from = from;
+    this.to = to;
+    
     if (from.getColumn() == to.getColumn()) {
-      wrapped = new VerticalRange(from, to);
+      if (from.getRow().compareTo(to.getRow()) <= 0) {
+        navigator = new BottomToTopVerticalNavigator();
+      }
+      else {
+        navigator = new TopToBottomVerticalNavigator();
+      }
       return;
     }
     
     if (from.getRow() == to.getRow()) {
-      wrapped = new HorizontalRange(from, to);
+      if (from.getColumn().compareTo(to.getColumn()) <= 0) {
+        navigator = new LeftToRightHorizontalNavigator();
+      }
+      else {
+        navigator = new RightToLeftHorizontalNavigator();
+      }
       return;
     }
     
     if (getColumnDistance(from, to) == getRowDistance(from, to)) {
-      wrapped = new DiagonalRange(from, to);
+      if (from.getColumn().compareTo(to.getColumn()) <= 0) {
+        if (from.getRow().compareTo(to.getRow()) <= 0) {
+          navigator = new BottomLeftToTopRightNavigator();
+        }
+        else {
+          navigator = new TopLeftToBottomRightNavigator();
+        }
+      }
+      else {
+        if (from.getRow().compareTo(to.getRow()) <= 0) {
+          navigator = new BottomRightToTopLeftNavigator();
+        }
+        else {
+          navigator = new TopRightToBottomLeftNavigator();
+        }
+      }
       return;
     }
       
@@ -42,193 +73,140 @@ public class PositionRange implements Iterable<Position> {
   
   @Override
   public Iterator<Position> iterator() {
-    return wrapped.iterator();
+    return new AbstractIterator<Position>() {
+      private Optional<Position> current = Optional.of(from);
+      @Override
+      protected Position computeNext() {
+        
+        if (!current.isPresent()) {
+          endOfData();
+          return null;
+        }
+        
+        Position result = current.get();
+  
+        if (!current.get().equals(to)) {
+          current = navigator.getNext(current.get());
+          check(current.isPresent());
+        }
+        else {
+          current = Optional.empty();
+        }
+        
+        return result;
+      }
+    };
   }
   
-  private static class HorizontalRange implements Iterable<Position> {
+  private interface Navigator {
+    Optional<Position> getNext(Position position);
+  }
   
-    private final Row row;
-    private final Range<Column> columnRange;
-    
-    public HorizontalRange(Position from, Position to) {
-      checkArgument(from.getRow() == to.getRow());
-    
-      row = from.getRow();
-      
-      if (from.getColumn().compareTo(to.getColumn()) <= 0) {
-        columnRange = new Range<>(from.getColumn(), to.getColumn());
+  private static class BottomToTopVerticalNavigator implements Navigator {
+    @Override
+    public Optional<Position> getNext(Position position) {
+      Optional<Row> nextRow = position.getRow().getNext();
+      if (nextRow.isPresent()) {
+        return Optional.of(new Position(position.getColumn(), nextRow.get()));
       }
       else {
-        columnRange = new Range<>(to.getColumn(), from.getColumn());
+        return Optional.empty();
       }
-    }
-    
-    @Override
-    public Iterator<Position> iterator() {
-      return new AbstractIterator<Position>() {
-        private final Iterator<Column> columnIt = columnRange.iterator();
-        @Override
-        protected Position computeNext() {
-          if (columnIt.hasNext()) {
-            return new Position(columnIt.next(), row);
-          }
-          else {
-            endOfData();
-            return null;
-          }
-        }
-      };
     }
   }
   
-  private static class VerticalRange implements Iterable<Position> {
-  
-    private final Column column;
-    private final Range<Row> rowRange;
-    
-    public VerticalRange(Position from, Position to) {
-      checkArgument(from.getColumn() == to.getColumn());
-      
-      column = from.getColumn();
-      
-      if (from.getRow().compareTo(to.getRow()) <= 0) {
-        rowRange = new Range<>(from.getRow(), to.getRow());
+  private static class TopToBottomVerticalNavigator implements Navigator {
+    @Override
+    public Optional<Position> getNext(Position position) {
+      Optional<Row> previousRow = position.getRow().getPrevious();
+      if (previousRow.isPresent()) {
+        return Optional.of(new Position(position.getColumn(), previousRow.get()));
       }
       else {
-        rowRange = new Range<>(to.getRow(), from.getRow());
+        return Optional.empty();
       }
-    }
-    
-    @Override
-    public Iterator<Position> iterator() {
-      return new AbstractIterator<Position>() {
-        private final Iterator<Row> rowIt = rowRange.iterator();
-        @Override
-        protected Position computeNext() {
-          if (rowIt.hasNext()) {
-            return new Position(column, rowIt.next());
-          }
-          else {
-            endOfData();
-            return null;
-          }
-        }
-      };
     }
   }
   
-  private static class DiagonalRange implements Iterable<Position> {
-  
-    private final Iterable<Position> wrapped;
-    
-    public DiagonalRange(Position from, Position to) {
-      checkArgument(getColumnDistance(from, to) == getRowDistance(from, to));
-  
-      if (from.getColumn().compareTo(to.getColumn()) > 0) {
-        Position tmp = from;
-        from = to;
-        to = tmp;
-      }
-      
-      if (from.getRow().compareTo(to.getRow()) <= 0) {
-        wrapped = new TopDownDiagonalRange(from, to);
+  private static class LeftToRightHorizontalNavigator implements Navigator {
+    @Override
+    public Optional<Position> getNext(Position position) {
+      Optional<Column> nextColumn = position.getColumn().getNext();
+      if (nextColumn.isPresent()) {
+        return Optional.of(new Position(nextColumn.get(), position.getRow()));
       }
       else {
-        wrapped = new BottomUpDiagonalRange(from, to);
+        return Optional.empty();
       }
     }
+  }
   
+  private static class RightToLeftHorizontalNavigator implements Navigator {
     @Override
-    public Iterator<Position> iterator() {
-      return wrapped.iterator();
+    public Optional<Position> getNext(Position position) {
+      Optional<Column> previousColumn = position.getColumn().getPrevious();
+      if (previousColumn.isPresent()) {
+        return Optional.of(new Position(previousColumn.get(), position.getRow()));
+      }
+      else {
+        return Optional.empty();
+      }
     }
   }
   
-  private static class TopDownDiagonalRange implements Iterable<Position> {
-  
-    private final Position from;
-    private final Position to;
-    
-    public TopDownDiagonalRange(Position from, Position to) {
-      checkArgument(getColumnDistance(from, to) == getRowDistance(from, to));
-      checkArgument(from.getColumn().compareTo(to.getColumn()) <= 0);
-      checkArgument(from.getRow().compareTo(to.getRow()) <= 0);
-      
-      this.from = from;
-      this.to = to;
-    }
-    
+  private static class BottomLeftToTopRightNavigator implements Navigator {
     @Override
-    public Iterator<Position> iterator() {
-      return new AbstractIterator<Position>() {
-        private Position current = from;
-        @Override
-        protected Position computeNext() {
-          
-          if (current == null) {
-            endOfData();
-            return null;
-          }
-          
-          Position result = current;
-          
-          if (!current.equals(to)) {
-            current = new Position(
-              current.getColumn().getNext().get(),
-              current.getRow().getNext().get()
-            );
-          }
-          else {
-            current = null;
-          }
-          
-          return result;
-        }
-      };
+    public Optional<Position> getNext(Position position) {
+      Optional<Column> nextColumn = position.getColumn().getNext();
+      Optional<Row> nextRow = position.getRow().getNext();
+      if (nextColumn.isPresent() && nextRow.isPresent()) {
+        return Optional.of(new Position(nextColumn.get(), nextRow.get()));
+      }
+      else {
+        return Optional.empty();
+      }
     }
   }
   
-  private static class BottomUpDiagonalRange implements Iterable<Position> {
-  
-    private final Position from;
-    private final Position to;
-  
-    public BottomUpDiagonalRange(Position from, Position to) {
-      checkArgument(getColumnDistance(from, to) == getRowDistance(from, to));
-      checkArgument(from.getColumn().compareTo(to.getColumn()) <= 0);
-      checkArgument(from.getRow().compareTo(to.getRow()) >= 0);
-      
-      this.from = from;
-      this.to = to;
-    }
-    
+  private static class TopRightToBottomLeftNavigator implements Navigator {
     @Override
-    public Iterator<Position> iterator() {
-      return new AbstractIterator<Position>() {
-        private Position current = from;
-        @Override
-        protected Position computeNext() {
-          
-          if (current == null) {
-            endOfData();
-            return null;
-          }
-          
-          Position result = current;
-          
-          if (!current.equals(to)) {
-            current = new Position(
-              current.getColumn().getNext().get(),
-              current.getRow().getPrevious().get()
-            );
-          }
-          else {
-            current = null;
-          }
-          
-          return result;
-        }
-      };
+    public Optional<Position> getNext(Position position) {
+      Optional<Column> previousColumn = position.getColumn().getPrevious();
+      Optional<Row> previousRow = position.getRow().getPrevious();
+      if (previousColumn.isPresent() && previousRow.isPresent()) {
+        return Optional.of(new Position(previousColumn.get(), previousRow.get()));
+      }
+      else {
+        return Optional.empty();
+      }
+    }
+  }
+  
+  private static class TopLeftToBottomRightNavigator implements Navigator {
+    @Override
+    public Optional<Position> getNext(Position position) {
+      Optional<Column> nextColumn = position.getColumn().getNext();
+      Optional<Row> previousRow = position.getRow().getPrevious();
+      if (nextColumn.isPresent() && previousRow.isPresent()) {
+        return Optional.of(new Position(nextColumn.get(), previousRow.get()));
+      }
+      else {
+        return Optional.empty();
+      }
+    }
+  }
+  
+  private static class BottomRightToTopLeftNavigator implements Navigator {
+    @Override
+    public Optional<Position> getNext(Position position) {
+      Optional<Column> previousColumn = position.getColumn().getPrevious();
+      Optional<Row> nextRow = position.getRow().getNext();
+      if (previousColumn.isPresent() && nextRow.isPresent()) {
+        return Optional.of(new Position(previousColumn.get(), nextRow.get()));
+      }
+      else {
+        return Optional.empty();
+      }
     }
   }
 }
