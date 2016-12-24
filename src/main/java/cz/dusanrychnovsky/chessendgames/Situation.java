@@ -19,29 +19,24 @@ public class Situation {
     this.currentColor = currentColor;
     this.pieces = pieces;
   }
-
-  public Situation addPiece(Piece piece, Position position) {
-
-    if (pieces.containsKey(piece) || pieces.containsValue(position)) {
-      throw new RuntimeException("blabla");
-    }
-
-    pieces.put(piece, position);
-    return this;
-  }
   
-  public Position getPosition(Piece piece) {
-    checkArgument(pieces.containsKey(piece), "Piece [" + piece + "] not registered.");
-    return pieces.get(piece);
+  public Optional<Position> getPosition(Piece piece) {
+    Position position = pieces.get(piece);
+    if (position != null) {
+      return Optional.of(position);
+    }
+    else {
+      return Optional.empty();
+    }
   }
 
-  public Piece getPiece(Position position) {
+  public Optional<Piece> getPiece(Position position) {
     for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
       if (entry.getValue().equals(position)) {
-        return entry.getKey();
+        return Optional.of(entry.getKey());
       }
     }
-    throw new IllegalArgumentException("Position [" + position + "] not registered.");
+    return Optional.empty();
   }
   
   public Color getCurrentColor() {
@@ -61,7 +56,7 @@ public class Situation {
     Position fromPos = move.getFrom();
     Position toPos = move.getTo();
     
-    Piece piece = getPiece(move.getFrom());
+    Piece piece = getPiece(move.getFrom()).get();
 
     if (!currentColor.equals(piece.getColor())) {
       // not that player's turn
@@ -75,7 +70,7 @@ public class Situation {
     
     if (pieces.containsValue(toPos)) {
       // can capture only opponent's pieces
-      if (currentColor.equals(getPiece(toPos).getColor())) {
+      if (currentColor.equals(getPiece(toPos).get().getColor())) {
         return false;
       }
     }
@@ -90,7 +85,7 @@ public class Situation {
     if (piece.getType() instanceof King) {
       // TODO: refactor
       Piece otherKing = new Piece(getOpponentColor(), new King());
-      Position otherKingPos = getPosition(otherKing);
+      Position otherKingPos = getPosition(otherKing).get();
       
       Move moveToOtherKing = new Move(toPos, otherKingPos);
       if (contains(new King().listAllMovesFromPosition(toPos), moveToOtherKing)) {
@@ -190,8 +185,8 @@ public class Situation {
     }
     
     Situation opponentsView = new Situation(this, getOpponentColor());
-    Position fromPos = getPosition(first);
-    Position toPos = getPosition(second);
+    Position fromPos = getPosition(first).get();
+    Position toPos = getPosition(second).get();
     for (Move move : first.getType().listAllMovesFromPosition(fromPos)) {
       if (toPos.equals(move.getTo()) && opponentsView.isValidMove(move)) {
         return true;

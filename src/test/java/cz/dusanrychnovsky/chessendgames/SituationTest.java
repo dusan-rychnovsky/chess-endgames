@@ -2,6 +2,8 @@ package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
 import static cz.dusanrychnovsky.chessendgames.Result.Status.DRAW;
@@ -36,9 +38,9 @@ public class SituationTest {
       .build();
 
     assertEquals(WHITE, result.getCurrentColor());
-    assertEquals(f4, result.getPosition(WHITE_KING));
-    assertEquals(b3, result.getPosition(WHITE_ROOK));
-    assertEquals(g2, result.getPosition(BLACK_KING));
+    assertEquals(f4, result.getPosition(WHITE_KING).get());
+    assertEquals(b3, result.getPosition(WHITE_ROOK).get());
+    assertEquals(g2, result.getPosition(BLACK_KING).get());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -55,7 +57,65 @@ public class SituationTest {
       .addPiece(WHITE_KING, f4)
       .addPiece(BLACK_KING, f4);
   }
-
+  
+  // ==========================================================================
+  // GET PIECE AT POSITION
+  // ==========================================================================
+  
+  @Test
+  public void positionOccupied_returnsOccupyingPiece() {
+    
+    Piece whiteKing = new Piece(WHITE, new King());
+    Position a3 = new Position(CA, R3);
+    Situation situation = Situation.builder(SOME_COLOR)
+      .addPiece(whiteKing, a3)
+      .build();
+    
+    assertEquals(Optional.of(whiteKing), situation.getPiece(a3));
+  }
+  
+  @Test
+  public void positionEmpty_returnsEmptyResult() {
+  
+    Situation situation = Situation.builder(SOME_COLOR)
+      .addPiece(new Piece(WHITE, new King()), new Position(CA, R3))
+      .build();
+  
+    assertEquals(
+      Optional.empty(),
+      situation.getPiece(new Position(CA, R4))
+    );
+  }
+  
+  // ==========================================================================
+  // GET PIECE'S POSITION
+  // ==========================================================================
+  
+  @Test
+  public void piecePresent_returnsItsPosition() {
+  
+    Piece whiteKing = new Piece(WHITE, new King());
+    Position a3 = new Position(CA, R3);
+    Situation situation = Situation.builder(SOME_COLOR)
+      .addPiece(whiteKing, a3)
+      .build();
+  
+    assertEquals(Optional.of(a3), situation.getPosition(whiteKing));
+  }
+  
+  @Test
+  public void pieceNotPresent_returnsEmptyResult() {
+  
+    Situation situation = Situation.builder(SOME_COLOR)
+      .addPiece(new Piece(WHITE, new King()), new Position(CA, R3))
+      .build();
+  
+    assertEquals(
+      Optional.empty(),
+      situation.getPosition(new Piece(BLACK, new King()))
+    );
+  }
+  
   // ==========================================================================
   // GET RESULT
   // ==========================================================================
