@@ -43,6 +43,8 @@ public class EngineTest {
     Player blackPlayer = new ScriptedPlayer(BLACK, script);
 
     Engine engine = new Engine();
+    engine.addEventListener(new PrintSituations());
+    
     Result result = engine.runGame(initialSituation, whitePlayer, blackPlayer);
 
     assertEquals(WIN, result.getStatus());
@@ -81,6 +83,15 @@ public class EngineTest {
       }
 
       throw new IllegalStateException("No more moves in script.");
+    }
+  }
+  
+  private static class PrintSituations implements EventListener {
+    private final SituationPrinter printer = new SituationPrinter();
+    @Override
+    public void onNewSituation(Situation situation) {
+      System.out.println(printer.printSituation(situation));
+      System.out.println();
     }
   }
 }

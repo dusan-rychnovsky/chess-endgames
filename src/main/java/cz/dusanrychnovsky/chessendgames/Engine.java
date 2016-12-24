@@ -1,6 +1,8 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import static cz.dusanrychnovsky.chessendgames.Result.Status.IN_PROGRESS;
@@ -8,8 +10,21 @@ import static java.util.Arrays.asList;
 
 public class Engine {
 
+  private List<EventListener> eventListeners = new LinkedList<>();
+  
+  public void addEventListener(EventListener listener) {
+    eventListeners.add(listener);
+  }
+  
+  private void notifyNewSituation(Situation situation) {
+    for (EventListener listener : eventListeners) {
+      listener.onNewSituation(situation);
+    }
+  }
+  
   public Result runGame(Situation situation, Player whitePlayer, Player blackPlayer) {
-
+    notifyNewSituation(situation);
+    
     Set<Player> players = new HashSet<>(asList(whitePlayer, blackPlayer));
 
     Result result;
@@ -19,6 +34,7 @@ public class Engine {
       Move currMove = currPlayer.pickMove(situation);
 
       situation = situation.applyMove(currMove);
+      notifyNewSituation(situation);
     }
 
     return result;
