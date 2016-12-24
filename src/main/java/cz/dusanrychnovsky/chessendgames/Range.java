@@ -7,39 +7,72 @@ import java.util.Iterator;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static cz.dusanrychnovsky.chessendgames.Assertions.check;
 
 public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T> {
 
+  // TODO: maybe consolidate with PositionRange?
+  
+  private final Navigator<T> navigator;
   private final T from;
   private final T to;
 
   public Range(T from, T to) {
-    checkArgument(from.compareTo(to) <= 0, "[from, to] must form a non-empty interval");
+    
     this.from = from;
     this.to = to;
+    
+    if (from.compareTo(to) <= 0) {
+      navigator = new StraightNavigator();
+    }
+    else {
+      navigator = new ReversedNavigator();
+    }
   }
-
+  
+  
   @Override
   public Iterator<T> iterator() {
-    return new Iterator<T>() {
+    return new AbstractIterator<T>() {
       private Optional<T> current = Optional.of(from);
-
       @Override
-      public boolean hasNext() {
-        return current.isPresent();
-      }
-
-      @Override
-      public T next() {
+      protected T computeNext() {
+        
+        if (!current.isPresent()) {
+          endOfData();
+          return null;
+        }
+        
         T result = current.get();
-
-        current = result.getNext();
-        if (current.isPresent() && current.get().compareTo(to) > 0) {
+        
+        if (!current.get().equals(to)) {
+          current = navigator.getNext(current.get());
+          check(current.isPresent());
+        }
+        else {
           current = Optional.empty();
         }
-
+        
         return result;
       }
     };
+  }
+  
+  private interface Navigator<T extends Navigable<T>> {
+    Optional<T> getNext(T item);
+  }
+  
+  private static class StraightNavigator<T extends Navigable<T>> implements Navigator<T> {
+    @Override
+    public Optional<T> getNext(T item) {
+      return item.getNext();
+    }
+  }
+  
+  private static class ReversedNavigator<T extends Navigable<T>> implements Navigator<T> {
+    @Override
+    public Optional<T> getNext(T item) {
+      return item.getPrevious();
+    }
   }
 }

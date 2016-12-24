@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.Iterator;
 
 import static cz.dusanrychnovsky.chessendgames.Column.*;
-import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static org.junit.Assert.*;
 
 public class RangeTest {
@@ -53,9 +52,18 @@ public class RangeTest {
     assertEquals(CD, it.next());
     assertFalse(it.hasNext());
   }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void emptyRange_fails() {
-    new Range<>(CD, CC);
+  
+  @Test
+  public void reversedRange() {
+    
+    Range<Column> range = new Range<>(CH, CD);
+    Iterator<Column> it = range.iterator();
+  
+    assertEquals(CH, it.next());
+    assertEquals(CG, it.next());
+    assertEquals(CF, it.next());
+    assertEquals(CE, it.next());
+    assertEquals(CD, it.next());
+    assertFalse(it.hasNext());
   }
 }
