@@ -12,4 +12,9 @@ public enum Column implements Navigable<Column> {
   public Column[] getValues() {
     return values();
   }
+  
+  @Override
+  public String toString() {
+    return super.toString().substring(1, 2);
+  }
 }

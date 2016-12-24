@@ -72,4 +72,13 @@ public class ColumnTest {
   public void distanceIsSymmetric() {
     assertEquals(CC.getDistance(CE), CE.getDistance(CC));
   }
+  
+  // ==========================================================================
+  // TO STRING
+  // ==========================================================================
+  
+  @Test
+  public void humanReadableToString() {
+    assertEquals("A", CA.toString());
+  }
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
+import static cz.dusanrychnovsky.chessendgames.Column.CA;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static org.junit.Assert.*;
 
@@ -47,5 +48,14 @@ public class RowTest {
     assertEquals(Optional.of(R6), R5.getNext());
     assertEquals(Optional.of(R7), R6.getNext());
     assertEquals(Optional.of(R8), R7.getNext());
+  }
+  
+  // ==========================================================================
+  // TO STRING
+  // ==========================================================================
+  
+  @Test
+  public void humanReadableToString() {
+    assertEquals("1", R1.toString());
   }
 }

@@ -16,8 +16,6 @@ public class Position {
   
   @Override
   public String toString() {
-    return
-      column.toString().substring(1, 2) +
-      row.toString().substring(1, 2);
+    return column.toString() + row.toString();
   }
 }
