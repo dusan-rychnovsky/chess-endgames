@@ -46,7 +46,17 @@ public class Situation {
   public Color getOpponentColor() {
     return currentColor.getOpponentColor();
   }
-
+  
+  public Iterable<Piece> getPiecesOfColor(Color color) {
+    List<Piece> result = new LinkedList<>();
+    for (Piece piece : pieces.keySet()) {
+      if (color.equals(piece.getColor())) {
+        result.add(piece);
+      }
+    }
+    return result;
+  }
+  
   // ==========================================================================
   // APPLY MOVE
   // ==========================================================================
@@ -277,7 +287,7 @@ public class Situation {
   public static Builder builder(Color currentColor) {
     return new Builder(currentColor);
   }
-
+  
   public static class Builder {
 
     private final Map<Piece, Position> pieces = new HashMap<>();

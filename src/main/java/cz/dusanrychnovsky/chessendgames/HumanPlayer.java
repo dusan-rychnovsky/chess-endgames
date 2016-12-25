@@ -54,12 +54,15 @@ public class HumanPlayer implements Player {
     }
   }
   
-  private void writeLn() {
-    write("\n");
-  }
-  
   private void writeLn(String text) {
-    write(text + "\n");
+    try {
+      writer.write(text);
+      writer.newLine();
+      writer.flush();
+    }
+    catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
   }
   
   private void write(String text) {

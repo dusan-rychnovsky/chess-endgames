@@ -21,9 +21,10 @@ public class PrintSituations implements EventListener {
   @Override
   public void onNewSituation(Situation situation) {
     try {
-      writer.write("\n");
-      writer.write(printer.printSituation(situation) + "\n");
-      writer.write("\n");
+      writer.newLine();
+      writer.write(printer.printSituation(situation));
+      writer.newLine();
+      writer.newLine();
       writer.flush();
     }
     catch (IOException ex) {

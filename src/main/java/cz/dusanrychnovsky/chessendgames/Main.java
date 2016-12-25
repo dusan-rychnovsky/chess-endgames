@@ -1,6 +1,9 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
+
+import java.util.Random;
+
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 
@@ -12,7 +15,7 @@ public class Main {
     
     Engine engine = new Engine(
       new HumanPlayer(WHITE, System.in, System.out),
-      new HumanPlayer(BLACK, System.in, System.out)
+      new RandomMovePlayer(new Random(), BLACK, System.out)
     );
     
     engine.addEventListener(new PrintSituations(System.out));

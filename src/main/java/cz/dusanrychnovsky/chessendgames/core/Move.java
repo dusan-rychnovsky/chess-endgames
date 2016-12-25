@@ -21,4 +21,9 @@ public class Move {
       Position.parseFrom(tokens[1].trim())
     );
   }
+  
+  @Override
+  public String toString() {
+    return from + " " + to;
+  }
 }
