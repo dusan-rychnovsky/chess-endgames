@@ -55,8 +55,13 @@ public class Situation {
     
     Position fromPos = move.getFrom();
     Position toPos = move.getTo();
+   
+    if (!getPiece(fromPos).isPresent()) {
+      // unoccupied from position
+      return false;
+    }
     
-    Piece piece = getPiece(move.getFrom()).get();
+    Piece piece = getPiece(fromPos).get();
 
     if (!currentColor.equals(piece.getColor())) {
       // not that player's turn

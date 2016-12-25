@@ -202,6 +202,28 @@ public class SituationTest {
   // ==========================================================================
   
   // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . K . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . R . . . . . .
+  // 3 | . . . K . . . .
+  // 2 | . . x . . x . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void unoccupiedFromPosition_notValid() {
+    
+    Situation situation = Situation.builder(Color.BLACK)
+      .addPiece(WHITE_KING, Position.C6)
+      .addPiece(WHITE_ROOK, Position.B4)
+      .addPiece(BLACK_KING, Position.D3)
+      .build();
+    
+    assertFalse(situation.isValidMove(new Move(Position.C2, Position.F2)));
+  }
+  
+  // 8 | . . . . . . . .
   // 7 | . x . . . . . .
   // 6 | . . K . . . . .
   // 5 | . . . . . . . .
