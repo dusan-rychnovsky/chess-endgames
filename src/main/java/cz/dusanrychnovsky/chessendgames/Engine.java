@@ -1,15 +1,28 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import com.google.common.base.Preconditions;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Result.Status.IN_PROGRESS;
 import static java.util.Arrays.asList;
 
 public class Engine {
 
+  private final Set<Player> players;
+  
+  public Engine(Player whitePlayer, Player blackPlayer) {
+    checkArgument(WHITE.equals(whitePlayer.getColor()));
+    checkArgument(BLACK.equals(blackPlayer.getColor()));
+    
+    players = new HashSet<>(asList(whitePlayer, blackPlayer));
+  }
+  
   private List<EventListener> eventListeners = new LinkedList<>();
   
   public void addEventListener(EventListener listener) {
@@ -22,11 +35,9 @@ public class Engine {
     }
   }
   
-  public Result runGame(Situation situation, Player whitePlayer, Player blackPlayer) {
+  public Result runGame(Situation situation) {
     notifyNewSituation(situation);
     
-    Set<Player> players = new HashSet<>(asList(whitePlayer, blackPlayer));
-
     Result result;
     while ((result = situation.getResult()).getStatus() == IN_PROGRESS) {
 

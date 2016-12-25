@@ -16,7 +16,7 @@ public class EngineTest {
 
   @Test
   public void runsGameUntilVictory() {
-
+  
     Piece whiteKing = new Piece(WHITE, new King());
     Piece whiteRook = new Piece(WHITE, new Rook());
     Piece blackKing = new Piece(BLACK, new King());
@@ -38,14 +38,14 @@ public class EngineTest {
       new ScriptItem(BLACK, new Move(H2, H1)), // blackKing
       new ScriptItem(WHITE, new Move(G3, H3)) // whiteRook
     );
-
+  
     Player whitePlayer = new ScriptedPlayer(WHITE, script);
     Player blackPlayer = new ScriptedPlayer(BLACK, script);
-
-    Engine engine = new Engine();
+  
+    Engine engine = new Engine(whitePlayer, blackPlayer);
     engine.addEventListener(new PrintSituations());
     
-    Result result = engine.runGame(initialSituation, whitePlayer, blackPlayer);
+    Result result = engine.runGame(initialSituation);
 
     assertEquals(WIN, result.getStatus());
     assertEquals(WHITE, ((Win) result).getWinnerColor());
