@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.gui.GraphicalUserInterface;
 
 import java.util.Random;
 
@@ -10,7 +11,7 @@ import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 public class Main {
   
   public static void main(String[] args) {
-    UserInterface ui = new CommandLineInterface();
+    UserInterface ui = new GraphicalUserInterface();
     
     ui.displayMessage("CHESS ENDGAMES v. 0.1");
     
