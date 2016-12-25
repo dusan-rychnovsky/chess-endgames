@@ -1,6 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
-import cz.dusanrychnovsky.chessendgames.CliAdapter;
+import cz.dusanrychnovsky.chessendgames.CommandLineInterface;
 import cz.dusanrychnovsky.chessendgames.ShowSituations;
 import lombok.Value;
 import org.junit.Test;
@@ -45,9 +45,7 @@ public class EngineTest {
     Player blackPlayer = new ScriptedPlayer(BLACK, script);
   
     Engine engine = new Engine(whitePlayer, blackPlayer);
-    engine.addEventListener(
-      new ShowSituations(new CliAdapter.PrintSituationToConsole())
-    );
+    engine.addEventListener(new PrintSituations());
 
     CaptureLastSituation captureLastSituation = new CaptureLastSituation();
     engine.addEventListener(captureLastSituation);
@@ -99,6 +97,15 @@ public class EngineTest {
       }
 
       throw new IllegalStateException("No more moves in script.");
+    }
+  }
+
+  private static class PrintSituations implements EventListener {
+    private final SituationPrinter printer = new SituationPrinter();
+    @Override
+    public void onNewSituation(Situation situation) {
+      System.out.println(printer.printSituation(situation));
+      System.out.println();
     }
   }
   

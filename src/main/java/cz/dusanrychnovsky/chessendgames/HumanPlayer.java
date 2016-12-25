@@ -7,12 +7,11 @@ import java.io.*;
 public class HumanPlayer implements Player {
   
   private final Color color;
+  private final UserInterface ui;
   
-  private final GatherMove gatherMove;
-  
-  public HumanPlayer(Color color, GatherMove gatherMove) {
+  public HumanPlayer(Color color, UserInterface ui) {
     this.color = color;
-    this.gatherMove = gatherMove;
+    this.ui = ui;
   }
   
   @Override
@@ -22,6 +21,6 @@ public class HumanPlayer implements Player {
   
   @Override
   public Move pickMove(Situation situation) {
-    return gatherMove.gatherMove(situation);
+    return ui.requestMove(situation);
   }
 }

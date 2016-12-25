@@ -16,12 +16,12 @@ public class RandomMovePlayer implements Player {
   
   private final Random rnd;
   private final Color color;
-  private final DisplayMessage displayMessage;
+  private final UserInterface ui;
   
-  public RandomMovePlayer(Random rnd, Color color, DisplayMessage displayMessage) {
+  public RandomMovePlayer(Random rnd, Color color, UserInterface ui) {
     this.rnd = rnd;
     this.color = color;
-    this.displayMessage = displayMessage;
+    this.ui = ui;
   }
   
   @Override
@@ -41,7 +41,7 @@ public class RandomMovePlayer implements Player {
     );
     
     Move result = getRandomItem(moves);
-    displayMessage.displayMessage(color + " Picked move: " + result);
+    ui.displayMessage(color + " Picked move: " + result);
     
     return result;
   }

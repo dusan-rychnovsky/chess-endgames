@@ -10,18 +10,16 @@ import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 public class Main {
   
   public static void main(String[] args) {
+    UserInterface ui = new CommandLineInterface();
     
-    DisplayMessage displayMessage = new CliAdapter.PrintMessageToConsole();
-    displayMessage.displayMessage("CHESS ENDGAMES v. 0.1");
+    ui.displayMessage("CHESS ENDGAMES v. 0.1");
     
     Engine engine = new Engine(
-      new HumanPlayer(WHITE, new CliAdapter.ParseMoveFromConsole()),
-      new RandomMovePlayer(new Random(), BLACK, displayMessage)
+      new HumanPlayer(WHITE, ui),
+      new RandomMovePlayer(new Random(), BLACK, ui)
     );
     
-    engine.addEventListener(
-      new ShowSituations(new CliAdapter.PrintSituationToConsole())
-    );
+    engine.addEventListener(new ShowSituations(ui));
     
     Situation situation = Situation.builder(WHITE)
       .addPiece(new Piece(WHITE, new King()), F4)
@@ -30,6 +28,6 @@ public class Main {
       .build();
     
     Result result = engine.runGame(situation);
-    System.out.println("RESULT: " + result);
+    ui.displayMessage("RESULT: " + result);
   }
 }
