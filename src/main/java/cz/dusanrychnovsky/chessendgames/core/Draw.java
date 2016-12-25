@@ -7,4 +7,9 @@ public class Draw implements Result {
   public Status getStatus() {
     return DRAW;
   }
+  
+  @Override
+  public String toString() {
+    return "DRAW";
+  }
 }

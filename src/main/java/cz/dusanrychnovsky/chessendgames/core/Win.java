@@ -18,4 +18,9 @@ public class Win implements Result {
   public Color getWinnerColor() {
     return winnerColor;
   }
+  
+  @Override
+  public String toString() {
+    return winnerColor + " WINS";
+  }
 }
