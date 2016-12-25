@@ -34,6 +34,16 @@ public enum Position {
     return row;
   }
   
+  public static Position parseFrom(String line) {
+    line = line.trim().toUpperCase();
+    
+    if (line.length() != 2) {
+      throw new IllegalArgumentException("Invalid position: " + line);
+    }
+    
+    return valueOf(line);
+  }
+  
   @Override
   public String toString() {
     return column.toString() + row.toString();
