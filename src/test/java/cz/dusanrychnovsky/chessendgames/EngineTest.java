@@ -44,11 +44,23 @@ public class EngineTest {
   
     Engine engine = new Engine(whitePlayer, blackPlayer);
     engine.addEventListener(new PrintSituations());
+
+    CaptureLastSituation captureLastSituation = new CaptureLastSituation();
+    engine.addEventListener(captureLastSituation);
     
     Result result = engine.runGame(initialSituation);
 
     assertEquals(WIN, result.getStatus());
     assertEquals(WHITE, ((Win) result).getWinnerColor());
+    
+    assertEquals(
+      Situation.builder(BLACK)
+        .addPiece(new Piece(WHITE, new King()), F2)
+        .addPiece(new Piece(WHITE, new Rook()), H3)
+        .addPiece(new Piece(BLACK, new King()), H1)
+        .build(),
+      captureLastSituation.getSituation()
+    );
   }
 
   @Value
@@ -92,6 +104,23 @@ public class EngineTest {
     public void onNewSituation(Situation situation) {
       System.out.println(printer.printSituation(situation));
       System.out.println();
+    }
+  }
+  
+  private static class CaptureLastSituation implements EventListener {
+    
+    private Situation situation;
+    
+    @Override
+    public void onNewSituation(Situation situation) {
+      this.situation = situation;
+    }
+    
+    public Situation getSituation() {
+      if (situation == null) {
+        throw new IllegalStateException("No situation captured.");
+      }
+      return situation;
     }
   }
 }
