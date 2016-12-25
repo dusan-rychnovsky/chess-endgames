@@ -11,14 +11,17 @@ public class Main {
   
   public static void main(String[] args) {
     
-    System.out.println("CHESS ENDGAMES v. 0.1");
+    DisplayMessage displayMessage = new CliAdapter.PrintMessageToConsole();
+    displayMessage.displayMessage("CHESS ENDGAMES v. 0.1");
     
     Engine engine = new Engine(
-      new HumanPlayer(WHITE, System.in, System.out),
-      new RandomMovePlayer(new Random(), BLACK, System.out)
+      new HumanPlayer(WHITE, new CliAdapter.ParseMoveFromConsole()),
+      new RandomMovePlayer(new Random(), BLACK, displayMessage)
     );
     
-    engine.addEventListener(new PrintSituations(System.out));
+    engine.addEventListener(
+      new ShowSituations(new CliAdapter.PrintSituationToConsole())
+    );
     
     Situation situation = Situation.builder(WHITE)
       .addPiece(new Piece(WHITE, new King()), F4)

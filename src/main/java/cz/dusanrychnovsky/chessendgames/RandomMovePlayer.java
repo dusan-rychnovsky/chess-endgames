@@ -16,12 +16,12 @@ public class RandomMovePlayer implements Player {
   
   private final Random rnd;
   private final Color color;
-  private final BufferedWriter writer;
+  private final DisplayMessage displayMessage;
   
-  public RandomMovePlayer(Random rnd, Color color, OutputStream out) {
+  public RandomMovePlayer(Random rnd, Color color, DisplayMessage displayMessage) {
     this.rnd = rnd;
     this.color = color;
-    writer = new BufferedWriter(new OutputStreamWriter(out));
+    this.displayMessage = displayMessage;
   }
   
   @Override
@@ -41,20 +41,9 @@ public class RandomMovePlayer implements Player {
     );
     
     Move result = getRandomItem(moves);
-    writeLn(color + " move: " + result);
+    displayMessage.displayMessage(color + " Picked move: " + result);
     
     return result;
-  }
-  
-  private void writeLn(String text) {
-    try {
-      writer.write(text);
-      writer.newLine();
-      writer.flush();
-    }
-    catch (IOException ex) {
-      throw new RuntimeException(ex);
-    }
   }
   
   private <T> T getRandomItem(Iterable<T> items) {

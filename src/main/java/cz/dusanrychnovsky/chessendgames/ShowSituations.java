@@ -9,26 +9,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-public class PrintSituations implements EventListener {
+public class ShowSituations implements EventListener {
   
   private final SituationPrinter printer = new SituationPrinter();
-  private final BufferedWriter writer;
+  private final DisplaySituation displaySituation;
   
-  public PrintSituations(OutputStream out) {
-    writer = new BufferedWriter(new OutputStreamWriter(out));
+  public ShowSituations(DisplaySituation displaySituation) {
+    this.displaySituation = displaySituation;
   }
   
   @Override
   public void onNewSituation(Situation situation) {
-    try {
-      writer.newLine();
-      writer.write(printer.printSituation(situation));
-      writer.newLine();
-      writer.newLine();
-      writer.flush();
-    }
-    catch (IOException ex) {
-      throw new RuntimeException(ex);
-    }
+    displaySituation.displaySituation(situation);
   }
 }

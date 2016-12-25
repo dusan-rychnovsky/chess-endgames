@@ -1,9 +1,12 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import com.google.common.collect.Iterables;
+
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.contains;
+import static com.google.common.collect.Iterables.filter;
 
 public class Situation {
 
@@ -47,14 +50,15 @@ public class Situation {
     return currentColor.getOpponentColor();
   }
   
+  public Iterable<Piece> getPieces() {
+    return pieces.keySet();
+  }
+  
   public Iterable<Piece> getPiecesOfColor(Color color) {
-    List<Piece> result = new LinkedList<>();
-    for (Piece piece : pieces.keySet()) {
-      if (color.equals(piece.getColor())) {
-        result.add(piece);
-      }
-    }
-    return result;
+    return filter(
+      getPieces(),
+      piece -> color.equals(piece.getColor())
+    );
   }
   
   // ==========================================================================

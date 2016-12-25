@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
-import cz.dusanrychnovsky.chessendgames.PrintSituations;
+import cz.dusanrychnovsky.chessendgames.CliAdapter;
+import cz.dusanrychnovsky.chessendgames.ShowSituations;
 import lombok.Value;
 import org.junit.Test;
 
@@ -44,7 +45,9 @@ public class EngineTest {
     Player blackPlayer = new ScriptedPlayer(BLACK, script);
   
     Engine engine = new Engine(whitePlayer, blackPlayer);
-    engine.addEventListener(new PrintSituations(System.out));
+    engine.addEventListener(
+      new ShowSituations(new CliAdapter.PrintSituationToConsole())
+    );
 
     CaptureLastSituation captureLastSituation = new CaptureLastSituation();
     engine.addEventListener(captureLastSituation);
