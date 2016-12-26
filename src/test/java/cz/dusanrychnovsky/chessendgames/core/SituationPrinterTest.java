@@ -2,6 +2,7 @@ package cz.dusanrychnovsky.chessendgames.core;
 
 import org.junit.Test;
 
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
 import static org.junit.Assert.*;
 
 public class SituationPrinterTest {
@@ -25,9 +26,9 @@ public class SituationPrinterTest {
       ,
       printer.printSituation(
         Situation.builder(Color.WHITE)
-          .addPiece(new Piece(Color.WHITE, new King()), Position.F2)
-          .addPiece(new Piece(Color.WHITE, new Rook()), Position.H3)
-          .addPiece(new Piece(Color.BLACK, new King()), Position.H1)
+          .addPiece(new Piece(Color.WHITE, KING), Position.F2)
+          .addPiece(new Piece(Color.WHITE, ROOK), Position.H3)
+          .addPiece(new Piece(Color.BLACK, KING), Position.H1)
           .build()
       )
     );

@@ -1,7 +1,5 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
-import cz.dusanrychnovsky.chessendgames.CommandLineInterface;
-import cz.dusanrychnovsky.chessendgames.ShowSituations;
 import lombok.Value;
 import org.junit.Test;
 
@@ -9,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 import static cz.dusanrychnovsky.chessendgames.core.Result.Status.WIN;
 import static java.util.Arrays.asList;
@@ -19,9 +18,9 @@ public class EngineTest {
   @Test
   public void runsGameUntilVictory() {
   
-    Piece whiteKing = new Piece(WHITE, new King());
-    Piece whiteRook = new Piece(WHITE, new Rook());
-    Piece blackKing = new Piece(BLACK, new King());
+    Piece whiteKing = new Piece(WHITE, KING);
+    Piece whiteRook = new Piece(WHITE, ROOK);
+    Piece blackKing = new Piece(BLACK, KING);
 
     Situation initialSituation = Situation.builder(WHITE)
       .addPiece(whiteKing, F4)
@@ -57,9 +56,9 @@ public class EngineTest {
     
     assertEquals(
       Situation.builder(BLACK)
-        .addPiece(new Piece(WHITE, new King()), F2)
-        .addPiece(new Piece(WHITE, new Rook()), H3)
-        .addPiece(new Piece(BLACK, new King()), H1)
+        .addPiece(whiteKing, F2)
+        .addPiece(whiteRook, H3)
+        .addPiece(blackKing, H1)
         .build(),
       captureLastSituation.getSituation()
     );

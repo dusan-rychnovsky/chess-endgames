@@ -9,9 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.KING;
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.ROOK;
 
 public class ChessBoard extends JPanel implements MouseClickedListener {
   
@@ -37,13 +38,13 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
     iconMapping = new HashMap<>();
     
     whiteKingIcon = loadImage("white-king.png");
-    iconMapping.put(new Piece(WHITE, new King()), whiteKingIcon);
+    iconMapping.put(new Piece(WHITE, KING), whiteKingIcon);
   
     whiteRookIcon = loadImage("white-rook.png");
-    iconMapping.put(new Piece(WHITE, new Rook()), whiteRookIcon);
+    iconMapping.put(new Piece(WHITE, ROOK), whiteRookIcon);
   
     blackKingIcon = loadImage("black-king.png");
-    iconMapping.put(new Piece(BLACK, new King()), blackKingIcon);
+    iconMapping.put(new Piece(BLACK, KING), blackKingIcon);
     
     setPreferredSize(
       new Dimension(BOARD_WIDTH, BOARD_HEIGHT)

@@ -1,11 +1,6 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.Random;
 
 import static com.google.common.collect.Iterables.filter;

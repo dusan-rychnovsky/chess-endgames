@@ -7,6 +7,7 @@ import java.util.*;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.contains;
 import static com.google.common.collect.Iterables.filter;
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.KING;
 
 public class Situation {
 
@@ -101,19 +102,19 @@ public class Situation {
       }
     }
     
-    if (piece.getType() instanceof King) {
+    if (piece.getType() == KING) {
       // TODO: refactor
-      Piece otherKing = new Piece(getOpponentColor(), new King());
+      Piece otherKing = new Piece(getOpponentColor(), KING);
       Position otherKingPos = getPosition(otherKing).get();
       
       Move moveToOtherKing = new Move(toPos, otherKingPos);
-      if (contains(new King().listAllMovesFromPosition(toPos), moveToOtherKing)) {
+      if (contains(KING.listAllMovesFromPosition(toPos), moveToOtherKing)) {
         // king is not allowed next to opponent's king
         return false;
       }
     }
     
-    if (piece.getType() instanceof King) {
+    if (piece.getType() == KING) {
       // king is not allowed to step into a check
       if (changePosition(move).isCheck()) {
         return false;
@@ -170,7 +171,7 @@ public class Situation {
       return new Draw();
     }
     if (isCheck()) {
-      Piece currKing = new Piece(currentColor, new King());
+      Piece currKing = new Piece(currentColor, KING);
       // in a king+rook vs king end-game, check cannot be deflected
       // other than by moving king away
       if (!canMoveWithPiece(currKing)) {
@@ -186,7 +187,7 @@ public class Situation {
   }
 
   private boolean isCheck() {
-    Piece currentKing = new Piece(currentColor, new King());
+    Piece currentKing = new Piece(currentColor, KING);
     for (Piece piece : getOpponentsPieces()) {
       if (canCapture(piece, currentKing)) {
         return true;
@@ -197,8 +198,8 @@ public class Situation {
   
   private boolean canCapture(Piece first, Piece second) {
     
-    if (first.getType() instanceof King &&
-        second.getType() instanceof King) {
+    if (first.getType() == KING &&
+        second.getType() == KING) {
       // TODO: is this needed?
       return false;
     }
@@ -260,7 +261,7 @@ public class Situation {
 
   private boolean isOnlyKingsRemaining() {
     for (Piece piece : pieces.keySet()) {
-      if (!(piece.getType() instanceof King)) {
+      if (!(piece.getType() == KING)) {
         return false;
       }
     }
