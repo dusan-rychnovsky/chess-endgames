@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
-import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 import static cz.dusanrychnovsky.chessendgames.core.Result.Status.WIN;
 import static java.util.Arrays.asList;
@@ -18,14 +18,10 @@ public class EngineTest {
   @Test
   public void runsGameUntilVictory() {
   
-    Piece whiteKing = new Piece(WHITE, KING);
-    Piece whiteRook = new Piece(WHITE, ROOK);
-    Piece blackKing = new Piece(BLACK, KING);
-
     Situation initialSituation = Situation.builder(WHITE)
-      .addPiece(whiteKing, F4)
-      .addPiece(whiteRook, B3)
-      .addPiece(blackKing, G2)
+      .addPiece(WHITE_KING, F4)
+      .addPiece(WHITE_ROOK, B3)
+      .addPiece(BLACK_KING, G2)
       .build();
 
     List<ScriptItem> script = asList(
@@ -56,9 +52,9 @@ public class EngineTest {
     
     assertEquals(
       Situation.builder(BLACK)
-        .addPiece(whiteKing, F2)
-        .addPiece(whiteRook, H3)
-        .addPiece(blackKing, H1)
+        .addPiece(WHITE_KING, F2)
+        .addPiece(WHITE_ROOK, H3)
+        .addPiece(BLACK_KING, H1)
         .build(),
       captureLastSituation.getSituation()
     );

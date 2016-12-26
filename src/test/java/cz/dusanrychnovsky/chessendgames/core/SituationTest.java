@@ -5,18 +5,16 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
+import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 import static cz.dusanrychnovsky.chessendgames.core.Result.Status.*;
 import static org.junit.Assert.*;
 
 public class SituationTest {
 
-  private static final Color SOME_COLOR = Color.WHITE;
+  private static final Color SOME_COLOR = WHITE;
   
-  private static final Piece WHITE_KING = new Piece(Color.WHITE, KING);
-  private static final Piece WHITE_ROOK = new Piece(Color.WHITE, ROOK);
-  private static final Piece BLACK_KING = new Piece(Color.BLACK, KING);
-
   // ==========================================================================
   // BUILDER
   // ==========================================================================
@@ -25,29 +23,29 @@ public class SituationTest {
   public void givenAValidArrangementOfPiecesAndCurrPlayerColor_buildsUpCorrespondingSituation() {
 
     Situation result = Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.F4)
-      .addPiece(WHITE_ROOK, Position.B3)
-      .addPiece(BLACK_KING, Position.G2)
+      .addPiece(WHITE_KING, F4)
+      .addPiece(WHITE_ROOK, B3)
+      .addPiece(BLACK_KING, G2)
       .build();
 
-    Assert.assertEquals(Color.WHITE, result.getCurrentColor());
-    Assert.assertEquals(Position.F4, result.getPosition(WHITE_KING).get());
-    Assert.assertEquals(Position.B3, result.getPosition(WHITE_ROOK).get());
-    Assert.assertEquals(Position.G2, result.getPosition(BLACK_KING).get());
+    Assert.assertEquals(WHITE, result.getCurrentColor());
+    Assert.assertEquals(F4, result.getPosition(WHITE_KING).get());
+    Assert.assertEquals(B3, result.getPosition(WHITE_ROOK).get());
+    Assert.assertEquals(G2, result.getPosition(BLACK_KING).get());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void aPieceAtMultiplePositions_notAllowed() {
     Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.F4)
-      .addPiece(WHITE_KING, Position.B3);
+      .addPiece(WHITE_KING, F4)
+      .addPiece(WHITE_KING, B3);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void multiplePiecesAtTheSamePosition_notAllowed() {
     Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.F4)
-      .addPiece(BLACK_KING, Position.F4);
+      .addPiece(WHITE_KING, F4)
+      .addPiece(BLACK_KING, F4);
   }
   
   // ==========================================================================
@@ -58,20 +56,20 @@ public class SituationTest {
   public void positionOccupied_returnsOccupyingPiece() {
     
     Situation situation = Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.A3)
+      .addPiece(WHITE_KING, A3)
       .build();
     
-    assertEquals(Optional.of(WHITE_KING), situation.getPiece(Position.A3));
+    assertEquals(Optional.of(WHITE_KING), situation.getPiece(A3));
   }
   
   @Test
   public void positionEmpty_returnsEmptyResult() {
   
     Situation situation = Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.A3)
+      .addPiece(WHITE_KING, A3)
       .build();
   
-    assertEquals(Optional.empty(), situation.getPiece(Position.A4));
+    assertEquals(Optional.empty(), situation.getPiece(A4));
   }
   
   // ==========================================================================
@@ -82,17 +80,17 @@ public class SituationTest {
   public void piecePresent_returnsItsPosition() {
   
     Situation situation = Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.A3)
+      .addPiece(WHITE_KING, A3)
       .build();
   
-    assertEquals(Optional.of(Position.A3), situation.getPosition(WHITE_KING));
+    assertEquals(Optional.of(A3), situation.getPosition(WHITE_KING));
   }
   
   @Test
   public void pieceNotPresent_returnsEmptyResult() {
   
     Situation situation = Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.A3)
+      .addPiece(WHITE_KING, A3)
       .build();
   
     assertEquals(
@@ -119,8 +117,8 @@ public class SituationTest {
   public void onlyKings_draw() {
 
     Situation situation = Situation.builder(SOME_COLOR)
-      .addPiece(WHITE_KING, Position.F2)
-      .addPiece(BLACK_KING, Position.H1)
+      .addPiece(WHITE_KING, F2)
+      .addPiece(BLACK_KING, H1)
       .build();
 
     assertEquals(DRAW, situation.getResult().getStatus());
@@ -139,10 +137,10 @@ public class SituationTest {
   @Test
   public void stalemate_draw() {
 
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(WHITE_KING, Position.F2)
-      .addPiece(WHITE_ROOK, Position.G2)
-      .addPiece(BLACK_KING, Position.H1)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(WHITE_KING, F2)
+      .addPiece(WHITE_ROOK, G2)
+      .addPiece(BLACK_KING, H1)
       .build();
 
     assertEquals(DRAW, situation.getResult().getStatus());
@@ -161,15 +159,15 @@ public class SituationTest {
   @Test
   public void checkmate_win() {
 
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(WHITE_KING, Position.F2)
-      .addPiece(WHITE_ROOK, Position.H3)
-      .addPiece(BLACK_KING, Position.H1)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(WHITE_KING, F2)
+      .addPiece(WHITE_ROOK, H3)
+      .addPiece(BLACK_KING, H1)
       .build();
 
     Result result = situation.getResult();
     assertEquals(WIN, result.getStatus());
-    Assert.assertEquals(Color.WHITE, ((Win) result).getWinnerColor());
+    Assert.assertEquals(WHITE, ((Win) result).getWinnerColor());
   }
 
   // 8 | . . . . . . . .
@@ -185,10 +183,10 @@ public class SituationTest {
   @Test
   public void inProgress() {
 
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(WHITE_KING, Position.F2)
-      .addPiece(WHITE_ROOK, Position.G3)
-      .addPiece(BLACK_KING, Position.H1)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(WHITE_KING, F2)
+      .addPiece(WHITE_ROOK, G3)
+      .addPiece(BLACK_KING, H1)
       .build();
 
     assertEquals(IN_PROGRESS, situation.getResult().getStatus());
@@ -211,13 +209,13 @@ public class SituationTest {
   @Test
   public void unoccupiedFromPosition_notValid() {
     
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(WHITE_KING, Position.C6)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.D3)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, D3)
       .build();
     
-    assertFalse(situation.isValidMove(new Move(Position.C2, Position.F2)));
+    assertFalse(situation.isValidMove(new Move(C2, F2)));
   }
   
   // 8 | . . . . . . . .
@@ -233,13 +231,13 @@ public class SituationTest {
   @Test
   public void notThatPlayersTurn_notValid() {
     
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(WHITE_KING, Position.C6)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.D4)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, D4)
       .build();
     
-    assertFalse(situation.isValidMove(new Move(Position.B4, Position.B7)));
+    assertFalse(situation.isValidMove(new Move(B4, B7)));
   }
   
   // 8 | . . . . . . . .
@@ -255,13 +253,13 @@ public class SituationTest {
   @Test
   public void notAValidMoveForThatPiece_notValid() {
     
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.C6)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.D4)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, D4)
       .build();
     
-    assertFalse(situation.isValidMove(new Move(Position.B4, Position.A7)));
+    assertFalse(situation.isValidMove(new Move(B4, A7)));
   }
   
   // 8 | . . . . . . . .
@@ -277,13 +275,13 @@ public class SituationTest {
   @Test
   public void moveOnAFreeSpot_valid() {
     
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.C6)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.D4)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, D4)
       .build();
     
-    assertTrue(situation.isValidMove(new Move(Position.B4, Position.B7)));
+    assertTrue(situation.isValidMove(new Move(B4, B7)));
   }
   
   // 8 | . . . . . . . .
@@ -299,13 +297,13 @@ public class SituationTest {
   @Test
   public void moveAcrossAPiece_notValid() {
   
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.C6)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.D4)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, D4)
       .build();
   
-    assertFalse(situation.isValidMove(new Move(Position.B4, Position.F4)));
+    assertFalse(situation.isValidMove(new Move(B4, F4)));
   }
   
   // 8 | . . . . . . . .
@@ -321,13 +319,13 @@ public class SituationTest {
   @Test
   public void moveOntoOwnPiece_notValid() {
   
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.D4)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.C6)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, D4)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, C6)
       .build();
   
-    assertFalse(situation.isValidMove(new Move(Position.B4, Position.D4)));
+    assertFalse(situation.isValidMove(new Move(B4, D4)));
   }
   
   // 8 | . . . . . . . .
@@ -343,13 +341,13 @@ public class SituationTest {
   @Test
   public void moveOntoOpponentsPiece_valid() {
   
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.C6)
-      .addPiece(WHITE_ROOK, Position.B4)
-      .addPiece(BLACK_KING, Position.D4)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_ROOK, B4)
+      .addPiece(BLACK_KING, D4)
       .build();
   
-    assertTrue(situation.isValidMove(new Move(Position.B4, Position.D4)));
+    assertTrue(situation.isValidMove(new Move(B4, D4)));
   }
   
   // 8 | . . . . . . . .
@@ -365,12 +363,12 @@ public class SituationTest {
   @Test
   public void moveWithKingNearOpponentsKing_notValid() {
   
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.B4)
-      .addPiece(BLACK_KING, Position.D4)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, B4)
+      .addPiece(BLACK_KING, D4)
       .build();
   
-    assertFalse(situation.isValidMove(new Move(Position.B4, Position.C4)));
+    assertFalse(situation.isValidMove(new Move(B4, C4)));
   }
   
   // 8 | . . . . . . . .
@@ -386,12 +384,12 @@ public class SituationTest {
   @Test
   public void moveWithKingNotNearOpponentsKing_valid() {
     
-    Situation situation = Situation.builder(Color.WHITE)
-      .addPiece(WHITE_KING, Position.B4)
-      .addPiece(BLACK_KING, Position.E4)
+    Situation situation = Situation.builder(WHITE)
+      .addPiece(WHITE_KING, B4)
+      .addPiece(BLACK_KING, E4)
       .build();
     
-    assertTrue(situation.isValidMove(new Move(Position.B4, Position.C4)));
+    assertTrue(situation.isValidMove(new Move(B4, C4)));
   }
   
   // 8 | . . . . . . . .
@@ -407,13 +405,13 @@ public class SituationTest {
   @Test
   public void moveWithKingIntoCheck_notValid() {
     
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(BLACK_KING, Position.D2)
-      .addPiece(WHITE_KING, Position.C5)
-      .addPiece(WHITE_ROOK, Position.E5)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, D2)
+      .addPiece(WHITE_KING, C5)
+      .addPiece(WHITE_ROOK, E5)
       .build();
   
-    assertFalse(situation.isValidMove(new Move(Position.D2, Position.E2)));
+    assertFalse(situation.isValidMove(new Move(D2, E2)));
   }
   
   // ==========================================================================
@@ -433,13 +431,13 @@ public class SituationTest {
   @Test(expected = IllegalArgumentException.class)
   public void cannotApplyAnInvalidMove() {
     
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(BLACK_KING, Position.D2)
-      .addPiece(WHITE_KING, Position.C5)
-      .addPiece(WHITE_ROOK, Position.E5)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, D2)
+      .addPiece(WHITE_KING, C5)
+      .addPiece(WHITE_ROOK, E5)
       .build();
   
-    situation.applyMove(new Move(Position.D2, Position.E2));
+    situation.applyMove(new Move(D2, E2));
   }
   
   
@@ -456,20 +454,20 @@ public class SituationTest {
   @Test
   public void canApplyAValidMove() {
     
-    Situation fromSituation = Situation.builder(Color.BLACK)
-      .addPiece(BLACK_KING, Position.D2)
-      .addPiece(WHITE_KING, Position.C5)
-      .addPiece(WHITE_ROOK, Position.D5)
+    Situation fromSituation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, D2)
+      .addPiece(WHITE_KING, C5)
+      .addPiece(WHITE_ROOK, D5)
       .build();
   
-    Situation toSituation = fromSituation.applyMove(new Move(Position.D2, Position.E2));
+    Situation toSituation = fromSituation.applyMove(new Move(D2, E2));
     
     assertEquals(
       toSituation,
-      Situation.builder(Color.WHITE)
-        .addPiece(BLACK_KING, Position.E2)
-        .addPiece(WHITE_KING, Position.C5)
-        .addPiece(WHITE_ROOK, Position.D5)
+      Situation.builder(WHITE)
+        .addPiece(BLACK_KING, E2)
+        .addPiece(WHITE_KING, C5)
+        .addPiece(WHITE_ROOK, D5)
         .build()
     );
   }
@@ -487,19 +485,19 @@ public class SituationTest {
   @Test
   public void canApplyAValidCapture() {
   
-    Situation fromSituation = Situation.builder(Color.BLACK)
-      .addPiece(BLACK_KING, Position.D2)
-      .addPiece(WHITE_KING, Position.C5)
-      .addPiece(WHITE_ROOK, Position.C3)
+    Situation fromSituation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, D2)
+      .addPiece(WHITE_KING, C5)
+      .addPiece(WHITE_ROOK, C3)
       .build();
   
-    Situation toSituation = fromSituation.applyMove(new Move(Position.D2, Position.C3));
+    Situation toSituation = fromSituation.applyMove(new Move(D2, C3));
   
     assertEquals(
       toSituation,
-      Situation.builder(Color.WHITE)
-        .addPiece(BLACK_KING, Position.C3)
-        .addPiece(WHITE_KING, Position.C5)
+      Situation.builder(WHITE)
+        .addPiece(BLACK_KING, C3)
+        .addPiece(WHITE_KING, C5)
         .build()
     );
   }
@@ -517,12 +515,12 @@ public class SituationTest {
   @Test(expected = IllegalArgumentException.class)
   public void cannotApplyAnInvalidCapture() {
   
-    Situation situation = Situation.builder(Color.BLACK)
-      .addPiece(BLACK_KING, Position.D2)
-      .addPiece(WHITE_KING, Position.C4)
-      .addPiece(WHITE_ROOK, Position.C3)
+    Situation situation = Situation.builder(BLACK)
+      .addPiece(BLACK_KING, D2)
+      .addPiece(WHITE_KING, C4)
+      .addPiece(WHITE_ROOK, C3)
       .build();
   
-    situation.applyMove(new Move(Position.D2, Position.C3));
+    situation.applyMove(new Move(D2, C3));
   }
 }

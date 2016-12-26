@@ -104,7 +104,7 @@ public class Situation {
     
     if (piece.getType() == KING) {
       // TODO: refactor
-      Piece otherKing = new Piece(getOpponentColor(), KING);
+      Piece otherKing = Piece.get(getOpponentColor(), KING);
       Position otherKingPos = getPosition(otherKing).get();
       
       Move moveToOtherKing = new Move(toPos, otherKingPos);
@@ -171,7 +171,7 @@ public class Situation {
       return new Draw();
     }
     if (isCheck()) {
-      Piece currKing = new Piece(currentColor, KING);
+      Piece currKing = Piece.get(currentColor, KING);
       // in a king+rook vs king end-game, check cannot be deflected
       // other than by moving king away
       if (!canMoveWithPiece(currKing)) {
@@ -187,7 +187,7 @@ public class Situation {
   }
 
   private boolean isCheck() {
-    Piece currentKing = new Piece(currentColor, KING);
+    Piece currentKing = Piece.get(currentColor, KING);
     for (Piece piece : getOpponentsPieces()) {
       if (canCapture(piece, currentKing)) {
         return true;
