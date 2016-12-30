@@ -278,7 +278,7 @@ public class Situation {
    * move, was it currently their turn.
    */
   private boolean isCheck() {
-    Position kingsPos = getPosition(getCurrentPlayersKing()).get();
+    Position kingsPos = getCurrentPlayersKingPosition();
     Situation opponentsView = getOpponentsView();
 
     return stream(getOpponentsPieces())
