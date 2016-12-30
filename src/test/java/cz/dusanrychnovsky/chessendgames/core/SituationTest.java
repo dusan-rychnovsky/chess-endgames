@@ -1,10 +1,13 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import com.google.common.collect.Iterables;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Optional;
 
+import static com.google.common.collect.Iterables.contains;
+import static com.google.common.collect.Iterables.size;
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
@@ -115,7 +118,70 @@ public class SituationTest {
   
     assertEquals(Optional.empty(), situation.getPosition(WHITE_ROOK));
   }
-  
+
+  // ==========================================================================
+  // GET CURRENT PLAYER'S PIECES
+  // ==========================================================================
+
+  @Test
+  public void selectsCurrentPlayersPieces() {
+
+    Situation situation = Situation.builder(WHITE)
+        .addPiece(WHITE_KING, F4)
+        .addPiece(WHITE_ROOK, B3)
+        .addPiece(BLACK_KING, G2)
+        .build();
+
+    Iterable<Piece> pieces = situation.getCurrentPlayersPieces();
+    assertEquals(2, size(pieces));
+    assertTrue(contains(pieces, WHITE_KING));
+    assertTrue(contains(pieces, WHITE_ROOK));
+  }
+
+  @Test
+  public void selectsCurrentPlayersKing() {
+
+    Situation situation = Situation.builder(WHITE)
+        .addPiece(WHITE_KING, F4)
+        .addPiece(WHITE_ROOK, B3)
+        .addPiece(BLACK_KING, G2)
+        .build();
+
+    assertEquals(WHITE_KING, situation.getCurrentPlayersKing());
+    assertEquals(F4, situation.getCurrentPlayersKingPosition());
+  }
+
+  // ==========================================================================
+  // GET OPPONENT'S PIECES
+  // ==========================================================================
+
+  @Test
+  public void selectsOpponentsPieces() {
+
+    Situation situation = Situation.builder(WHITE)
+        .addPiece(WHITE_KING, F4)
+        .addPiece(WHITE_ROOK, B3)
+        .addPiece(BLACK_KING, G2)
+        .build();
+
+    Iterable<Piece> pieces = situation.getOpponentsPieces();
+    assertEquals(1, size(pieces));
+    assertTrue(contains(pieces, BLACK_KING));
+  }
+
+  @Test
+  public void selectsOpponentsKing() {
+
+    Situation situation = Situation.builder(WHITE)
+        .addPiece(WHITE_KING, F4)
+        .addPiece(WHITE_ROOK, B3)
+        .addPiece(BLACK_KING, G2)
+        .build();
+
+    assertEquals(BLACK_KING, situation.getOpponentsKing());
+    assertEquals(G2, situation.getOpponentsKingPosition());
+  }
+
   // ==========================================================================
   // GET RESULT
   // ==========================================================================
