@@ -1,7 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
 import com.google.common.collect.AbstractIterator;
-  
+
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -21,10 +21,10 @@ public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T
     this.to = to;
     
     if (from.compareTo(to) <= 0) {
-      navigator = new StraightNavigator();
+      navigator = new StraightNavigator<>();
     }
     else {
-      navigator = new ReversedNavigator();
+      navigator = new ReversedNavigator<>();
     }
   }
   
