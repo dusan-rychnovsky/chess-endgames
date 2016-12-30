@@ -5,7 +5,7 @@ import com.google.common.collect.AbstractIterator;
 import java.util.Iterator;
 import java.util.Optional;
 
-import static cz.dusanrychnovsky.chessendgames.core.Assertions.check;
+import static cz.dusanrychnovsky.utils.Assertions.check;
 
 public class PositionRange implements Iterable<Position> {
   

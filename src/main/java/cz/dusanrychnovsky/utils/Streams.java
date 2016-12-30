@@ -1,4 +1,4 @@
-package cz.dusanrychnovsky.chessendgames.core;
+package cz.dusanrychnovsky.utils;
 
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;

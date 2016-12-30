@@ -1,11 +1,11 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
 import com.google.common.collect.AbstractIterator;
-
+  
 import java.util.Iterator;
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static cz.dusanrychnovsky.utils.Assertions.check;
 
 public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T> {
 
@@ -45,7 +45,7 @@ public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T
         
         if (!current.get().equals(to)) {
           current = navigator.getNext(current.get());
-          Assertions.check(current.isPresent());
+          check(current.isPresent());
         }
         else {
           current = Optional.empty();

@@ -10,7 +10,7 @@ import static com.google.common.collect.Iterables.contains;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.BLACK_KING;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_KING;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.KING;
-import static cz.dusanrychnovsky.chessendgames.core.Streams.stream;
+import static cz.dusanrychnovsky.utils.Streams.stream;
 import static java.util.stream.Collectors.toList;
 
 public class Situation {

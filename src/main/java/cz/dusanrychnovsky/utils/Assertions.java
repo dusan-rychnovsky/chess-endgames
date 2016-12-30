@@ -1,4 +1,4 @@
-package cz.dusanrychnovsky.chessendgames.core;
+package cz.dusanrychnovsky.utils;
 
 public class Assertions {
   
