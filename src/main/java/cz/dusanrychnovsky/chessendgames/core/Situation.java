@@ -1,25 +1,23 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import com.google.common.base.Preconditions;
+
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.contains;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.BLACK_KING;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_KING;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.KING;
 import static cz.dusanrychnovsky.chessendgames.core.Streams.stream;
 import static java.util.stream.Collectors.toList;
 
 public class Situation {
 
-  // TODO: assert that there always are two kings
-
   private final Map<Piece, Position> pieces;
   private final Color currentColor;
 
-  public Situation(Situation other, Color color) {
-    this.currentColor = color;
-    this.pieces = new HashMap<>(other.pieces);
-  }
-  
   private Situation(Color currentColor, Map<Piece, Position> pieces) {
     this.currentColor = currentColor;
     this.pieces = pieces;
@@ -201,16 +199,28 @@ public class Situation {
    *  </li>
    * </ul>
    *
-   * Throws an {@link IllegalArgumentException} if given an invalid move.
+   * Throws an {@link IllegalArgumentException} if given an invalid move or
+   * if the captured piece is a king.
    */
   public Situation applyMove(Move move) {
     checkArgument(isValidMove(move));
+    checkArgument(!isCaptureOfKing(move));
 
     Builder builder = Situation.builder(getOpponentsColor());
     getUpdatedPieces(move).entrySet().forEach(entry ->
       builder.addPiece(entry.getKey(), entry.getValue())
     );
     return builder.build();
+  }
+
+  private boolean isCaptureOfKing(Move move) {
+    Position toPos = move.getTo();
+    if (getPiece(toPos).isPresent()) {
+      if (getPiece(toPos).get().getType() == KING) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private Map<Piece, Position> getUpdatedPieces(Move move) {
@@ -277,7 +287,7 @@ public class Situation {
   }
 
   private Situation getOpponentsView() {
-    return new Situation(this, getOpponentsColor());
+    return new Situation(getOpponentsColor(), pieces);
   }
 
   /**
@@ -351,6 +361,9 @@ public class Situation {
     }
 
     public Situation build() {
+      checkState(pieces.containsKey(WHITE_KING), WHITE_KING + " not registered.");
+      checkState(pieces.containsKey(BLACK_KING), BLACK_KING + " not registered.");
+
       return new Situation(currentColor, pieces);
     }
   }

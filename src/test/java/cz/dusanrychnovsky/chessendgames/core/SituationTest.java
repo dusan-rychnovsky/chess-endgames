@@ -47,7 +47,23 @@ public class SituationTest {
       .addPiece(WHITE_KING, F4)
       .addPiece(BLACK_KING, F4);
   }
-  
+
+  @Test(expected = IllegalStateException.class)
+  public void situationWithoutBlackKing_notAllowed() {
+    Situation.builder(SOME_COLOR)
+      .addPiece(WHITE_KING, F4)
+      .addPiece(WHITE_ROOK, F5)
+      .build();
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void situationWithoutWhiteKing_notAllowed() {
+    Situation.builder(SOME_COLOR)
+      .addPiece(BLACK_KING, F4)
+      .addPiece(WHITE_ROOK, F7)
+      .build();
+  }
+
   // ==========================================================================
   // GET PIECE AT POSITION
   // ==========================================================================
@@ -57,6 +73,7 @@ public class SituationTest {
     
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
+      .addPiece(BLACK_KING, A1)
       .build();
     
     assertEquals(WHITE_KING, situation.getPiece(A3).get());
@@ -67,6 +84,7 @@ public class SituationTest {
   
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
+      .addPiece(BLACK_KING, A1)
       .build();
   
     assertEquals(Optional.empty(), situation.getPiece(A4));
@@ -81,6 +99,7 @@ public class SituationTest {
   
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
+      .addPiece(BLACK_KING, A1)
       .build();
   
     assertEquals(A3, situation.getPosition(WHITE_KING).get());
@@ -91,9 +110,10 @@ public class SituationTest {
   
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
+      .addPiece(BLACK_KING, A1)
       .build();
   
-    assertEquals(Optional.empty(), situation.getPosition(BLACK_KING));
+    assertEquals(Optional.empty(), situation.getPosition(WHITE_ROOK));
   }
   
   // ==========================================================================
