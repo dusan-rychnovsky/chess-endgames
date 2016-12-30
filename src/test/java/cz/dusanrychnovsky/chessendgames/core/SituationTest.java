@@ -22,7 +22,7 @@ public class SituationTest {
   @Test
   public void givenAValidArrangementOfPiecesAndCurrPlayerColor_buildsUpCorrespondingSituation() {
 
-    Situation result = Situation.builder(SOME_COLOR)
+    Situation result = Situation.builder(WHITE)
       .addPiece(WHITE_KING, F4)
       .addPiece(WHITE_ROOK, B3)
       .addPiece(BLACK_KING, G2)
@@ -59,7 +59,7 @@ public class SituationTest {
       .addPiece(WHITE_KING, A3)
       .build();
     
-    assertEquals(Optional.of(WHITE_KING), situation.getPiece(A3));
+    assertEquals(WHITE_KING, situation.getPiece(A3).get());
   }
   
   @Test
@@ -83,7 +83,7 @@ public class SituationTest {
       .addPiece(WHITE_KING, A3)
       .build();
   
-    assertEquals(Optional.of(A3), situation.getPosition(WHITE_KING));
+    assertEquals(A3, situation.getPosition(WHITE_KING).get());
   }
   
   @Test
@@ -93,10 +93,7 @@ public class SituationTest {
       .addPiece(WHITE_KING, A3)
       .build();
   
-    assertEquals(
-      Optional.empty(),
-      situation.getPosition(BLACK_KING)
-    );
+    assertEquals(Optional.empty(), situation.getPosition(BLACK_KING));
   }
   
   // ==========================================================================

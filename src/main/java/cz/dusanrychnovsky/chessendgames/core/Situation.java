@@ -1,15 +1,16 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
-import com.google.common.collect.Iterables;
-
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.contains;
-import static com.google.common.collect.Iterables.filter;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.KING;
+import static cz.dusanrychnovsky.chessendgames.core.Streams.stream;
+import static java.util.stream.Collectors.toList;
 
 public class Situation {
+
+  // TODO: assert that there always are two kings
 
   private final Map<Piece, Position> pieces;
   private final Color currentColor;
@@ -23,7 +24,25 @@ public class Situation {
     this.currentColor = currentColor;
     this.pieces = pieces;
   }
-  
+
+  /**
+   * Returns current player's color.
+   */
+  public Color getCurrentColor() {
+    return currentColor;
+  }
+
+  /**
+   * Returns current opponent's color.
+   */
+  public Color getOpponentsColor() {
+    return currentColor.getOpponentColor();
+  }
+
+  /**
+   * Returns current position of the given piece, if that piece is active in
+   * the represented situation, or otherwise an empty result.
+   */
   public Optional<Position> getPosition(Piece piece) {
     Position position = pieces.get(piece);
     if (position != null) {
@@ -34,38 +53,72 @@ public class Situation {
     }
   }
 
+  /**
+   * Returns the piece currently occupying the given position, if any, or
+   * otherwise an empty result.
+   */
   public Optional<Piece> getPiece(Position position) {
-    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
-      if (entry.getValue().equals(position)) {
-        return Optional.of(entry.getKey());
-      }
-    }
-    return Optional.empty();
+    return pieces.entrySet().stream()
+      .filter(entry -> entry.getValue().equals(position))
+      .map(Map.Entry::getKey)
+      .findFirst();
   }
-  
-  public Color getCurrentColor() {
-    return currentColor;
-  }
-  
-  public Color getOpponentColor() {
-    return currentColor.getOpponentColor();
-  }
-  
+
+  /**
+   * Returns all pieces currently active in the represented situation.
+   */
   public Iterable<Piece> getPieces() {
     return pieces.keySet();
   }
-  
+
+  /**
+   * Returns all pieces of the given color which are currently active in the
+   * represented situation.
+   */
   public Iterable<Piece> getPiecesOfColor(Color color) {
-    return filter(
-      getPieces(),
-      piece -> color.equals(piece.getColor())
-    );
+    return stream(getPieces())
+      .filter(piece -> color.equals(piece.getColor()))
+      .collect(toList());
+  }
+
+  /**
+   * Returns all pieces which belong to the current player.
+   */
+  public Iterable<Piece> getCurrentPlayersPieces() {
+    return getPiecesOfColor(getCurrentColor());
+  }
+
+  /**
+   * Returns all pieces which belong to the current opponent.
+   */
+  public Iterable<Piece> getOpponentsPieces() {
+    return getPiecesOfColor(getOpponentsColor());
+  }
+
+  public Piece getCurrentPlayersKing() {
+    return Piece.get(getCurrentColor(), KING);
+  }
+
+  public Position getCurrentPlayersKingPosition() {
+    return getPosition(getCurrentPlayersKing()).get();
+  }
+
+  public Piece getOpponentsKing() {
+    return Piece.get(getOpponentsColor(), KING);
+  }
+
+  public Position getOpponentsKingPosition() {
+    return getPosition(getOpponentsKing()).get();
   }
   
   // ==========================================================================
-  // APPLY MOVE
+  // IS VALID MOVE
   // ==========================================================================
 
+  /**
+   * Returns true if and only if the given move is valid in the represented
+   * situation.
+   */
   public boolean isValidMove(Move move) {
     
     Position fromPos = move.getFrom();
@@ -78,7 +131,7 @@ public class Situation {
     
     Piece piece = getPiece(fromPos).get();
 
-    if (!currentColor.equals(piece.getColor())) {
+    if (!getCurrentColor().equals(piece.getColor())) {
       // not that player's turn
       return false;
     }
@@ -90,24 +143,20 @@ public class Situation {
     
     if (pieces.containsValue(toPos)) {
       // can capture only opponent's pieces
-      if (currentColor.equals(getPiece(toPos).get().getColor())) {
+      if (getCurrentColor().equals(getPiece(toPos).get().getColor())) {
         return false;
       }
     }
     
     for (Position pos : new ExcludingRange(fromPos, toPos)) {
-      if (pieces.containsValue(pos)) {
+      if (getPiece(pos).isPresent()) {
         // cannot move across a piece
         return false;
       }
     }
     
     if (piece.getType() == KING) {
-      // TODO: refactor
-      Piece otherKing = Piece.get(getOpponentColor(), KING);
-      Position otherKingPos = getPosition(otherKing).get();
-      
-      Move moveToOtherKing = new Move(toPos, otherKingPos);
+      Move moveToOtherKing = new Move(toPos, getOpponentsKingPosition());
       if (contains(KING.listAllMovesFromPosition(toPos), moveToOtherKing)) {
         // king is not allowed next to opponent's king
         return false;
@@ -116,7 +165,7 @@ public class Situation {
     
     if (piece.getType() == KING) {
       // king is not allowed to step into a check
-      if (changePosition(move).isCheck()) {
+      if (relocatePiece(move).isCheck()) {
         return false;
       }
     }
@@ -124,42 +173,67 @@ public class Situation {
     return true;
   }
   
-  private Situation changePosition(Move move) {
-    Builder builder = Situation.builder(currentColor);
-    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
-      if (entry.getValue().equals(move.getTo())) {
-        continue;
-      }
-      if (entry.getValue().equals(move.getFrom())) {
-        builder.addPiece(entry.getKey(), move.getTo());
-      }
-      else {
-        builder.addPiece(entry.getKey(), entry.getValue());
-      }
-    }
+  private Situation relocatePiece(Move move) {
+    Builder builder = Situation.builder(getCurrentColor());
+    getUpdatedPieces(move).entrySet().forEach(entry ->
+      builder.addPiece(entry.getKey(), entry.getValue())
+    );
     return builder.build();
   }
-  
+
+  // ==========================================================================
+  // APPLY MOVE
+  // ==========================================================================
+
+  /**
+   * Applies the given move on the given situation and returns the result as
+   * a new situation.
+   *
+   * Applying a move means:
+   *
+   * <ul>
+   *  <li>
+   *    updating the location of the given piece (and, potentially, capturing
+   *    the piece previously located there),
+   *  </li>
+   *  <li>
+   *    switching the current player's color to indicate a change of turn.
+   *  </li>
+   * </ul>
+   *
+   * Throws an {@link IllegalArgumentException} if given an invalid move.
+   */
   public Situation applyMove(Move move) {
     checkArgument(isValidMove(move));
-    
-    Builder builder = Situation.builder(getOpponentColor());
-    for (Map.Entry<Piece, Position> entry : pieces.entrySet()) {
-      if (move.getTo().equals(entry.getValue())) {
+
+    Builder builder = Situation.builder(getOpponentsColor());
+    getUpdatedPieces(move).entrySet().forEach(entry ->
+      builder.addPiece(entry.getKey(), entry.getValue())
+    );
+    return builder.build();
+  }
+
+  private Map<Piece, Position> getUpdatedPieces(Move move) {
+    Position fromPos = move.getFrom();
+    Position toPos = move.getTo();
+
+    Map<Piece, Position> result = new HashMap<>();
+    pieces.entrySet().forEach(entry -> {
+      if (toPos.equals(entry.getValue())) {
         // remove captured piece
-        continue;
+        return;
       }
-      if (move.getFrom().equals(entry.getValue())) {
+      if (fromPos.equals(entry.getValue())) {
         // move the moved piece
-        builder.addPiece(entry.getKey(), move.getTo());
+        result.put(entry.getKey(), toPos);
       }
       else {
         // retain other pieces
-        builder.addPiece(entry.getKey(), entry.getValue());
+        result.put(entry.getKey(), entry.getValue());
       }
-    }
-    
-    return builder.build();
+    });
+
+    return result;
   }
 
   // ==========================================================================
@@ -171,11 +245,10 @@ public class Situation {
       return new Draw();
     }
     if (isCheck()) {
-      Piece currKing = Piece.get(currentColor, KING);
       // in a king+rook vs king end-game, check cannot be deflected
-      // other than by moving king away
-      if (!canMoveWithPiece(currKing)) {
-        return new Win(currentColor.getOpponentColor());
+      // other than by moving the king away
+      if (!canMoveWithPiece(getCurrentPlayersKing())) {
+        return new Win(getOpponentsColor());
       }
     }
     else {
@@ -186,86 +259,53 @@ public class Situation {
     return new InProgress();
   }
 
+  /**
+   * Returns true if and only if the represented situation is a check against
+   * the current player's king.
+   *
+   * A situation is a check against a player's king, if and only if there exists
+   * a piece among their opponent's pieces that could capture that king as a valid
+   * move, was it currently their turn.
+   */
   private boolean isCheck() {
-    Piece currentKing = Piece.get(currentColor, KING);
-    for (Piece piece : getOpponentsPieces()) {
-      if (canCapture(piece, currentKing)) {
-        return true;
-      }
-    }
-    return false;
+    Position kingsPos = getPosition(getCurrentPlayersKing()).get();
+    Situation opponentsView = getOpponentsView();
+
+    return stream(getOpponentsPieces())
+      .map(piece -> new Move(getPosition(piece).get(), kingsPos))
+      .anyMatch(opponentsView::isValidMove);
   }
-  
-  private boolean canCapture(Piece first, Piece second) {
-    
-    if (first.getType() == KING &&
-        second.getType() == KING) {
-      // TODO: is this needed?
-      return false;
-    }
-    
-    Situation opponentsView = new Situation(this, getOpponentColor());
-    Position fromPos = getPosition(first).get();
-    Position toPos = getPosition(second).get();
-    for (Move move : first.getType().listAllMovesFromPosition(fromPos)) {
-      if (toPos.equals(move.getTo()) && opponentsView.isValidMove(move)) {
-        return true;
-      }
-    }
-    return false;
+
+  private Situation getOpponentsView() {
+    return new Situation(this, getOpponentsColor());
   }
-  
-  private Iterable<Piece> getOpponentsPieces() {
-    List<Piece> result = new LinkedList<>();
-    for (Piece piece : pieces.keySet()) {
-      if (getOpponentColor().equals(piece.getColor())) {
-        result.add(piece);
-      }
-    }
-    return result;
-  }
-  
+
+  /**
+   * Returns true if and only if there is at least one valid move for the current
+   * player in the represented situation (with any of their remaining pieces).
+   */
   private boolean canMove() {
-    for (Piece piece : getCurrentPlayersPieces()) {
-      if (canMoveWithPiece(piece)) {
-        return true;
-      }
-    }
-    return false;
+    return stream(getCurrentPlayersPieces()).anyMatch(this::canMoveWithPiece);
   }
 
-  private Iterable<Piece> getCurrentPlayersPieces() {
-    List<Piece> result = new LinkedList<>();
-    for (Piece piece : pieces.keySet()) {
-      if (currentColor.equals(piece.getColor())) {
-        result.add(piece);
-      }
-    }
-    return result;
-  }
-
+  /**
+   * Returns true if and only if there exists a valid move with the given piece
+   * in the represented situation.
+   */
   private boolean canMoveWithPiece(Piece piece) {
     checkArgument(pieces.containsKey(piece));
 
     Position fromPos = pieces.get(piece);
-    Iterable<Move> moves = piece.getType().listAllMovesFromPosition(fromPos);
+    Iterable<Move> allMoves = piece.getType().listAllMovesFromPosition(fromPos);
 
-    for (Move move: moves) {
-      if (isValidMove(move)) {
-        return true;
-      }
-    }
-
-    return false;
+    return stream(allMoves).anyMatch(this::isValidMove);
   }
 
+  /**
+   * Returns true if and only if the only active pieces are kings.
+   */
   private boolean isOnlyKingsRemaining() {
-    for (Piece piece : pieces.keySet()) {
-      if (!(piece.getType() == KING)) {
-        return false;
-      }
-    }
-    return true;
+    return stream(getPieces()).allMatch(piece -> piece.getType() == KING);
   }
   
   @Override

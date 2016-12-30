@@ -9,7 +9,8 @@ import static cz.dusanrychnovsky.chessendgames.core.Row.R1;
 import static cz.dusanrychnovsky.chessendgames.core.Row.R8;
 
 public enum PieceType {
-  
+
+  // TODO: maybe return just toPos, instead of a whole Move?
   KING() {
     @Override
     public Iterable<Move> listAllMovesFromPosition(Position pos) {
