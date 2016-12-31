@@ -42,4 +42,10 @@ public enum Piece implements Serializable {
   public PieceType getType() {
     return type;
   }
+
+
+  @Override
+  public String toString() {
+    return super.toString().replace("_", " ");
+  }
 }
