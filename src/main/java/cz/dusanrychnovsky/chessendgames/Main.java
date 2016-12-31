@@ -15,7 +15,7 @@ import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 public class Main {
   
   public static void main(String[] args) {
-    Database db = Database.readFrom(loadFile("moves.db"));
+    Database db = Database.readFrom(loadFile("players/moves.db"));
     UserInterface ui = new GraphicalUserInterface();
     
     ui.displayMessage("CHESS ENDGAMES v. 0.1");
