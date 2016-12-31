@@ -4,6 +4,7 @@ import cz.dusanrychnovsky.chessendgames.UserInterface;
 import cz.dusanrychnovsky.chessendgames.core.Color;
 import cz.dusanrychnovsky.chessendgames.core.Move;
 import cz.dusanrychnovsky.chessendgames.core.Position;
+import cz.dusanrychnovsky.chessendgames.core.Result;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
 
 import javax.swing.*;
@@ -20,15 +21,22 @@ public class GraphicalUserInterface implements UserInterface {
       mainWindow.open();
     });
   }
-  
-  
+
   @Override
   public void displayMessage(String message) {
-    runOnUiThread(() -> {
-      mainWindow.showMessage(message);
-    });
+    runOnUiThread(() -> mainWindow.showMessage(message));
   }
-  
+
+  @Override
+  public void displayChosenMove(Color color, Move move) {
+    runOnUiThread(() -> mainWindow.showMove(color, move));
+  }
+
+  @Override
+  public void displayResult(Result result) {
+    runOnUiThread(() -> mainWindow.showResult(result));
+  }
+
   @Override
   public void displaySituation(Situation situation) {
     runOnUiThread(() -> {

@@ -32,6 +32,8 @@ public class RandomMovePlayer implements Player {
   public Move pickMove(Situation situation) {
     checkArgument(getColor() == situation.getCurrentColor());
 
+    sleep(DISPLAY_PAUSE_MS);
+
     Piece piece = getRandomItem(situation.getPiecesOfColor(color));
     Position fromPos = situation.getPosition(piece).get();
     
@@ -41,8 +43,7 @@ public class RandomMovePlayer implements Player {
     );
     
     Move result = getRandomItem(moves);
-    ui.displayMessage(color + " Picked move: " + result);
-    sleep(DISPLAY_PAUSE_MS);
+    ui.displayChosenMove(color, result);
 
     return result;
   }

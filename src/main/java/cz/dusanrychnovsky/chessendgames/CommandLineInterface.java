@@ -18,7 +18,17 @@ public class CommandLineInterface implements UserInterface {
   public void displayMessage(String message) {
     writeLine(message);
   }
-  
+
+  @Override
+  public void displayChosenMove(Color color, Move move) {
+    writeLine(color + " " + move);
+  }
+
+  @Override
+  public void displayResult(Result result) {
+    writeLine("RESULT: " + result);
+  }
+
   @Override
   public void displaySituation(Situation situation) {
     newLine();

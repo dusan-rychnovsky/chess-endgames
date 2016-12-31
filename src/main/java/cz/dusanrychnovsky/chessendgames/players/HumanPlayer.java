@@ -23,6 +23,10 @@ public class HumanPlayer implements Player {
   @Override
   public Move pickMove(Situation situation) {
     checkArgument(getColor() == situation.getCurrentColor());
-    return ui.requestMove(situation);
+
+    Move move = ui.requestMove(situation);
+    ui.displayChosenMove(getColor(), move);
+
+    return move;
   }
 }

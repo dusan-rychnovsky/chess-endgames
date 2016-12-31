@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.core.Color;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
@@ -20,6 +22,7 @@ public class MainWindow {
   
   private ChessBoard chessBoard;
   private StatusBar statusBar;
+  private HistoryBar historyBar;
 
   public void setUp() {
     window = new JFrame();
@@ -34,7 +37,10 @@ public class MainWindow {
     
     statusBar = new StatusBar();
     window.add(statusBar, SOUTH);
-  
+
+    historyBar = new HistoryBar();
+    window.add(historyBar, EAST);
+
     window.pack();
     window.setLocationRelativeTo(null);
   }
@@ -46,7 +52,15 @@ public class MainWindow {
   public void showMessage(String message) {
     statusBar.setStatusMessage(message);
   }
-  
+
+  public void showMove(Color color, Move move) {
+    historyBar.showMove(color, move);
+  }
+
+  public void showResult(Result result) {
+    historyBar.showResult(result);
+  }
+
   public void setSituation(Situation situation) {
     chessBoard.setSituation(situation);
   }

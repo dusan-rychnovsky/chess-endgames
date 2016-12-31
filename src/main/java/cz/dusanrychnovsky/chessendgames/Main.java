@@ -37,7 +37,7 @@ public class Main {
       .build();
     
     Result result = engine.runGame(situation);
-    ui.displayMessage("RESULT: " + result);
+    ui.displayResult(result);
   }
 
   private static File loadFile(String filename) {

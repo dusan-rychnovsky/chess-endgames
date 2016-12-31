@@ -34,10 +34,11 @@ public class PrecomputedMovesPlayer implements Player {
   public Move pickMove(Situation situation) {
     checkArgument(color == situation.getCurrentColor());
 
+    sleep(DISPLAY_PAUSE_MS);
+
     Optional<Move> move = moves.getMove(situation);
     if (move.isPresent()) {
-      ui.displayMessage(color + " Picked move: " + move.get());
-      sleep(DISPLAY_PAUSE_MS);
+      ui.displayChosenMove(getColor(), move.get());
       return move.get();
     }
     else {
