@@ -2,9 +2,11 @@ package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
 import cz.dusanrychnovsky.chessendgames.gui.GraphicalUserInterface;
+import cz.dusanrychnovsky.chessendgames.players.Database;
+import cz.dusanrychnovsky.chessendgames.players.HumanPlayer;
+import cz.dusanrychnovsky.chessendgames.players.PrecomputedMovesPlayer;
 
 import java.io.File;
-import java.util.Random;
 
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
@@ -23,7 +25,7 @@ public class Main {
       new HumanPlayer(BLACK, ui)
     );
     
-    engine.addEventListener(new ShowSituations(ui));
+    engine.addEventListener(new DisplaySituations(ui));
     
     Situation situation = Situation.builder(WHITE)
 //      .addPiece(WHITE_KING, F4)

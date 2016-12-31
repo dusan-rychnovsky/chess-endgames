@@ -1,12 +1,12 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.players;
 
+import cz.dusanrychnovsky.chessendgames.UserInterface;
 import cz.dusanrychnovsky.chessendgames.core.Color;
 import cz.dusanrychnovsky.chessendgames.core.Move;
 import cz.dusanrychnovsky.chessendgames.core.Player;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
+import cz.dusanrychnovsky.chessendgames.players.Database;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;

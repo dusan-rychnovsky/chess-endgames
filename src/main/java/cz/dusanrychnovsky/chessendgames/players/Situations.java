@@ -1,4 +1,8 @@
-package cz.dusanrychnovsky.chessendgames.core;
+package cz.dusanrychnovsky.chessendgames.players;
+
+import cz.dusanrychnovsky.chessendgames.core.Color;
+import cz.dusanrychnovsky.chessendgames.core.Position;
+import cz.dusanrychnovsky.chessendgames.core.Situation;
 
 import java.util.HashSet;
 import java.util.Optional;

@@ -1,11 +1,10 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.players;
 
 import cz.dusanrychnovsky.chessendgames.core.Color;
 import cz.dusanrychnovsky.chessendgames.core.Move;
 import cz.dusanrychnovsky.chessendgames.core.Piece;
 import cz.dusanrychnovsky.chessendgames.core.Position;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
-import cz.dusanrychnovsky.chessendgames.core.Situations;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 

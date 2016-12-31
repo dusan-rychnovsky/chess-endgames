@@ -1,4 +1,4 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.players;
 
 import cz.dusanrychnovsky.chessendgames.core.Move;
 import cz.dusanrychnovsky.chessendgames.core.Situation;

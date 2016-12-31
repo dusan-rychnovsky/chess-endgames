@@ -1,9 +1,7 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.players;
 
-import com.google.common.base.Preconditions;
+import cz.dusanrychnovsky.chessendgames.UserInterface;
 import cz.dusanrychnovsky.chessendgames.core.*;
-
-import java.io.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
