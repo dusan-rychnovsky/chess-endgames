@@ -2,6 +2,8 @@ package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
 
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 import java.util.LinkedList;
 import javax.swing.*;
@@ -9,12 +11,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
 
-public class ChessBoard extends JPanel implements MouseClickedListener {
+public class ChessBoard extends JPanel {
 
   private static final int BOARD_WIDTH = 825;
   private static final int SQUARE_WIDTH = 100;
@@ -22,20 +25,23 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
 
   private static final int BOARD_HEIGHT = 825;
   private static final int SQUARE_HEIGHT = 100;
-  private static final int TOP_OFFSET = 0;
+  private static final int BOTTOM_OFFSET = 25;
 
   private final Image boardImage;
-  private final Image borderImage;
+  private final Image lightBorderImage;
+  private final Image darkBorderImage;
   private final Map<Piece, Image> iconMapping;
   
   private Situation situation;
-  private List<Position> borderedPositions = new LinkedList<>();
+  private List<Position> darkBorderedPositions = new LinkedList<>();
+  private Position lightBorderedPosition;
 
   private volatile CompletableFuture<Position> position = new CompletableFuture<>();
   
   public ChessBoard() {
     boardImage = loadImage("empty-board.png");
-    borderImage = loadImage("border.png");
+    lightBorderImage = loadImage("light-border.png");
+    darkBorderImage = loadImage("dark-border.png");
 
     iconMapping = new HashMap<>();
     iconMapping.put(WHITE_KING, loadImage("white-king.png"));
@@ -45,6 +51,11 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
     setPreferredSize(
       new Dimension(BOARD_WIDTH, BOARD_HEIGHT)
     );
+
+    addMouseListener(new MouseClickedListener());
+
+    addMouseListener(new MouseMovedListener());
+    addMouseMotionListener(new MouseMovedListener());
   }
   
   private Image loadImage(String fileName) {
@@ -56,13 +67,23 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
     repaint();
   }
 
-  public void addBorder(Position pos) {
-    borderedPositions.add(pos);
+  public void addDarkBorder(Position pos) {
+    darkBorderedPositions.add(pos);
     repaint();
   }
 
-  public void clearBorders() {
-    borderedPositions.clear();
+  public void clearDarkBorders() {
+    darkBorderedPositions.clear();
+    repaint();
+  }
+
+  private void setLightBorder(Position pos) {
+    lightBorderedPosition = pos;
+    repaint();
+  }
+
+  private void clearLightBorder() {
+    lightBorderedPosition = null;
     repaint();
   }
 
@@ -72,15 +93,18 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
     
     Graphics2D graphics2d = (Graphics2D) graphics;
     paintBoard(graphics2d);
-    for (Position position : borderedPositions) {
-      paintBorderAroundPosition(graphics2d, position);
+    if (lightBorderedPosition != null) {
+      paintBorderAroundPosition(graphics2d, lightBorderedPosition, lightBorderImage);
+    }
+    for (Position position : darkBorderedPositions) {
+      paintBorderAroundPosition(graphics2d, position, darkBorderImage);
     }
     if (situation != null) {
       paintSituation(graphics2d, situation);
     }
   }
 
-  private void paintBorderAroundPosition(Graphics2D graphics2d, Position position) {
+  private void paintBorderAroundPosition(Graphics2D graphics2d, Position position, Image borderImage) {
     graphics2d.drawImage(
       borderImage,
       getPosX(position) - 2,
@@ -105,7 +129,7 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
   }
   
   private int getPosY(Position position) {
-    return TOP_OFFSET + (7 - position.getRow().getOrdinal()) * SQUARE_HEIGHT;
+    return (7 - position.getRow().getOrdinal()) * SQUARE_HEIGHT;
   }
   
   private int getPosX(Position position) {
@@ -125,24 +149,98 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
       throw new RuntimeException(ex);
     }
   }
-  
-  @Override
-  public void mouseClicked(MouseEvent event) {
-    Point point = event.getPoint();
-    position.complete(
-      Position.get(
-        getColumn((int) point.getX()),
-        getRow((int) point.getY())
-      )
+
+  private Optional<Column> getColumn(int posX) {
+
+    if (posX < LEFT_OFFSET) {
+      return Optional.empty();
+    }
+
+    posX -= LEFT_OFFSET;
+    return Optional.of(
+      Column.values()[posX / SQUARE_WIDTH]
     );
   }
   
-  private Column getColumn(int posX) {
-    return Column.values()[posX / SQUARE_WIDTH];
+  private Optional<Row> getRow(int posY) {
+
+    if (posY >= BOARD_HEIGHT - BOTTOM_OFFSET) {
+      return Optional.empty();
+    }
+
+    return Optional.of(
+      Row.values()[7 - posY / SQUARE_HEIGHT]
+    );
   }
-  
-  private Row getRow(int posY) {
-    // TODO: refactore
-    return Row.values()[7 - posY / SQUARE_HEIGHT];
+
+  private Optional<Position> getPosition(Point point) {
+
+    Optional<Column> column = getColumn((int) point.getX());
+    Optional<Row> row = getRow((int) point.getY());
+
+    if (column.isPresent() && row.isPresent()) {
+      return Optional.of(
+        Position.get(column.get(), row.get())
+      );
+    }
+    else {
+      return Optional.empty();
+    }
+  }
+
+  public class MouseClickedListener implements MouseListener {
+    @Override
+    public void mouseClicked(MouseEvent event) {
+      Optional<Position> pos = getPosition(event.getPoint());
+      if (pos.isPresent()) {
+        position.complete(pos.get());
+      }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
+  }
+
+  public class MouseMovedListener implements MouseMotionListener, MouseListener {
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+      clearLightBorder();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent event) {
+      Optional<Position> pos = getPosition(event.getPoint());
+      if (pos.isPresent()) {
+        setLightBorder(pos.get());
+      }
+      else {
+        clearLightBorder();
+      }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseDragged(MouseEvent e) {}
   }
 }

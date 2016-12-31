@@ -27,7 +27,6 @@ public class MainWindow {
     window.setLayout(new BorderLayout());
     
     chessBoard = new ChessBoard();
-    chessBoard.addMouseListener(chessBoard);
     window.add(chessBoard, CENTER);
     
     statusBar = new StatusBar();
@@ -64,11 +63,11 @@ public class MainWindow {
     return chessBoard.getPosition();
   }
 
-  public void addBorderAroundPosition(Position pos) {
-    chessBoard.addBorder(pos);
+  public void addDarkBorderAroundPosition(Position pos) {
+    chessBoard.addDarkBorder(pos);
   }
 
-  public void clearBorders() {
-    chessBoard.clearBorders();
+  public void clearDarkBorders() {
+    chessBoard.clearDarkBorders();
   }
 }

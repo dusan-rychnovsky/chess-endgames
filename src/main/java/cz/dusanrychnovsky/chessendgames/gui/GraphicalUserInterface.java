@@ -14,9 +14,6 @@ import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.BLACK_KING;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_KING;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_ROOK;
-import static cz.dusanrychnovsky.chessendgames.core.Position.A7;
-import static cz.dusanrychnovsky.chessendgames.core.Position.A8;
-import static cz.dusanrychnovsky.chessendgames.core.Position.F3;
 
 public class GraphicalUserInterface implements UserInterface {
   
@@ -82,11 +79,11 @@ public class GraphicalUserInterface implements UserInterface {
   }
 
   private void displayBorderAroundPosition(Position pos) {
-    runOnUiThread(() -> mainWindow.addBorderAroundPosition(pos));
+    runOnUiThread(() -> mainWindow.addDarkBorderAroundPosition(pos));
   }
 
   private void dropAllBorders() {
-    runOnUiThread(() -> mainWindow.clearBorders());
+    runOnUiThread(() -> mainWindow.clearDarkBorders());
   }
 
   @Override
