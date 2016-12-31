@@ -2,8 +2,10 @@ package cz.dusanrychnovsky.chessendgames.core;
 
 import lombok.Value;
 
+import java.io.Serializable;
+
 @Value
-public class Move {
+public class Move implements Serializable {
   
   Position from;
   Position to;

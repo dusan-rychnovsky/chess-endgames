@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import static cz.dusanrychnovsky.chessendgames.core.Column.CH;
 import static cz.dusanrychnovsky.chessendgames.core.Row.R1;
 import static cz.dusanrychnovsky.chessendgames.core.Row.R8;
 
-public enum PieceType {
+public enum PieceType implements Serializable {
 
   // TODO: maybe return just toPos, instead of a whole Move?
   KING() {

@@ -2,6 +2,7 @@ package cz.dusanrychnovsky.chessendgames.core;
 
 import com.google.common.base.Preconditions;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -10,10 +11,16 @@ import static com.google.common.collect.Iterables.contains;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.BLACK_KING;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_KING;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.KING;
+import static cz.dusanrychnovsky.chessendgames.core.Result.Status.IN_PROGRESS;
+import static cz.dusanrychnovsky.chessendgames.core.Result.Status.WIN;
 import static cz.dusanrychnovsky.utils.Streams.stream;
 import static java.util.stream.Collectors.toList;
 
-public class Situation {
+public class Situation implements Serializable {
+
+  // TODO: allow iterating over placements, instead of separately over pieces / positions?
+  // TODO: add tests for those little utility functions
+  // TODO: have builder check it's not a check
 
   private final Map<Piece, Position> pieces;
   private final Color currentColor;
@@ -172,11 +179,7 @@ public class Situation {
   }
   
   private Situation relocatePiece(Move move) {
-    Builder builder = Situation.builder(getCurrentColor());
-    getUpdatedPieces(move).entrySet().forEach(entry ->
-      builder.addPiece(entry.getKey(), entry.getValue())
-    );
-    return builder.build();
+    return new Situation(getCurrentColor(), getUpdatedPieces(move));
   }
 
   // ==========================================================================
@@ -206,11 +209,7 @@ public class Situation {
     checkArgument(isValidMove(move));
     checkArgument(!isCaptureOfKing(move));
 
-    Builder builder = Situation.builder(getOpponentsColor());
-    getUpdatedPieces(move).entrySet().forEach(entry ->
-      builder.addPiece(entry.getKey(), entry.getValue())
-    );
-    return builder.build();
+    return new Situation(getOpponentsColor(), getUpdatedPieces(move));
   }
 
   private boolean isCaptureOfKing(Move move) {
@@ -249,6 +248,16 @@ public class Situation {
   // ==========================================================================
   // RESULT
   // ==========================================================================
+
+  public boolean isFinal() {
+    return getResult().getStatus() != IN_PROGRESS;
+  }
+
+  public boolean isWonBy(Color color) {
+    return
+      getResult().getStatus() == WIN &&
+      ((Win) getResult()).getWinnerColor() == color;
+  }
 
   public Result getResult() {
     if (isOnlyKingsRemaining()) {
@@ -364,7 +373,12 @@ public class Situation {
       checkState(pieces.containsKey(WHITE_KING), WHITE_KING + " not registered.");
       checkState(pieces.containsKey(BLACK_KING), BLACK_KING + " not registered.");
 
-      return new Situation(currentColor, pieces);
+      Situation result = new Situation(currentColor, pieces);
+      if (result.getOpponentsView().isCheck()) {
+        throw new IllegalStateException(result.getOpponentsKing() + " in check.");
+      }
+
+      return result;
     }
   }
 }

@@ -1,6 +1,8 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
-public enum Column implements Navigable<Column> {
+import java.io.Serializable;
+
+public enum Column implements Navigable<Column>, Serializable {
   CA, CB, CC, CD, CE, CF, CG, CH;
   
   @Override

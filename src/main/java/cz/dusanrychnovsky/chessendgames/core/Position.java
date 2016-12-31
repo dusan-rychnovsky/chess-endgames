@@ -1,9 +1,11 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
+
 import static cz.dusanrychnovsky.chessendgames.core.Column.*;
 import static cz.dusanrychnovsky.chessendgames.core.Row.*;
 
-public enum Position {
+public enum Position implements Serializable {
   
   A1(CA, R1), A2(CA, R2), A3(CA, R3), A4(CA, R4), A5(CA, R5), A6(CA, R6), A7(CA, R7), A8(CA, R8),
   B1(CB, R1), B2(CB, R2), B3(CB, R3), B4(CB, R4), B5(CB, R5), B6(CB, R6), B7(CB, R7), B8(CB, R8),

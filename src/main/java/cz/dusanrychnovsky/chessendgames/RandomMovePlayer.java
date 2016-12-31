@@ -1,14 +1,18 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import com.google.common.base.Preconditions;
 import cz.dusanrychnovsky.chessendgames.core.*;
 import java.util.Random;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.get;
 import static com.google.common.collect.Iterables.size;
 
 public class RandomMovePlayer implements Player {
-  
+
+  private static final long DISPLAY_PAUSE_MS = 300;
+
   private final Random rnd;
   private final Color color;
   private final UserInterface ui;
@@ -26,7 +30,8 @@ public class RandomMovePlayer implements Player {
   
   @Override
   public Move pickMove(Situation situation) {
-    
+    checkArgument(getColor() == situation.getCurrentColor());
+
     Piece piece = getRandomItem(situation.getPiecesOfColor(color));
     Position fromPos = situation.getPosition(piece).get();
     
@@ -37,11 +42,21 @@ public class RandomMovePlayer implements Player {
     
     Move result = getRandomItem(moves);
     ui.displayMessage(color + " Picked move: " + result);
-    
+    sleep(DISPLAY_PAUSE_MS);
+
     return result;
   }
   
   private <T> T getRandomItem(Iterable<T> items) {
     return get(items, rnd.nextInt(size(items)));
+  }
+
+  private void sleep(long ms) {
+    try {
+      Thread.sleep(ms);
+    }
+    catch (InterruptedException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 }

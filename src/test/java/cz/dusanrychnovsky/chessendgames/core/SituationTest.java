@@ -31,10 +31,10 @@ public class SituationTest {
       .addPiece(BLACK_KING, G2)
       .build();
 
-    Assert.assertEquals(WHITE, result.getCurrentColor());
-    Assert.assertEquals(F4, result.getPosition(WHITE_KING).get());
-    Assert.assertEquals(B3, result.getPosition(WHITE_ROOK).get());
-    Assert.assertEquals(G2, result.getPosition(BLACK_KING).get());
+    assertEquals(WHITE, result.getCurrentColor());
+    assertEquals(F4, result.getPosition(WHITE_KING).get());
+    assertEquals(B3, result.getPosition(WHITE_ROOK).get());
+    assertEquals(G2, result.getPosition(BLACK_KING).get());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -67,55 +67,92 @@ public class SituationTest {
       .build();
   }
 
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . K .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test(expected = IllegalStateException.class)
+  public void adjacentKings_notAllowed() {
+    Situation.builder(SOME_COLOR)
+      .addPiece(WHITE_KING, F2)
+      .addPiece(BLACK_KING, G1)
+      .build();
+  }
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . K . . .
+  // 4 | . . . . . R . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test(expected = IllegalStateException.class)
+  public void opponentInCheck_notAllowed() {
+    Situation.builder(WHITE)
+      .addPiece(WHITE_KING, E5)
+      .addPiece(WHITE_ROOK, F4)
+      .addPiece(BLACK_KING, F2)
+      .build();
+  }
+
   // ==========================================================================
   // GET PIECE AT POSITION
   // ==========================================================================
-  
+
   @Test
   public void positionOccupied_returnsOccupyingPiece() {
-    
+
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
       .addPiece(BLACK_KING, A1)
       .build();
-    
+
     assertEquals(WHITE_KING, situation.getPiece(A3).get());
   }
-  
+
   @Test
   public void positionEmpty_returnsEmptyResult() {
-  
+
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
       .addPiece(BLACK_KING, A1)
       .build();
-  
+
     assertEquals(Optional.empty(), situation.getPiece(A4));
   }
-  
+
   // ==========================================================================
   // GET PIECE'S POSITION
   // ==========================================================================
-  
+
   @Test
   public void piecePresent_returnsItsPosition() {
-  
+
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
       .addPiece(BLACK_KING, A1)
       .build();
-  
+
     assertEquals(A3, situation.getPosition(WHITE_KING).get());
   }
-  
+
   @Test
   public void pieceNotPresent_returnsEmptyResult() {
-  
+
     Situation situation = Situation.builder(SOME_COLOR)
       .addPiece(WHITE_KING, A3)
       .addPiece(BLACK_KING, A1)
       .build();
-  
+
     assertEquals(Optional.empty(), situation.getPosition(WHITE_ROOK));
   }
 
@@ -183,6 +220,81 @@ public class SituationTest {
   }
 
   // ==========================================================================
+  // IS WON BY
+  // ==========================================================================
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . K
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void draw_wonByNoone() {
+
+    Situation situation = Situation.builder(SOME_COLOR)
+      .addPiece(WHITE_KING, F2)
+      .addPiece(BLACK_KING, H1)
+      .build();
+
+    assertEquals(DRAW, situation.getResult().getStatus());
+    assertFalse(situation.isWonBy(WHITE));
+    assertFalse(situation.isWonBy(BLACK));
+  }
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . K . . . . . .
+  // 5 | . R . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . .
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . .
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void inProgress_wonByNoone() {
+
+    Situation situation = Situation.builder(SOME_COLOR)
+        .addPiece(WHITE_KING, B6)
+        .addPiece(WHITE_ROOK, B5)
+        .addPiece(BLACK_KING, F2)
+        .build();
+
+    assertEquals(IN_PROGRESS, situation.getResult().getStatus());
+    assertFalse(situation.isWonBy(WHITE));
+    assertFalse(situation.isWonBy(BLACK));
+  }
+
+  // 8 | . . . . . . . .
+  // 7 | . . . . . . . .
+  // 6 | . . . . . . . .
+  // 5 | . . . . . . . .
+  // 4 | . . . . . . . .
+  // 3 | . . . . . . . R
+  // 2 | . . . . . K . .
+  // 1 | . . . . . . . K
+  // --|----------------
+  //   | A B C D E F G H
+  @Test
+  public void win_wonByOpponent() {
+
+    Situation situation = Situation.builder(BLACK)
+        .addPiece(WHITE_KING, F2)
+        .addPiece(WHITE_ROOK, H3)
+        .addPiece(BLACK_KING, H1)
+        .build();
+
+    assertEquals(WIN, situation.getResult().getStatus());
+    assertTrue(situation.isWonBy(WHITE));
+    assertFalse(situation.isWonBy(BLACK));
+  }
+
+  // ==========================================================================
   // GET RESULT
   // ==========================================================================
 
@@ -205,6 +317,7 @@ public class SituationTest {
       .build();
 
     assertEquals(DRAW, situation.getResult().getStatus());
+    assertTrue(situation.isFinal());
   }
 
   // 8 | . . . . . . . .
@@ -227,6 +340,7 @@ public class SituationTest {
       .build();
 
     assertEquals(DRAW, situation.getResult().getStatus());
+    assertTrue(situation.isFinal());
   }
 
   // 8 | . . . . . . . .
@@ -250,7 +364,8 @@ public class SituationTest {
 
     Result result = situation.getResult();
     assertEquals(WIN, result.getStatus());
-    Assert.assertEquals(WHITE, ((Win) result).getWinnerColor());
+    assertEquals(WHITE, ((Win) result).getWinnerColor());
+    assertTrue(situation.isFinal());
   }
 
   // 8 | . . . . . . . .
@@ -273,6 +388,7 @@ public class SituationTest {
       .build();
 
     assertEquals(IN_PROGRESS, situation.getResult().getStatus());
+    assertFalse(situation.isFinal());
   }
   
   // ==========================================================================
@@ -327,8 +443,8 @@ public class SituationTest {
   // 7 | x . . . . . . .
   // 6 | . . K . . . . .
   // 5 | . . . . . . . .
-  // 4 | . R . K . . . .
-  // 3 | . . . . . . . .
+  // 4 | . R . . . . . .
+  // 3 | . . . K . . . .
   // 2 | . . . . . . . .
   // 1 | . . . . . . . .
   // --|----------------
@@ -339,7 +455,7 @@ public class SituationTest {
     Situation situation = Situation.builder(WHITE)
       .addPiece(WHITE_KING, C6)
       .addPiece(WHITE_ROOK, B4)
-      .addPiece(BLACK_KING, D4)
+      .addPiece(BLACK_KING, D3)
       .build();
     
     assertFalse(situation.isValidMove(new Move(B4, A7)));
@@ -359,9 +475,9 @@ public class SituationTest {
   public void moveOnAFreeSpot_valid() {
     
     Situation situation = Situation.builder(WHITE)
-      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_KING, D4)
       .addPiece(WHITE_ROOK, B4)
-      .addPiece(BLACK_KING, D4)
+      .addPiece(BLACK_KING, C6)
       .build();
     
     assertTrue(situation.isValidMove(new Move(B4, B7)));
@@ -381,9 +497,9 @@ public class SituationTest {
   public void moveAcrossAPiece_notValid() {
   
     Situation situation = Situation.builder(WHITE)
-      .addPiece(WHITE_KING, C6)
+      .addPiece(WHITE_KING, D4)
       .addPiece(WHITE_ROOK, B4)
-      .addPiece(BLACK_KING, D4)
+      .addPiece(BLACK_KING, C6)
       .build();
   
     assertFalse(situation.isValidMove(new Move(B4, F4)));
@@ -415,8 +531,8 @@ public class SituationTest {
   // 7 | . . . . . . . .
   // 6 | . . K . . . . .
   // 5 | . . . . . . . .
-  // 4 | . R . K . . . .
-  // 3 | . . . . . . . .
+  // 4 | . R . . . . . .
+  // 3 | . . K . . . . .
   // 2 | . . . . . . . .
   // 1 | . . . . . . . .
   // --|----------------
@@ -424,13 +540,13 @@ public class SituationTest {
   @Test
   public void moveOntoOpponentsPiece_valid() {
   
-    Situation situation = Situation.builder(WHITE)
+    Situation situation = Situation.builder(BLACK)
       .addPiece(WHITE_KING, C6)
       .addPiece(WHITE_ROOK, B4)
-      .addPiece(BLACK_KING, D4)
+      .addPiece(BLACK_KING, C3)
       .build();
   
-    assertTrue(situation.isValidMove(new Move(B4, D4)));
+    assertTrue(situation.isValidMove(new Move(C3, B4)));
   }
   
   // 8 | . . . . . . . .

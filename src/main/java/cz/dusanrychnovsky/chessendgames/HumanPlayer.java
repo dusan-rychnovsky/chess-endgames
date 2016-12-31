@@ -1,8 +1,11 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import com.google.common.base.Preconditions;
 import cz.dusanrychnovsky.chessendgames.core.*;
 
 import java.io.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class HumanPlayer implements Player {
   
@@ -21,6 +24,7 @@ public class HumanPlayer implements Player {
   
   @Override
   public Move pickMove(Situation situation) {
+    checkArgument(getColor() == situation.getCurrentColor());
     return ui.requestMove(situation);
   }
 }

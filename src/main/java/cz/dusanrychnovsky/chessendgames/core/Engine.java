@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static cz.dusanrychnovsky.chessendgames.core.Color.BLACK;
+import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
 import static cz.dusanrychnovsky.chessendgames.core.Result.Status.IN_PROGRESS;
 import static java.util.Arrays.asList;
 
@@ -14,8 +16,8 @@ public class Engine {
   private final Set<Player> players;
   
   public Engine(Player whitePlayer, Player blackPlayer) {
-    checkArgument(Color.WHITE.equals(whitePlayer.getColor()));
-    checkArgument(Color.BLACK.equals(blackPlayer.getColor()));
+    checkArgument(WHITE == whitePlayer.getColor());
+    checkArgument(BLACK == blackPlayer.getColor());
     
     players = new HashSet<>(asList(whitePlayer, blackPlayer));
   }

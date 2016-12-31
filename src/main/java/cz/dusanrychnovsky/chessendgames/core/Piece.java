@@ -1,9 +1,13 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import java.io.Serializable;
+
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
 
-public enum Piece {
+public enum Piece implements Serializable {
+
+  // TODO: implement listing valid moves in a situation
 
   WHITE_KING(WHITE, KING),
   WHITE_ROOK(WHITE, ROOK),

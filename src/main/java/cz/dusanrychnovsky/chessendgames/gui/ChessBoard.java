@@ -108,7 +108,6 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
   
   @Override
   public void mouseClicked(MouseEvent event) {
-    System.out.println("Mouse clicked.");
     Point point = event.getPoint();
     position.complete(
       Position.get(
