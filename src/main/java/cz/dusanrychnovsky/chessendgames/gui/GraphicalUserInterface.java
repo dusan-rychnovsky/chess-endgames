@@ -23,7 +23,7 @@ public class GraphicalUserInterface implements UserInterface {
   }
 
   @Override
-  public void displayMessage(String message) {
+  public void displayPrompt(String message) {
     runOnUiThread(() -> mainWindow.showMessage(message));
   }
 
@@ -48,11 +48,11 @@ public class GraphicalUserInterface implements UserInterface {
   public Move requestMove(Situation situation) {
     Color color = situation.getCurrentColor();
   
-    displayMessage(buildPrompt(color));
+    displayPrompt(buildPrompt(color));
     Move move = requestMove(color);
 
     while (!situation.isValidMove(move)) {
-      displayMessage(buildErrorPrompt(color, move));
+      displayPrompt(buildErrorPrompt(color, move));
       move = requestMove(color);
     }
   
@@ -64,11 +64,11 @@ public class GraphicalUserInterface implements UserInterface {
 
     Position fromPos = requestPosition();
     displayBorderAroundPosition(fromPos);
-    displayMessage(buildPrompt(color, fromPos));
+    displayPrompt(buildPrompt(color, fromPos));
 
     Position toPos = requestPosition();
     displayBorderAroundPosition(toPos);
-    displayMessage(buildPrompt(color, fromPos, toPos));
+    displayPrompt(buildPrompt(color, fromPos, toPos));
 
     return new Move(fromPos, toPos);
   }

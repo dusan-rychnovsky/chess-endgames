@@ -6,7 +6,7 @@ import cz.dusanrychnovsky.chessendgames.core.Result;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
 
 public interface UserInterface {
-  void displayMessage(String message);
+  void displayPrompt(String message);
   void displayChosenMove(Color color, Move move);
   void displayResult(Result result);
   void displaySituation(Situation situation);

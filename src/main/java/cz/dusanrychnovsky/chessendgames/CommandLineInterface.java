@@ -13,9 +13,13 @@ public class CommandLineInterface implements UserInterface {
   
   private final BufferedWriter writer =
     new BufferedWriter(new OutputStreamWriter(System.out));
-  
+
+  public CommandLineInterface() {
+    writeLine("CHESS ENDGAMES"); // TODO: display version here
+  }
+
   @Override
-  public void displayMessage(String message) {
+  public void displayPrompt(String message) {
     writeLine(message);
   }
 
