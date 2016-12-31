@@ -7,8 +7,8 @@ import static java.awt.BorderLayout.CENTER;
 
 public class StatusBar extends JPanel {
   
-  private static final int BAR_WIDTH = 424;
-  private static final int BAR_HEIGHT = 18;
+  private static final int BAR_WIDTH = 825;
+  private static final int BAR_HEIGHT = 30;
   
   private final JLabel label;
   
@@ -18,10 +18,11 @@ public class StatusBar extends JPanel {
     setLayout(new BorderLayout());
     
     label = new JLabel();
+    label.setFont(label.getFont().deriveFont(14f));
     add(label, CENTER);
   }
   
   public void setStatusMessage(String message) {
-    label.setText(message);
+    label.setText("   " + message);
   }
 }
