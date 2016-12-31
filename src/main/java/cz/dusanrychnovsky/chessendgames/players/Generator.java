@@ -9,6 +9,9 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,7 +26,7 @@ public class Generator {
 
   private static final int INFINITE = Integer.MAX_VALUE;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws FileNotFoundException {
 
     if (args.length == 0) {
       System.err.println("USAGE: [FILE-PATH] - file to store generated database into");
@@ -36,8 +39,7 @@ public class Generator {
       WHITE
     );
 
-    File file = new File(args[0]);
-    database.writeTo(file);
+    database.writeTo(new FileOutputStream(args[0]));
 
     log.info("DONE");
   }

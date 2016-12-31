@@ -7,6 +7,7 @@ import cz.dusanrychnovsky.chessendgames.players.HumanPlayer;
 import cz.dusanrychnovsky.chessendgames.players.PrecomputedMovesPlayer;
 
 import java.io.File;
+import java.io.InputStream;
 
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
@@ -17,7 +18,7 @@ public class Main {
   public static void main(String[] args) {
 
     // TODO: open up the UI first and show "Loading database..." message while loading
-    Database db = Database.readFrom(loadFile("players/moves.db"));
+    Database db = Database.readFrom(loadFile("moves.db"));
     UserInterface ui = new GraphicalUserInterface();
 
     Engine engine = new Engine(
@@ -32,7 +33,7 @@ public class Main {
     ui.displayResult(result);
   }
 
-  private static File loadFile(String filename) {
-    return new File(Main.class.getResource(filename).getFile());
+  private static InputStream loadFile(String filename) {
+    return Main.class.getResourceAsStream(filename);
   }
 }

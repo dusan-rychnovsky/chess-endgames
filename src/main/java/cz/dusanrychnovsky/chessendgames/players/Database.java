@@ -7,8 +7,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,31 +47,28 @@ public class Database implements Serializable {
   // ==========================================================================
 
   /**
-   * Loads and deserializes a {@link Database} from the given {@link File}.
+   * Loads and deserializes a {@link Database} from the given {@link InputStream}.
    * Throws a {@link RuntimeException} in case of any error.
    */
-  public static Database readFrom(File file) {
-    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-      return (Database) in.readObject();
+  public static Database readFrom(InputStream in) {
+    try (ObjectInputStream oin = new ObjectInputStream(in)) {
+      return (Database) oin.readObject();
     }
-    catch (IOException ex) {
-      throw new RuntimeException("Cannot load Database from file [" + file + "].", ex);
-    }
-    catch (ClassNotFoundException ex) {
+    catch (IOException | ClassNotFoundException ex) {
       throw new RuntimeException("Cannot load Database.", ex);
     }
   }
 
   /**
-   * Saves the represented {@link Database} to the given {@link File}. Throws
+   * Saves the represented {@link Database} to the given {@link OutputStream}. Throws
    * a {@link RuntimeException} in case of any error.
    */
-  public void writeTo(File file) {
-    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
-      out.writeObject(this);
+  public void writeTo(OutputStream out) {
+    try (ObjectOutputStream oout = new ObjectOutputStream(out)) {
+      oout.writeObject(this);
     }
     catch (IOException ex) {
-      throw new RuntimeException("Cannot store Database to file [" + file + "].", ex);
+      throw new RuntimeException("Cannot save Database.", ex);
     }
   }
 
