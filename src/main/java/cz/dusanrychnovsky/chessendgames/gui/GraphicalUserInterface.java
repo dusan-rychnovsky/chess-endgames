@@ -48,17 +48,59 @@ public class GraphicalUserInterface implements UserInterface {
   public Move requestMove(Situation situation) {
     Color color = situation.getCurrentColor();
   
-    displayMessage(color + " Enter move: ");
-    Move move = new Move(requestPosition(), requestPosition());
-  
-    while (move == null || !situation.isValidMove(move)) {
-      displayMessage("Invalid move! " + color + " Enter move: ");
-      move = new Move(requestPosition(), requestPosition());
+    displayMessage(buildPrompt(color));
+    Move move = requestMove(color);
+
+    while (!situation.isValidMove(move)) {
+      displayMessage(buildErrorPrompt(color, move));
+      move = requestMove(color);
     }
   
     return move;
   }
-  
+
+  private Move requestMove(Color color) {
+
+    Position fromPos = requestPosition();
+    displayMessage(buildPrompt(color, fromPos));
+
+    Position toPos = requestPosition();
+    displayMessage(buildPrompt(color, fromPos, toPos));
+
+    return new Move(fromPos, toPos);
+  }
+
+  private String buildErrorPrompt(Color color, Move invalidMove) {
+    return color + " Invalid move: " + invalidMove + "! Enter move:";
+  }
+
+  private String buildPrompt(Color color) {
+    return buildPrompt(color, null, null);
+  }
+
+  private String buildPrompt(Color color, Position from) {
+    return buildPrompt(color, from, null);
+  }
+
+  private String buildPrompt(Color color, Position from, Position to) {
+
+    StringBuilder builder = new StringBuilder();
+    builder.append(color);
+    builder.append(" Enter move:");
+
+    if (from != null) {
+      builder.append(" ");
+      builder.append(from);
+    }
+
+    if (to != null) {
+      builder.append(" ");
+      builder.append(to);
+    }
+
+    return builder.toString();
+  }
+
   private Position requestPosition() {
     return mainWindow.requestPosition();
   }
