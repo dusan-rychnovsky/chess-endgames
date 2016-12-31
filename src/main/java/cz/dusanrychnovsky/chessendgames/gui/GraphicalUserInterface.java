@@ -60,14 +60,25 @@ public class GraphicalUserInterface implements UserInterface {
   }
 
   private Move requestMove(Color color) {
+    dropAllBorders();
 
     Position fromPos = requestPosition();
+    displayBorderAroundPosition(fromPos);
     displayMessage(buildPrompt(color, fromPos));
 
     Position toPos = requestPosition();
+    displayBorderAroundPosition(toPos);
     displayMessage(buildPrompt(color, fromPos, toPos));
 
     return new Move(fromPos, toPos);
+  }
+
+  private void displayBorderAroundPosition(Position pos) {
+    runOnUiThread(() -> mainWindow.addBorderAroundPosition(pos));
+  }
+
+  private void dropAllBorders() {
+    runOnUiThread(() -> mainWindow.clearBorders());
   }
 
   private String buildErrorPrompt(Color color, Move invalidMove) {

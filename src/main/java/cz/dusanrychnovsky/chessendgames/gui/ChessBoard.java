@@ -2,6 +2,8 @@ package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
 
+import java.util.List;
+import java.util.LinkedList;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -23,15 +25,18 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
   private static final int TOP_OFFSET = 0;
 
   private final Image boardImage;
+  private final Image borderImage;
   private final Map<Piece, Image> iconMapping;
   
   private Situation situation;
-  
+  private List<Position> borderedPositions = new LinkedList<>();
+
   private volatile CompletableFuture<Position> position = new CompletableFuture<>();
   
   public ChessBoard() {
     boardImage = loadImage("empty-board.png");
-  
+    borderImage = loadImage("border.png");
+
     iconMapping = new HashMap<>();
     iconMapping.put(WHITE_KING, loadImage("white-king.png"));
     iconMapping.put(WHITE_ROOK, loadImage("white-rook.png"));
@@ -50,25 +55,47 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
     this.situation = situation;
     repaint();
   }
-  
+
+  public void addBorder(Position pos) {
+    borderedPositions.add(pos);
+    repaint();
+  }
+
+  public void clearBorders() {
+    borderedPositions.clear();
+    repaint();
+  }
+
   @Override
   public void paint(Graphics graphics) {
     super.paint(graphics);
     
     Graphics2D graphics2d = (Graphics2D) graphics;
     paintBoard(graphics2d);
+    for (Position position : borderedPositions) {
+      paintBorderAroundPosition(graphics2d, position);
+    }
     if (situation != null) {
-      printSituation(graphics2d, situation);
+      paintSituation(graphics2d, situation);
     }
   }
-  
-  private void printSituation(Graphics2D graphics2d, Situation situation) {
+
+  private void paintBorderAroundPosition(Graphics2D graphics2d, Position position) {
+    graphics2d.drawImage(
+      borderImage,
+      getPosX(position) - 2,
+      getPosY(position) - 2,
+      null
+    );
+  }
+
+  private void paintSituation(Graphics2D graphics2d, Situation situation) {
     for (Piece piece : situation.getPieces()) {
-      printPiece(graphics2d, piece, situation.getPosition(piece).get());
+      paintPiece(graphics2d, piece, situation.getPosition(piece).get());
     }
   }
   
-  private void printPiece(Graphics2D graphics2d, Piece piece, Position position) {
+  private void paintPiece(Graphics2D graphics2d, Piece piece, Position position) {
     graphics2d.drawImage(
       iconMapping.get(piece),
       getPosX(position),

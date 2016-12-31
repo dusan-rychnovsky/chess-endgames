@@ -68,4 +68,12 @@ public class MainWindow {
   public Position requestPosition() {
     return chessBoard.getPosition();
   }
+
+  public void addBorderAroundPosition(Position pos) {
+    chessBoard.addBorder(pos);
+  }
+
+  public void clearBorders() {
+    chessBoard.clearBorders();
+  }
 }
