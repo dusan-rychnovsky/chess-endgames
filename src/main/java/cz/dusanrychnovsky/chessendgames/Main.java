@@ -18,7 +18,7 @@ public class Main {
 
     // TODO: open up the UI first and show "Loading database..." message while loading
     Database db = Database.readFrom(loadFile("players/moves.db"));
-    UserInterface ui = new CommandLineInterface();
+    UserInterface ui = new GraphicalUserInterface();
 
     Engine engine = new Engine(
       new PrecomputedMovesPlayer(WHITE, db, ui),

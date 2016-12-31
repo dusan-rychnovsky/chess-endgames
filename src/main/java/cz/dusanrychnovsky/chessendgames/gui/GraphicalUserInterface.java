@@ -56,11 +56,11 @@ public class GraphicalUserInterface implements UserInterface {
   public Move requestMove(Situation situation) {
     Color color = situation.getCurrentColor();
   
-    displayPrompt(buildPrompt(color));
+    displayPrompt(new RequestMoveMessage(color).toString());
     Move move = requestMove(color);
 
     while (!situation.isValidMove(move)) {
-      displayPrompt(buildErrorPrompt(color, move));
+      displayPrompt(new RequestMoveInErrorMessage(color, move).toString());
       move = requestMove(color);
     }
   
@@ -72,11 +72,11 @@ public class GraphicalUserInterface implements UserInterface {
 
     Position fromPos = requestPosition();
     displayBorderAroundPosition(fromPos);
-    displayPrompt(buildPrompt(color, fromPos));
+    displayPrompt(new RequestMoveMessage(color, fromPos).toString());
 
     Position toPos = requestPosition();
     displayBorderAroundPosition(toPos);
-    displayPrompt(buildPrompt(color, fromPos, toPos));
+    displayPrompt(new RequestMoveMessage(color, fromPos, toPos).toString());
 
     return new Move(fromPos, toPos);
   }
@@ -89,45 +89,45 @@ public class GraphicalUserInterface implements UserInterface {
     runOnUiThread(() -> mainWindow.clearBorders());
   }
 
-  private String buildErrorPrompt(Color color, Move invalidMove) {
-    return color + " Invalid move: " + invalidMove + "! Enter move:";
-  }
-
-  private String buildPrompt(Color color) {
-    return buildPrompt(color, null, null);
-  }
-
-  private String buildPrompt(Color color, Position from) {
-    return buildPrompt(color, from, null);
-  }
-
-  private String buildPrompt(Color color, Position from, Position to) {
-
-    StringBuilder builder = new StringBuilder();
-    builder.append(color);
-    builder.append(" Enter move:");
-
-    if (from != null) {
-      builder.append(" ");
-      builder.append(from);
-    }
-
-    if (to != null) {
-      builder.append(" ");
-      builder.append(to);
-    }
-
-    return builder.toString();
-  }
-
-
   @Override
   public Situation requestInitialSituation() {
-    return Situation.builder(WHITE)
-      .addPiece(WHITE_KING, A7)
-      .addPiece(WHITE_ROOK, A8)
-      .addPiece(BLACK_KING, F3)
-      .build();
+
+    displayPrompt(new RequestSituationMessage().toString());
+    Situation situation = requestSituation();
+
+    while (situation == null) {
+      displayPrompt(new RequestSituationInErrorMessage().toString());
+      situation = requestSituation();
+    }
+
+    return situation;
+  }
+
+  private Situation requestSituation() {
+    dropAllBorders();
+
+    Position whiteKingPos = requestPosition();
+    displayBorderAroundPosition(whiteKingPos);  // TODO: display here the figure with the border
+    displayPrompt(new RequestSituationMessage(whiteKingPos).toString());
+
+    Position whiteRookPos = requestPosition();
+    displayBorderAroundPosition(whiteRookPos);
+    displayPrompt(new RequestSituationMessage(whiteKingPos, whiteRookPos).toString());
+
+    Position blackKingPos = requestPosition();
+    displayBorderAroundPosition(blackKingPos);
+    displayPrompt(new RequestSituationMessage(whiteKingPos, whiteRookPos, blackKingPos).toString());
+
+    try {
+      return Situation.builder(WHITE)
+        .addPiece(WHITE_KING, whiteKingPos)
+        .addPiece(WHITE_ROOK, whiteRookPos)
+        .addPiece(BLACK_KING, blackKingPos)
+        .build();
+    }
+    catch (IllegalArgumentException | IllegalStateException ex) {
+      return null;
+    }
   }
 
   private Position requestPosition() {
@@ -140,6 +140,113 @@ public class GraphicalUserInterface implements UserInterface {
     }
     catch (InterruptedException | InvocationTargetException ex) {
       throw new RuntimeException(ex);
+    }
+  }
+
+  private static class RequestMoveMessage {
+
+    private final Color color;
+    private final Position from;
+    private final Position to;
+
+    public RequestMoveMessage(Color color, Position from, Position to) {
+      this.color = color;
+      this.from = from;
+      this.to = to;
+    }
+
+    public RequestMoveMessage(Color color) {
+      this(color, null, null);
+    }
+
+    public RequestMoveMessage(Color color, Position from) {
+      this(color, from, null);
+    }
+
+    @Override
+    public String toString() {
+
+      StringBuilder builder = new StringBuilder();
+      builder.append(color);
+      builder.append(" Enter move:");
+
+      if (from != null) {
+        builder.append(" ");
+        builder.append(from);
+      }
+
+      if (to != null) {
+        builder.append(" ");
+        builder.append(to);
+      }
+
+      return builder.toString();
+    }
+  }
+
+  private static class RequestMoveInErrorMessage {
+
+    private final Color color;
+    private final Move invalidMove;
+
+    public RequestMoveInErrorMessage(Color color, Move invalidMove) {
+      this.color = color;
+      this.invalidMove = invalidMove;
+    }
+
+    @Override
+    public String toString() {
+      return color + " Invalid move: " + invalidMove + "! Enter move:";
+    }
+  }
+
+  private static class RequestSituationMessage {
+
+    // TODO: refactoring needed
+
+    private final Position whiteKingPos;
+    private final Position whiteRookPos;
+    private final Position blackKingPos;
+
+    public RequestSituationMessage(Position whiteKingPos, Position whiteRookPos, Position blackKingPos) {
+      this.whiteKingPos = whiteKingPos;
+      this.whiteRookPos = whiteRookPos;
+      this.blackKingPos = blackKingPos;
+    }
+
+    public RequestSituationMessage() {
+      this(null, null, null);
+    }
+
+    public RequestSituationMessage(Position whiteKingPos) {
+      this(whiteKingPos, null, null);
+    }
+
+    public RequestSituationMessage(Position whiteKingPos, Position whiteRookPos) {
+      this(whiteKingPos, whiteRookPos, null);
+    }
+
+    @Override
+    public String toString() {
+      if (whiteKingPos == null) {
+        return "Place " + WHITE_KING + ":";
+      }
+      else if (whiteRookPos == null) {
+        return "Place " + WHITE_ROOK + " (" + whiteKingPos + "):";
+      }
+      else if (blackKingPos == null) {
+        return "Place " + BLACK_KING + " (" + whiteKingPos + ", " + whiteRookPos + "):";
+      }
+      else {
+        return "Initial situation: " + whiteKingPos + ", " + whiteRookPos + ", " + blackKingPos;
+      }
+    }
+  }
+
+  private static class RequestSituationInErrorMessage {
+    @Override
+    public String toString() {
+      return "Invalid situation! Place " + WHITE_KING + ":";
     }
   }
 }
