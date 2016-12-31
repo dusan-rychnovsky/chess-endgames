@@ -4,6 +4,14 @@ import cz.dusanrychnovsky.chessendgames.core.*;
 
 import java.io.*;
 
+import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.BLACK_KING;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_KING;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_ROOK;
+import static cz.dusanrychnovsky.chessendgames.core.Position.A7;
+import static cz.dusanrychnovsky.chessendgames.core.Position.A8;
+import static cz.dusanrychnovsky.chessendgames.core.Position.F3;
+
 public class CommandLineInterface implements UserInterface {
   
   private final SituationPrinter printer = new SituationPrinter();
@@ -55,7 +63,64 @@ public class CommandLineInterface implements UserInterface {
   
     return move;
   }
-  
+
+  @Override
+  public Situation requestInitialSituation() {
+
+    Situation situation = requestSituation();
+    while (situation == null) {
+      writeLine("Invalid situation!");
+      situation = requestSituation();
+    }
+
+    return situation;
+  }
+
+  private Situation requestSituation() {
+
+    Position whiteKingPos = requestPosition(WHITE_KING);
+    Position whiteRookPos = requestPosition(WHITE_ROOK);
+    Position blackKingPos = requestPosition(BLACK_KING);
+
+    Situation situation = null;
+    try {
+      situation = Situation.builder(WHITE)
+          .addPiece(WHITE_KING, whiteKingPos)
+          .addPiece(WHITE_ROOK, whiteRookPos)
+          .addPiece(BLACK_KING, blackKingPos)
+          .build();
+    }
+    catch (IllegalArgumentException | IllegalStateException ex) {
+      // noop - leave situation null
+    }
+
+    return situation;
+  }
+
+  private Position requestPosition(Piece piece) {
+
+    newLine();
+    write("Place " + piece + ": ");
+    Position pos = parsePosition(readLine());
+    while (pos == null) {
+      writeLine("Invalid position: ");
+      write("Place " + piece + ": ");
+      pos = parsePosition(readLine());
+    }
+
+    writeLine(piece + " " + pos);
+    return pos;
+  }
+
+  private Position parsePosition(String line) {
+    try {
+      return Position.parseFrom(line);
+    }
+    catch (IllegalArgumentException ex) {
+      return null;
+    }
+  }
+
   private Move parseMove(String line) {
     try {
       return Move.parseFrom(line);

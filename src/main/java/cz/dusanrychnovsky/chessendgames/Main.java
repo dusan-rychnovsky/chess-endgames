@@ -16,8 +16,9 @@ public class Main {
   
   public static void main(String[] args) {
 
+    // TODO: open up the UI first and show "Loading database..." message while loading
     Database db = Database.readFrom(loadFile("players/moves.db"));
-    UserInterface ui = new GraphicalUserInterface();
+    UserInterface ui = new CommandLineInterface();
 
     Engine engine = new Engine(
       new PrecomputedMovesPlayer(WHITE, db, ui),
@@ -26,15 +27,7 @@ public class Main {
     
     engine.addEventListener(new DisplaySituations(ui));
     
-    Situation situation = Situation.builder(WHITE)
-//      .addPiece(WHITE_KING, F4)
-//      .addPiece(WHITE_ROOK, B3)
-//      .addPiece(BLACK_KING, G2)
-      .addPiece(WHITE_KING, A8)
-      .addPiece(WHITE_ROOK, A7)
-      .addPiece(BLACK_KING, D4)
-      .build();
-    
+    Situation situation = ui.requestInitialSituation();
     Result result = engine.runGame(situation);
     ui.displayResult(result);
   }

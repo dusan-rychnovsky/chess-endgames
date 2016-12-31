@@ -11,4 +11,5 @@ public interface UserInterface {
   void displayResult(Result result);
   void displaySituation(Situation situation);
   Move requestMove(Situation situation);
+  Situation requestInitialSituation();
 }

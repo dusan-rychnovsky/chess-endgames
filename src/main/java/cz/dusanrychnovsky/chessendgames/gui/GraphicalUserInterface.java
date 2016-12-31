@@ -10,6 +10,14 @@ import cz.dusanrychnovsky.chessendgames.core.Situation;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 
+import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.BLACK_KING;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_KING;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.WHITE_ROOK;
+import static cz.dusanrychnovsky.chessendgames.core.Position.A7;
+import static cz.dusanrychnovsky.chessendgames.core.Position.A8;
+import static cz.dusanrychnovsky.chessendgames.core.Position.F3;
+
 public class GraphicalUserInterface implements UserInterface {
   
   private final MainWindow mainWindow;
@@ -112,10 +120,20 @@ public class GraphicalUserInterface implements UserInterface {
     return builder.toString();
   }
 
+
+  @Override
+  public Situation requestInitialSituation() {
+    return Situation.builder(WHITE)
+      .addPiece(WHITE_KING, A7)
+      .addPiece(WHITE_ROOK, A8)
+      .addPiece(BLACK_KING, F3)
+      .build();
+  }
+
   private Position requestPosition() {
     return mainWindow.requestPosition();
   }
-  
+
   private void runOnUiThread(Runnable action) {
     try {
       SwingUtilities.invokeAndWait(action::run);
