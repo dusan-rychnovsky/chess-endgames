@@ -13,17 +13,16 @@ import java.util.concurrent.ExecutionException;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
 
 public class ChessBoard extends JPanel implements MouseClickedListener {
-  
-  private static final int SQUARE_WIDTH = 53;
-  private static final int BOARD_WIDTH = SQUARE_WIDTH * 8;
-  private static final int SQUARE_HEIGHT = 53;
-  private static final int BOARD_HEIGHT = SQUARE_HEIGHT * 8;
-  
+
+  private static final int BOARD_WIDTH = 825;
+  private static final int SQUARE_WIDTH = 100;
+  private static final int LEFT_OFFSET = 25;
+
+  private static final int BOARD_HEIGHT = 825;
+  private static final int SQUARE_HEIGHT = 100;
+  private static final int TOP_OFFSET = 0;
+
   private final Image boardImage;
-  private final Image whiteKingIcon;
-  private final Image whiteRookIcon;
-  private final Image blackKingIcon;
-  
   private final Map<Piece, Image> iconMapping;
   
   private Situation situation;
@@ -34,15 +33,9 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
     boardImage = loadImage("empty-board.png");
   
     iconMapping = new HashMap<>();
-    
-    whiteKingIcon = loadImage("white-king.png");
-    iconMapping.put(WHITE_KING, whiteKingIcon);
-  
-    whiteRookIcon = loadImage("white-rook.png");
-    iconMapping.put(WHITE_ROOK, whiteRookIcon);
-  
-    blackKingIcon = loadImage("black-king.png");
-    iconMapping.put(BLACK_KING, blackKingIcon);
+    iconMapping.put(WHITE_KING, loadImage("white-king.png"));
+    iconMapping.put(WHITE_ROOK, loadImage("white-rook.png"));
+    iconMapping.put(BLACK_KING, loadImage("black-king.png"));
     
     setPreferredSize(
       new Dimension(BOARD_WIDTH, BOARD_HEIGHT)
@@ -85,11 +78,11 @@ public class ChessBoard extends JPanel implements MouseClickedListener {
   }
   
   private int getPosY(Position position) {
-    return BOARD_HEIGHT - (position.getRow().getOrdinal() + 1) * SQUARE_HEIGHT;
+    return TOP_OFFSET + (7 - position.getRow().getOrdinal()) * SQUARE_HEIGHT;
   }
   
   private int getPosX(Position position) {
-    return position.getColumn().getOrdinal() * SQUARE_WIDTH;
+    return LEFT_OFFSET + position.getColumn().getOrdinal() * SQUARE_WIDTH;
   }
   
   private void paintBoard(Graphics2D graphics2d) {
