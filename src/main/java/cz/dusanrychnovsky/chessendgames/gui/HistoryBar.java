@@ -40,7 +40,7 @@ public class HistoryBar extends JPanel {
   }
 
   public void showMove(Color color, Move move) {
-    body.setText(body.getText() + color + " " + move + "\n\n");
+    body.setText(body.getText() + color + " " + move + "\n");
   }
 
   public void showResult(Result result) {
