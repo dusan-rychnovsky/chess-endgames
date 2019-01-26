@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,6 +20,7 @@ public class ChessEndgamesTest {
   private final Piece BLACK_ROOK = new Piece(BLACK, ROOK);
 
   @Test
+  @Ignore
   public void aKingVsKingAndARook() {
 
     Script script = new Script.Builder()
