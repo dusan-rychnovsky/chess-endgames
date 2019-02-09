@@ -2,13 +2,12 @@ package cz.dusanrychnovsky.chessendgames.core;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.Assert;
 import org.junit.Test;
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class SituationTest {
 
@@ -53,5 +52,37 @@ public class SituationTest {
 
     assertEquals(1, pieces.size());
     assertEquals(WHITE_KING, pieces.get(F3));
+  }
+
+  // ==========================================================================
+  // HASHCODE & EQUALS
+  // ==========================================================================
+
+  @Test
+  public void differentPlayers_differentHashCodeAndEquals() {
+    Map<Position, Piece> pieces = Map.of(E2, WHITE_KING);
+    Situation first = new Situation(WHITE, pieces);
+    Situation second = new Situation(BLACK, pieces);
+
+    assertNotEquals(first, second);
+    assertNotEquals(first.hashCode(), second.hashCode());
+  }
+
+  @Test
+  public void differentPieces_differentHashCodeAndEquals() {
+    Situation first = new Situation(WHITE, Map.of(E2, WHITE_KING));
+    Situation second = new Situation(BLACK, Map.of(E3, WHITE_KING));
+
+    assertNotEquals(first, second);
+    assertNotEquals(first.hashCode(), second.hashCode());
+  }
+
+  @Test
+  public void sameSituations_sameHashCodeAndEquals() {
+    Situation first = new Situation(WHITE, Map.of(E2, WHITE_KING, F3, BLACK_ROOK));
+    Situation second = new Situation(WHITE, Map.of(E2, WHITE_KING, F3, BLACK_ROOK));
+
+    assertEquals(first, second);
+    assertEquals(first.hashCode(), second.hashCode());
   }
 }

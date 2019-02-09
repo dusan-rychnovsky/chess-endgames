@@ -1,11 +1,13 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+import lombok.EqualsAndHashCode;
 import java.util.HashMap;
 import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
 import static cz.dusanrychnovsky.chessendgames.core.Status.IN_PROGRESS;
 import static java.util.Collections.unmodifiableMap;
 
+@EqualsAndHashCode
 public class Situation {
   private final Color player;
   private final Map<Position, Piece> pieces = new HashMap<>();
