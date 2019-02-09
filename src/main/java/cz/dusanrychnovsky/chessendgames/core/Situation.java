@@ -3,6 +3,7 @@ package cz.dusanrychnovsky.chessendgames.core;
 import java.util.HashMap;
 import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
+import static cz.dusanrychnovsky.chessendgames.core.Status.IN_PROGRESS;
 import static java.util.Collections.unmodifiableMap;
 
 public class Situation {
@@ -23,7 +24,7 @@ public class Situation {
   }
 
   public Status getStatus() {
-    return null;
+    return IN_PROGRESS;
   }
 
   public Situation apply(Move move) {
