@@ -3,9 +3,12 @@ package cz.dusanrychnovsky.chessendgames.core;
 import lombok.EqualsAndHashCode;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static cz.dusanrychnovsky.chessendgames.core.Status.IN_PROGRESS;
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Optional.ofNullable;
 
 @EqualsAndHashCode
 public class Situation {
@@ -43,5 +46,9 @@ public class Situation {
     Piece piece = pieces.get(from);
     pieces.remove(from);
     pieces.put(to, piece);
+  }
+
+  public Optional<Piece> getPiece(Position pos) {
+    return ofNullable(pieces.get(pos));
   }
 }

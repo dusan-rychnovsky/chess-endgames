@@ -6,6 +6,7 @@ import org.junit.Test;
 import static cz.dusanrychnovsky.chessendgames.core.Color.*;
 import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
+import static java.util.Optional.empty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -84,5 +85,21 @@ public class SituationTest {
 
     assertEquals(first, second);
     assertEquals(first.hashCode(), second.hashCode());
+  }
+
+  // ==========================================================================
+  // GET PIECE
+  // ==========================================================================
+
+  @Test
+  public void getPiece_positionOccupied_ReturnsPiece() {
+    Situation situation = new Situation(WHITE, Map.of(E2, WHITE_KING));
+    assertEquals(WHITE_KING, situation.getPiece(E2).get());
+  }
+
+  @Test
+  public void getPiece_positionEmpty_returnsEmptyResult() {
+    Situation situation = new Situation(WHITE, Map.of(E2, WHITE_KING));
+    assertEquals(empty(), situation.getPiece(E1));
   }
 }

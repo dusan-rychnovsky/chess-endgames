@@ -81,7 +81,8 @@ public class ChessEndgamesTest {
         WHITE, whitePlayer,
         BLACK, blackPlayer
       )
-    ).addListener(listener)
+    ).addListener(new PrintingListener(System.out))
+     .addListener(listener)
      .start(script.getSituations().iterator().next());
 
     listener.assertAllVerified();
