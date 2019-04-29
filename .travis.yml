@@ -1,6 +1,6 @@
 language: java
 jdk:
-- openjdk10
+- openjdk12
 deploy:
   provider: releases
   api_key:
