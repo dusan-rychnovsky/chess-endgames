@@ -17,4 +17,21 @@ public class Piece {
   public PieceType type() {
     return this.type;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Piece)) {
+      return false;
+    }
+
+    Piece other = (Piece) obj;
+    return
+      this.color == other.color &&
+      this.type == other.type;
+  }
+
+  @Override
+  public int hashCode() {
+    return this.color.hashCode() + this.type.hashCode();
+  }
 }
