@@ -1,10 +1,66 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.*;
 
 public class AppTest {
   @Test
-  public void main() {
-    App.main(new String[0]);
+  @Ignore
+  public void run_executesScenarioWithConsoleInOut() throws IOException {
+    BufferedReader in = new BufferedReader(new StringReader(
+      "black\n" +
+        "white king d3\n" +
+        "black king f5\n" +
+        "black rook e6\n" +
+        "\n" +
+        "e6 e4\n" +
+        "d3 c3\n" +
+        "f5 e5\n" +
+        "c3 d3\n" +
+        "e5 d5\n" +
+        "d3 d2\n" +
+        "d5 d4\n" +
+        "d2 c2\n" +
+        "e4 e3\n" +
+        "c2 c1\n" +
+        "e3 e2\n" +
+        "c1 d1\n" +
+        "d4 d3\n" +
+        "d1 c1\n" +
+        "e2 d2\n" +
+        "c1 b1\n" +
+        "d2 c2\n" +
+        "b1 a1\n" +
+        "d3 c3\n" +
+        "a1 b1\n" +
+        "c3 b3\n" +
+        "b1 a1\n" +
+        "c2 c1\n"
+    ));
+
+    StringWriter writer = new StringWriter();
+    BufferedWriter out = new BufferedWriter(writer);
+
+    App.run(in, out);
+
+    Assert.assertEquals(
+      "Chess End Games v. 0.1\n" +
+      "\n" +
+      "Input Situation:\n" +
+      "8 | . . . . . . . .\n" +
+      "7 | . . . . . . . .\n" +
+      "6 | . . . . R . . .\n" +
+      "5 | . . . . . K . .\n" +
+      "4 | . . . . . . . .\n" +
+      "3 | . . . K . . . .\n" +
+      "2 | . . . . . . . .\n" +
+      "1 | . . . . . . . .\n" +
+      "-------------------\n" +
+      "  | A B C D E F G H\n",
+      writer.toString()
+    );
   }
 }
