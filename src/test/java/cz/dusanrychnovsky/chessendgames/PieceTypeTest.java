@@ -3,9 +3,9 @@ package cz.dusanrychnovsky.chessendgames;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import static cz.dusanrychnovsky.chessendgames.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 
-public class PieceTest {
+public class PieceTypeTest {
 
   // ==========================================================================
   // Parsing

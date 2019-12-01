@@ -32,7 +32,7 @@ public class App
         }
 
         Board.Entry entry = Board.Entry.parse(line);
-        builder.add(entry.color(), entry.piece(), entry.position());
+        builder.add(entry.piece(), entry.position());
       }
       Board board = builder.build();
 

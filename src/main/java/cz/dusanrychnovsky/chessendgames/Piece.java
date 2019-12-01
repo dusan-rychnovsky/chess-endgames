@@ -1,11 +1,20 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.StringExtensions.capitalize;
+public class Piece {
 
-public enum Piece {
-  King, Rook;
+  private final Color color;
+  private final PieceType type;
 
-  public static Piece parse(String value) {
-    return valueOf(capitalize(value));
+  public Piece(Color color, PieceType type) {
+    this.color = color;
+    this.type = type;
+  }
+
+  public Color color() {
+    return this.color;
+  }
+
+  public PieceType type() {
+    return this.type;
   }
 }
