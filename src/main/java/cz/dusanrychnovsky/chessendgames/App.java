@@ -19,11 +19,25 @@ public class App
     public static void run(BufferedReader in, BufferedWriter out) throws IOException {
 
       out.write("Chess End Games v. 0.1\n\n");
+      out.write("Enter Initial Situation:\n");
       out.flush();
 
-      out.write("Input Situation:\n");
-
       String line = in.readLine();
-      Color color = Color.valueOf(line);
+      Color color = Color.parse(line);
+
+      Board.Builder builder = new Board.Builder();
+      while ((line = in.readLine()) != null) {
+        if (line.isEmpty()) {
+          break;
+        }
+
+        Board.Entry entry = Board.Entry.parse(line);
+        builder.add(entry.color(), entry.piece(), entry.position());
+      }
+      Board board = builder.build();
+
+      out.write(color + "\n");
+      out.write(board.print() + "\n");
+      out.flush();
     }
 }

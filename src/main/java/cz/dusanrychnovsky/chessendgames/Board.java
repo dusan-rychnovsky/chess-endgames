@@ -6,6 +6,10 @@ public class Board {
     return new Builder();
   }
 
+  public String print() {
+    return "";
+  }
+
   public static class Builder {
     public Builder add(Color color, Piece piece, Position position) {
       return this;

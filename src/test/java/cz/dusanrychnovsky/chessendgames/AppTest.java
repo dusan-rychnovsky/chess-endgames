@@ -49,7 +49,8 @@ public class AppTest {
     Assert.assertEquals(
       "Chess End Games v. 0.1\n" +
       "\n" +
-      "Input Situation:\n" +
+      "Enter Initial Situation:\n" +
+      "Black\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . R . . .\n" +
