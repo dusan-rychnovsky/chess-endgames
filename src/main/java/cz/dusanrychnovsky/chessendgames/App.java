@@ -17,5 +17,13 @@ public class App
     }
 
     public static void run(BufferedReader in, BufferedWriter out) throws IOException {
+
+      out.write("Chess End Games v. 0.1\n\n");
+      out.flush();
+
+      out.write("Input Situation:\n");
+
+      String line = in.readLine();
+      Color color = Color.valueOf(line);
     }
 }
