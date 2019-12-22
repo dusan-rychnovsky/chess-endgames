@@ -5,6 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 import static cz.dusanrychnovsky.chessendgames.Column.*;
 
+import static java.util.Optional.of;
+import static java.util.Optional.empty;
+
 public class ColumnTest {
 
   // ==========================================================================
@@ -33,5 +36,33 @@ public class ColumnTest {
     assertEquals(CF, Column.parse("F"));
     assertEquals(CG, Column.parse("G"));
     assertEquals(CH, Column.parse("H"));
+  }
+
+  // ==========================================================================
+  // Navigating
+  // ==========================================================================
+
+  @Test
+  public void prev() {
+    assertEquals(empty(), CA.prev());
+    assertEquals(of(CA), CB.prev());
+    assertEquals(of(CB), CC.prev());
+    assertEquals(of(CC), CD.prev());
+    assertEquals(of(CD), CE.prev());
+    assertEquals(of(CE), CF.prev());
+    assertEquals(of(CF), CG.prev());
+    assertEquals(of(CG), CH.prev());
+  }
+
+  @Test
+  public void next() {
+    assertEquals(of(CB), CA.next());
+    assertEquals(of(CC), CB.next());
+    assertEquals(of(CD), CC.next());
+    assertEquals(of(CE), CD.next());
+    assertEquals(of(CF), CE.next());
+    assertEquals(of(CG), CF.next());
+    assertEquals(of(CH), CG.next());
+    assertEquals(empty(), CH.next());
   }
 }
