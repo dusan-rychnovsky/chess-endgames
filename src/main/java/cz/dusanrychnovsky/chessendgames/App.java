@@ -37,7 +37,7 @@ public class App
       Board board = builder.build();
 
       out.write(color + "\n");
-      out.write(board.print() + "\n");
+      out.write(board.print());
       out.flush();
     }
 }
