@@ -52,4 +52,49 @@ public class BoardTest {
       .add(new Piece(Black, King), D3)
       .add(new Piece(White, King), D3);
   }
+
+  // ==========================================================================
+  // Printing
+  // ==========================================================================
+
+  @Test
+  public void print_emptyBoard() {
+    Board board = Board.builder().build();
+    assertEquals(
+      "8 | . . . . . . . .\n" +
+        "7 | . . . . . . . .\n" +
+        "6 | . . . . . . . .\n" +
+        "5 | . . . . . . . .\n" +
+        "4 | . . . . . . . .\n" +
+        "3 | . . . . . . . .\n" +
+        "2 | . . . . . . . .\n" +
+        "1 | . . . . . . . .\n" +
+        "--|----------------\n" +
+        "  | A B C D E F G H\n",
+      board.print());
+  }
+
+  @Test
+  public void print_boardWithPieces() {
+    Piece whiteKing = new Piece(White, King);
+    Piece blackKing = new Piece(Black, King);
+    Piece blackRook = new Piece(Black, Rook);
+    Board board = Board.builder()
+      .add(whiteKing, D3)
+      .add(blackKing, F5)
+      .add(blackRook, E6)
+      .build();
+    assertEquals(
+      "8 | . . . . . . . .\n" +
+        "7 | . . . . . . . .\n" +
+        "6 | . . . . R . . .\n" +
+        "5 | . . . . . K . .\n" +
+        "4 | . . . . . . . .\n" +
+        "3 | . . . K . . . .\n" +
+        "2 | . . . . . . . .\n" +
+        "1 | . . . . . . . .\n" +
+        "--|----------------\n" +
+        "  | A B C D E F G H\n",
+      board.print());
+  }
 }

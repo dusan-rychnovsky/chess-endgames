@@ -1,5 +1,8 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import static cz.dusanrychnovsky.chessendgames.Row.*;
+import static cz.dusanrychnovsky.chessendgames.Column.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +24,30 @@ public class Board {
   }
 
   public String print() {
-    return "";
+    StringBuilder result = new StringBuilder();
+
+    for (Row row : new Range<>(R8, R1)) {
+      result.append(row + " |");
+      for (Column column : new Range<>(CA, CH)) {
+        Position position = Position.get(column, row);
+        result.append(
+          " " +
+            atPosition(position)
+              .map(piece -> print(piece))
+              .orElse(".")
+        );
+      }
+      result.append("\n");
+    }
+
+    result.append("--|----------------\n");
+    result.append("  | A B C D E F G H\n");
+
+    return result.toString();
+  }
+
+  private String print(Piece piece) {
+    return piece.type().toString().substring(0, 1);
   }
 
   public static class Builder {
