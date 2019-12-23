@@ -4,8 +4,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import static cz.dusanrychnovsky.chessendgames.Position.*;
-import static cz.dusanrychnovsky.chessendgames.Column.CD;
-import static cz.dusanrychnovsky.chessendgames.Row.R3;
+import static cz.dusanrychnovsky.chessendgames.Column.*;
+import static cz.dusanrychnovsky.chessendgames.Row.*;
 
 public class PositionTest {
 
@@ -15,12 +15,12 @@ public class PositionTest {
 
   @Test
   public void parse_supportsLowerCase() {
-    assertEquals(D3, parse("d3"));
+    assertEquals(D3, Position.parse("d3"));
   }
 
   @Test
   public void parse_supportsUpperCase() {
-    assertEquals(D3, parse("D3"));
+    assertEquals(D3, Position.parse("D3"));
   }
 
   // ==========================================================================
@@ -35,5 +35,17 @@ public class PositionTest {
   @Test
   public void row() {
     assertEquals(R3, D3.row());
+  }
+
+  // ==========================================================================
+  // Retrieving
+  // ==========================================================================
+
+  @Test
+  public void get() {
+    assertEquals(D3, Position.get(CD, R3));
+    assertEquals(F5, Position.get(CF, R5));
+    assertEquals(D4, Position.get(CD, R4));
+    assertEquals(E6, Position.get(CE, R6));
   }
 }

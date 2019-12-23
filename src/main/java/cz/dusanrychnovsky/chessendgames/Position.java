@@ -19,6 +19,10 @@ public enum Position {
     return valueOf(capitalize(value));
   }
 
+  public static Position get(Column column, Row row) {
+    return valueOf(column.toString() + row.toString());
+  }
+
   public Column column() {
     return this.column;
   }
