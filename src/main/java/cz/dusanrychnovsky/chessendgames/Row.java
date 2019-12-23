@@ -18,4 +18,9 @@ public enum Row implements Navigable<Row> {
   public Row[] all() {
     return values();
   }
+
+  @Override
+  public String toString() {
+    return super.toString().substring(1, 2);
+  }
 }

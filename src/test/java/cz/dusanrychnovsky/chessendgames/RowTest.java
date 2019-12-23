@@ -53,4 +53,15 @@ public class RowTest {
     assertEquals(of(R8), R7.next());
     assertEquals(empty(), R8.next());
   }
+
+  // ==========================================================================
+  // Printing
+  // ==========================================================================
+
+  @Test
+  public void toString_printsLetter() {
+    assertEquals("1", R1.toString());
+    assertEquals("3", R3.toString());
+    assertEquals("8", R8.toString());
+  }
 }
