@@ -55,8 +55,12 @@ public class RangeTest {
 
   @Test
   public void iterator_inverseRange() {
-    Range<Row> range = new Range<>(R4, R3);
-    assertFalse(range.iterator().hasNext());
+    Range<Row> range = new Range<>(R5, R3);
+    Iterator<Row> it = range.iterator();
+    assertEquals(R5, it.next());
+    assertEquals(R4, it.next());
+    assertEquals(R3, it.next());
+    assertFalse(it.hasNext());
   }
 
   @Test
