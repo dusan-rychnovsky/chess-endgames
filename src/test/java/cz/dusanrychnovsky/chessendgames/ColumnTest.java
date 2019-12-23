@@ -65,4 +65,15 @@ public class ColumnTest {
     assertEquals(of(CH), CG.next());
     assertEquals(empty(), CH.next());
   }
+
+  // ==========================================================================
+  // Printing
+  // ==========================================================================
+
+  @Test
+  public void toString_printsLetter() {
+    assertEquals("A", CA.toString());
+    assertEquals("C", CC.toString());
+    assertEquals("H", CH.toString());
+  }
 }
