@@ -10,7 +10,7 @@ public class AppTest {
   @Test
   @Ignore
   public void run_executesScenarioWithConsoleInOut() throws IOException {
-    BufferedReader in = new BufferedReader(new StringReader(
+    var in = new BufferedReader(new StringReader(
       "black\n" +
         "white king d3\n" +
         "black king f5\n" +
@@ -41,8 +41,8 @@ public class AppTest {
         "c2 c1\n"
     ));
 
-    StringWriter writer = new StringWriter();
-    BufferedWriter out = new BufferedWriter(writer);
+    var writer = new StringWriter();
+    var out = new BufferedWriter(writer);
 
     App.run(in, out);
 

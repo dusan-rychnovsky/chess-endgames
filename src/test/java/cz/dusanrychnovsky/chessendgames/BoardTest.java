@@ -18,7 +18,7 @@ public class BoardTest {
 
   @Test
   public void entry_parse_extractsColorPieceAndPosition() {
-    Board.Entry entry = Board.Entry.parse("white king d3");
+    var entry = Board.Entry.parse("white king d3");
     assertEquals(White, entry.piece().color());
     assertEquals(King, entry.piece().type());
     assertEquals(D3, entry.position());
@@ -30,7 +30,7 @@ public class BoardTest {
 
   @Test
   public void builder_positionsPiecesOnBoard() {
-    Board board = Board.builder()
+    var board = Board.builder()
       .add(WhiteKing, D3)
       .add(BlackKing, F5)
       .add(BlackRook, E6)
@@ -55,7 +55,7 @@ public class BoardTest {
 
   @Test
   public void print_emptyBoard() {
-    Board board = Board.builder().build();
+    var board = Board.builder().build();
     assertEquals(
       "8 | . . . . . . . .\n" +
         "7 | . . . . . . . .\n" +
@@ -72,7 +72,7 @@ public class BoardTest {
 
   @Test
   public void print_boardWithPieces() {
-    Board board = Board.builder()
+    var board = Board.builder()
       .add(WhiteKing, D3)
       .add(BlackKing, F5)
       .add(BlackRook, E6)

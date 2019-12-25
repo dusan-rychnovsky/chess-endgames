@@ -12,7 +12,7 @@ public class SituationTest {
   @Test
   @Ignore
   public void next_appliesCurrentPlayersMove() {
-    Situation situation = new Situation(
+    var situation = new Situation(
       new ScriptedPlayer(White, new Move(D3, D4)),
       new ScriptedPlayer(Black),
       Board.builder()

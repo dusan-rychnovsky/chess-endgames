@@ -24,12 +24,12 @@ public class Board {
   }
 
   public String print() {
-    StringBuilder result = new StringBuilder();
+    var result = new StringBuilder();
 
-    for (Row row : new Range<>(R8, R1)) {
+    for (var row : new Range<>(R8, R1)) {
       result.append(row + " |");
-      for (Column column : new Range<>(CA, CH)) {
-        Position position = Position.get(column, row);
+      for (var column : new Range<>(CA, CH)) {
+        var position = Position.get(column, row);
         result.append(
           " " +
             atPosition(position)
@@ -77,7 +77,7 @@ public class Board {
     }
 
     public static Entry parse(String value) {
-      String[] tokens = value.split(" ");
+      var tokens = value.split(" ");
       return new Entry(
         new Piece(
           Color.parse(tokens[0]),

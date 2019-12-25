@@ -28,9 +28,9 @@ public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T
 
       @Override
       public T next() {
-        T result = curr.get();
+        var result = curr.get();
 
-        int comparison = (int) Math.signum(to.compareTo(result));
+        var comparison = (int) Math.signum(to.compareTo(result));
         switch (comparison) {
           case 0:
             hasNext = false;

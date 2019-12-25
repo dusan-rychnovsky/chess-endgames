@@ -17,8 +17,8 @@ public class RangeTest {
 
   @Test
   public void iterator_rowsRange() {
-    Range<Row> range = new Range<>(R2, R5);
-    Iterator<Row> it = range.iterator();
+    var range = new Range<>(R2, R5);
+    var it = range.iterator();
     assertEquals(R2, it.next());
     assertEquals(R3, it.next());
     assertEquals(R4, it.next());
@@ -28,8 +28,8 @@ public class RangeTest {
 
   @Test
   public void iterator_colsRange() {
-    Range<Column> range = new Range<>(CB, CF);
-    Iterator<Column> it = range.iterator();
+    var range = new Range<>(CB, CF);
+    var it = range.iterator();
     assertEquals(CB, it.next());
     assertEquals(CC, it.next());
     assertEquals(CD, it.next());
@@ -40,8 +40,8 @@ public class RangeTest {
 
   @Test
   public void iterator_fullRange() {
-    Range<Row> range = new Range<>(R1, R8);
-    Iterator<Row> it = range.iterator();
+    var range = new Range<>(R1, R8);
+    var it = range.iterator();
     assertEquals(R1, it.next());
     assertEquals(R2, it.next());
     assertEquals(R3, it.next());
@@ -55,8 +55,8 @@ public class RangeTest {
 
   @Test
   public void iterator_inverseRange() {
-    Range<Row> range = new Range<>(R5, R3);
-    Iterator<Row> it = range.iterator();
+    var range = new Range<>(R5, R3);
+    var it = range.iterator();
     assertEquals(R5, it.next());
     assertEquals(R4, it.next());
     assertEquals(R3, it.next());
@@ -65,8 +65,8 @@ public class RangeTest {
 
   @Test
   public void iterator_unitRange() {
-    Range<Column> range = new Range<>(CD, CD);
-    Iterator<Column> it = range.iterator();
+    var range = new Range<>(CD, CD);
+    var it = range.iterator();
     assertEquals(CD, it.next());
     assertFalse(it.hasNext());
   }

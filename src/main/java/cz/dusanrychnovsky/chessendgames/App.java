@@ -22,19 +22,19 @@ public class App
       out.write("Enter Initial Situation:\n");
       out.flush();
 
-      String line = in.readLine();
-      Color color = Color.parse(line);
+      var line = in.readLine();
+      var color = Color.parse(line);
 
-      Board.Builder builder = new Board.Builder();
+      var builder = new Board.Builder();
       while ((line = in.readLine()) != null) {
         if (line.isEmpty()) {
           break;
         }
 
-        Board.Entry entry = Board.Entry.parse(line);
+        var entry = Board.Entry.parse(line);
         builder.add(entry.piece(), entry.position());
       }
-      Board board = builder.build();
+      var board = builder.build();
 
       out.write(color + "\n");
       out.write(board.print());

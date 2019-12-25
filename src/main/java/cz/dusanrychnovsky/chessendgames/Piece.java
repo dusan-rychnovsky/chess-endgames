@@ -32,7 +32,7 @@ public class Piece {
       return false;
     }
 
-    Piece other = (Piece) obj;
+    var other = (Piece) obj;
     return
       this.color == other.color &&
       this.type == other.type;
