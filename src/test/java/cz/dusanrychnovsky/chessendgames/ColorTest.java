@@ -28,4 +28,14 @@ public class ColorTest {
     assertEquals(White, parse("White"));
     assertEquals(Black, parse("Black"));
   }
+
+  // ==========================================================================
+  // Opposite
+  // ==========================================================================
+
+  @Test
+  public void opposite() {
+    assertEquals(White, Black.opposite());
+    assertEquals(Black, White.opposite());
+  }
 }

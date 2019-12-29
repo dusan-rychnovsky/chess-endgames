@@ -8,4 +8,13 @@ public enum Color {
   public static Color parse(String color) {
     return valueOf(capitalize(color));
   }
+
+  public Color opposite() {
+    if (this == White) {
+      return Black;
+    }
+    else {
+      return White;
+    }
+  }
 }
