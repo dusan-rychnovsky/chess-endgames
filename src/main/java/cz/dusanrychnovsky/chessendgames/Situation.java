@@ -23,6 +23,6 @@ public class Situation {
   }
 
   public String print() {
-    return "";
+    return this.color + "\n" + this.board.print();
   }
 }
