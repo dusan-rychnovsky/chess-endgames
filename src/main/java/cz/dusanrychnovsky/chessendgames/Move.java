@@ -1,6 +1,15 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import lombok.Value;
+
+@Value
 public class Move {
-  public Move(Position from, Position to) {
+
+  Position from;
+  Position to;
+
+  public static Move parse(String value) {
+    var tokens = value.split(" ");
+    return new Move(Position.parse(tokens[0]), Position.parse(tokens[1]));
   }
 }
