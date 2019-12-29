@@ -35,9 +35,9 @@ public class App
         builder.add(entry.piece(), entry.position());
       }
       var board = builder.build();
+      var situation = new Situation(color, board);
 
-      out.write(color + "\n");
-      out.write(board.print());
+      out.write(situation.print());
       out.flush();
     }
 }
