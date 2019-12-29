@@ -39,5 +39,14 @@ public class App
 
       out.write(situation.print());
       out.flush();
+
+      out.write("Enter " + color + " move:\n");
+      line = in.readLine();
+      var move = Move.parse(line);
+
+      situation = situation.next(move);
+
+      out.write(situation.print());
+      out.flush();
     }
 }
