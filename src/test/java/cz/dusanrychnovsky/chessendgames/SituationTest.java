@@ -9,6 +9,19 @@ import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Position.*;
 
 public class SituationTest {
+
+  // ==========================================================================
+  // Next
+  // ==========================================================================
+
+  @Test
+  public void next_swapsColor() {
+    var board = Board.builder().build();
+    var move = new Move(D3, E5);
+    assertEquals(Black, new Situation(White, board).next(move).color());
+    assertEquals(White, new Situation(Black, board).next(move).color());
+  }
+
   @Test
   @Ignore
   public void next_appliesMove() {
