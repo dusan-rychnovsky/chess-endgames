@@ -2,7 +2,12 @@ package cz.dusanrychnovsky.chessendgames;
 
 public class Situation {
 
-  public Situation(Player player, Player opponent, Board situation) {
+  private final Color color;
+  private final Board board;
+
+  public Situation(Color color, Board board) {
+    this.color = color;
+    this.board = board;
   }
 
   public Board board() {
@@ -13,7 +18,11 @@ public class Situation {
     return Status.InProgress;
   }
 
-  public Situation next() {
+  public Situation next(Move move) {
     return this;
+  }
+
+  public String print() {
+    return "";
   }
 }

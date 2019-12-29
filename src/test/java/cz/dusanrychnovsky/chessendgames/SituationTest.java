@@ -11,17 +11,17 @@ import static cz.dusanrychnovsky.chessendgames.Position.*;
 public class SituationTest {
   @Test
   @Ignore
-  public void next_appliesCurrentPlayersMove() {
+  public void next_appliesMove() {
+    var move = new Move(D3, D4);
     var situation = new Situation(
-      new ScriptedPlayer(White, new Move(D3, D4)),
-      new ScriptedPlayer(Black),
+      White,
       Board.builder()
         .add(WhiteKing, D3)
         .add(BlackKing, F5)
         .add(BlackRook, E6)
         .build());
 
-    situation = situation.next();
+    situation = situation.next(move);
 
     Assert.assertEquals(
       Board.builder()
