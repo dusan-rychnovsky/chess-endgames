@@ -19,13 +19,13 @@ public class Situation {
   }
 
   public Situation next(Move move) {
-    var maybePiece = board.atPosition(move.from());
-    maybePiece.orElseThrow(() -> new IllegalArgumentException("No piece at position: " + move.from()));
-    var piece = maybePiece.get();
+    var from = move.from();
+    var piece = board.atPosition(from).orElseThrow(
+      () -> new IllegalArgumentException("No piece at position: " + from));
 
     var pieces = new HashMap<Position, Piece>();
     for (var entry : board.pieces().entrySet()) {
-      if (entry.getKey() != move.from()) {
+      if (entry.getKey() != from) {
         pieces.put(entry.getKey(), entry.getValue());
       }
     }
