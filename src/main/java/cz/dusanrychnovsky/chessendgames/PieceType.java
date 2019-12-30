@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
 
 public enum PieceType {
@@ -13,7 +14,13 @@ public enum PieceType {
   King {
     @Override
     public Set<Move> moves(Position from) {
-      return null;
+      return stream(Position.values())
+        .filter(pos ->
+          from.column().distanceTo(pos.column()) <= 1 &&
+          from.row().distanceTo(pos.row()) <= 1)
+        .filter(pos -> pos != from)
+        .map(pos -> new Move(from, pos))
+        .collect(toSet());
     }
   },
 
@@ -24,7 +31,7 @@ public enum PieceType {
       return concat(column(from), row(from))
         .filter(pos -> pos != from)
         .map(pos -> new Move(from, pos))
-        .collect(Collectors.toSet());
+        .collect(toSet());
     }
 
     private Stream<Position> column(Position from) {

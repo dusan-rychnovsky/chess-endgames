@@ -58,6 +58,26 @@ public class PieceTypeTest {
       Rook.moves(D3));
   }
 
+  // ==========================================================================
+  // King Moving
+  // ==========================================================================
+
+  @Test
+  public void king_moves_returnsAdjacent() {
+    assertSetEquals(
+      Set.of(
+        new Move(D3, E2),
+        new Move(D3, E3),
+        new Move(D3, E4),
+        new Move(D3, D2),
+        new Move(D3, D4),
+        new Move(D3, C2),
+        new Move(D3, C3),
+        new Move(D3, C4)),
+      King.moves(D3)
+    );
+  }
+
   private <T> void assertSetEquals(Set<T> expected, Set<T> actual) {
     assertEquals(expected.size(), actual.size());
     for (var item : actual) {
