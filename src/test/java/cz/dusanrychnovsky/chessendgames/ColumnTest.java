@@ -76,4 +76,25 @@ public class ColumnTest {
     assertEquals("C", CC.toString());
     assertEquals("H", CH.toString());
   }
+
+  // ==========================================================================
+  // Distance
+  // ==========================================================================
+
+  @Test
+  public void distance_isZeroForSameColumn() {
+    assertEquals(0, CB.distanceTo(CB));
+  }
+
+  @Test
+  public void distance_isOneForAdjacentColumns() {
+    assertEquals(1, CB.distanceTo(CC));
+    assertEquals(1, CC.distanceTo(CB));
+  }
+
+  @Test
+  public void distance_isSevenForOppositeBorders() {
+    assertEquals(7, CA.distanceTo(CH));
+    assertEquals(7, CH.distanceTo(CA));
+  }
 }

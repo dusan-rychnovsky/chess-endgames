@@ -27,4 +27,8 @@ public interface Navigable<T extends Navigable<T>> {
       return empty();
     }
   }
+
+  default int distanceTo(T other) {
+    return Math.abs(ord() - other.ord());
+  }
 }

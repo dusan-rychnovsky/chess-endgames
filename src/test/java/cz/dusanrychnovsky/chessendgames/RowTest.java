@@ -64,4 +64,25 @@ public class RowTest {
     assertEquals("3", R3.toString());
     assertEquals("8", R8.toString());
   }
+
+  // ==========================================================================
+  // Distance
+  // ==========================================================================
+
+  @Test
+  public void distance_isZeroForSameRow() {
+    assertEquals(0, R2.distanceTo(R2));
+  }
+
+  @Test
+  public void distance_isOneForAdjacentRows() {
+    assertEquals(1, R2.distanceTo(R3));
+    assertEquals(1, R3.distanceTo(R2));
+  }
+
+  @Test
+  public void distance_isSevenForOppositeBorders() {
+    assertEquals(7, R1.distanceTo(R8));
+    assertEquals(7, R8.distanceTo(R1));
+  }
 }
