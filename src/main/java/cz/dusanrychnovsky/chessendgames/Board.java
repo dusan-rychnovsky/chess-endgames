@@ -15,6 +15,10 @@ public class Board {
     this.pieces = pieces;
   }
 
+  public Map<Position, Piece> pieces() {
+    return pieces;
+  }
+
   public static Builder builder() {
     return new Builder();
   }
@@ -93,5 +97,20 @@ public class Board {
     public Position position() {
       return this.position;
     }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Board)) {
+      return false;
+    }
+
+    Board other = (Board) obj;
+    return pieces.equals(other.pieces);
+  }
+
+  @Override
+  public int hashCode() {
+    return pieces.hashCode();
   }
 }
