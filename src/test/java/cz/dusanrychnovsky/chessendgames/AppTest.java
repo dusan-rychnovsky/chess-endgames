@@ -88,4 +88,54 @@ public class AppTest {
       writer.toString()
     );
   }
+
+  @Test
+  @Ignore
+  public void run_executesScenarioWithConsoleInOut_handlesInvalidMoves() throws IOException {
+    var in = new BufferedReader(new StringReader(
+      "black\n" +
+        "white king d3\n" +
+        "black king f5\n" +
+        "black rook e6\n" +
+        "\n" +
+        "e7 e4\n" +
+        "e6 e4\n"
+    ));
+
+    var writer = new StringWriter();
+    var out = new BufferedWriter(writer);
+
+    App.run(in, out);
+
+    Assert.assertEquals(
+      "Chess End Games v. 0.1\n" +
+        "\n" +
+        "Enter Initial Situation:\n" +
+        "Black\n" +
+        "8 | . . . . . . . .\n" +
+        "7 | . . . . . . . .\n" +
+        "6 | . . . . R . . .\n" +
+        "5 | . . . . . K . .\n" +
+        "4 | . . . . . . . .\n" +
+        "3 | . . . K . . . .\n" +
+        "2 | . . . . . . . .\n" +
+        "1 | . . . . . . . .\n" +
+        "--|----------------\n" +
+        "  | A B C D E F G H\n" +
+        "Enter Black move:\n" +
+        "Move is not valid.\n" +
+        "Enter Black move:\n" +
+        "8 | . . . . . . . .\n" +
+        "7 | . . . . . . . .\n" +
+        "6 | . . . . . . . .\n" +
+        "5 | . . . . . K . .\n" +
+        "4 | . . . . R . . .\n" +
+        "3 | . . . K . . . .\n" +
+        "2 | . . . . . . . .\n" +
+        "1 | . . . . . . . .\n" +
+        "--|----------------\n" +
+        "  | A B C D E F G H\n",
+      writer.toString()
+    );
+  }
 }
