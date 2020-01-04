@@ -40,13 +40,17 @@ public class App
       out.write(situation.print());
       out.flush();
 
-      out.write("Enter " + color + " move:\n");
-      line = in.readLine();
-      var move = Move.parse(line);
+      for (int i = 0; i < 2; i++) {
+        color = situation.color();
 
-      situation = situation.next(move);
+        out.write("Enter " + color + " move:\n");
+        line = in.readLine();
+        var move = Move.parse(line);
 
-      out.write(situation.print());
-      out.flush();
+        situation = situation.next(move);
+
+        out.write(situation.print());
+        out.flush();
+      }
     }
 }
