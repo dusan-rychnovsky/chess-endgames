@@ -32,10 +32,17 @@ public class Situation {
   }
 
   public boolean isValid(Move move) {
+
     if (board.atPosition(move.from()).isEmpty()) {
       return false;
     }
-    if (board.atPosition(move.to()).filter(piece -> piece.color() == color).isPresent()) {
+
+    var piece = board.atPosition(move.from()).get();
+    if (piece.color() != color) {
+      return false;
+    }
+
+    if (board.atPosition(move.to()).filter(target -> target.color() == color).isPresent()) {
       return false;
     }
     return true;

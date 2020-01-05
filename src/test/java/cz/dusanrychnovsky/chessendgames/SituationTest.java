@@ -129,6 +129,20 @@ public class SituationTest {
   }
 
   @Test
+  public void moveIsNotValid_whenWithOpponentsPiece() {
+    var move = new Move(D8, D1);
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, F5)
+        .add(BlackKing, D3)
+        .add(BlackRook, D8)
+        .build());
+
+    assertFalse(situation.isValid(move));
+  }
+
+  @Test
   public void moveIsValid_whenCapturing() {
     var move = new Move(F5, E6);
     var situation = new Situation(
