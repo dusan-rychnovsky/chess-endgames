@@ -30,4 +30,8 @@ public class Situation {
   public String print() {
     return color + "\n" + board.print();
   }
+
+  public boolean isValid(Move move) {
+    return board.atPosition(move.from()).isPresent();
+  }
 }

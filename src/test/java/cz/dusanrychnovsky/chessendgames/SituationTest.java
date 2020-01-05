@@ -1,8 +1,9 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
@@ -107,5 +108,37 @@ public class SituationTest {
       "--|----------------\n" +
       "  | A B C D E F G H\n",
       situation.print());
+  }
+
+  // ==========================================================================
+  // Validating
+  // ==========================================================================
+
+  @Test
+  public void moveIsNotValid_whenNoPiecePresentAtFrom() {
+    var move = new Move(E7, E1);
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, D3)
+        .add(BlackKing, F5)
+        .add(BlackRook, E6)
+        .build());
+
+    assertFalse(situation.isValid(move));
+  }
+
+  @Test
+  public void moveIsValid_whenCapturing() {
+    var move = new Move(F5, E6);
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, F5)
+        .add(BlackKing, D3)
+        .add(BlackRook, E6)
+        .build());
+
+    assertTrue(situation.isValid(move));
   }
 }
