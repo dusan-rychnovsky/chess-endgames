@@ -6,12 +6,19 @@ import static java.util.Optional.of;
 
 public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T> {
 
+  private final Axis<T> axis;
   private final T from;
   private final T to;
 
   public Range(T from, T to) {
     this.from = from;
     this.to = to;
+    if (from.compareTo(to) <= 1) {
+      axis = Axis.right();
+    }
+    else {
+      axis = Axis.left();
+    }
   }
 
   @Override
@@ -29,26 +36,8 @@ public class Range<T extends Comparable<T> & Navigable<T>> implements Iterable<T
       @Override
       public T next() {
         var result = curr.get();
-
-        var comparison = (int) Math.signum(to.compareTo(result));
-        switch (comparison) {
-          case 0:
-            hasNext = false;
-            break;
-
-          case 1:
-            curr = result.next();
-            break;
-
-          case -1:
-            curr = result.prev();
-            break;
-
-          default:
-            throw new IllegalStateException(
-              "Unexpected comparison result: " + to + " x " + result + ": " + comparison
-            );
-        }
+        curr = axis.next(result);
+        hasNext = !result.equals(to);
         return result;
       }
     };

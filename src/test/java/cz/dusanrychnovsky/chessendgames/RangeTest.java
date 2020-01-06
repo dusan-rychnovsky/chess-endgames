@@ -7,8 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
 
-import java.util.Iterator;
-
 public class RangeTest {
 
   // ==========================================================================
