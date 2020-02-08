@@ -30,9 +30,9 @@ public class Board {
   public String print() {
     var result = new StringBuilder();
 
-    for (var row : new Range<>(R8, R1)) {
+    for (var row : Range.from(R8, R1)) {
       result.append(row + " |");
-      for (var column : new Range<>(CA, CH)) {
+      for (var column : Range.from(CA, CH)) {
         var position = Position.get(column, row);
         result.append(
           " " +
