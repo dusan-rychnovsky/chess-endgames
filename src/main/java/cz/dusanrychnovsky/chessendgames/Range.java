@@ -65,22 +65,30 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
       if (from.row() == to.row()) {
         if (from.column().compareTo(to.column()) <= 0) {
           // left to right
-          return pos -> pos.column().next().map(col -> Position.get(col, pos.row()));
+          return pos ->
+            pos.column().next()
+              .map(col -> Position.get(col, pos.row()));
         }
         else {
           // right to left
-          return pos -> pos.column().prev().map(col -> Position.get(col, pos.row()));
+          return pos ->
+            pos.column().prev()
+              .map(col -> Position.get(col, pos.row()));
         }
       }
       // vertical
       if (from.column() == to.column()) {
         if (from.row().compareTo(to.row()) <= 0) {
           // bottom to top
-          return pos -> pos.row().next().map(row -> Position.get(pos.column(), row));
+          return pos ->
+            pos.row().next()
+              .map(row -> Position.get(pos.column(), row));
         }
         else {
           // top to bottom
-          return pos -> pos.row().prev().map(row -> Position.get(pos.column(), row));
+          return pos ->
+            pos.row().prev()
+              .map(row -> Position.get(pos.column(), row));
         }
       }
       // diagonal
@@ -88,21 +96,33 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
         if (from.column().compareTo(to.column()) <= 0) {
           if (from.row().compareTo(to.row()) <= 0) {
             // bottom left to top right
-            return pos -> pos.row().next().flatMap(row -> pos.column().next().map(col -> Position.get(col, row)));
+            return pos ->
+              pos.row().next()
+                .flatMap(row -> pos.column().next()
+                  .map(col -> Position.get(col, row)));
           }
           else {
             // top left to bottom right
-            return pos -> pos.row().prev().flatMap(row -> pos.column().next().map(col -> Position.get(col, row)));
+            return pos ->
+              pos.row().prev()
+                .flatMap(row -> pos.column().next()
+                  .map(col -> Position.get(col, row)));
           }
         }
         else {
           if (from.row().compareTo(to.row()) <= 0) {
             // bottom right to top left
-            return pos -> pos.row().next().flatMap(row -> pos.column().prev().map(col -> Position.get(col, row)));
+            return pos ->
+              pos.row().next()
+                .flatMap(row -> pos.column().prev()
+                  .map(col -> Position.get(col, row)));
           }
           else {
             // top right to bottom left
-            return pos -> pos.row().prev().flatMap(row -> pos.column().prev().map(col -> Position.get(col, row)));
+            return pos ->
+              pos.row().prev()
+                .flatMap(row -> pos.column().prev()
+                  .map(col -> Position.get(col, row)));
           }
         }
       }
