@@ -1,6 +1,8 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -255,5 +257,14 @@ public class RangeTest {
     assertEquals(E7, it.next());
     assertEquals(E8, it.next());
     assertFalse(it.hasNext());
+  }
+
+  // ==========================================================================
+  // Iterating Position Illegal
+  // ==========================================================================
+
+  @Test(expected=IllegalArgumentException.class)
+  public void iterator_pos_illegal() {
+    Range.from(C3, D5);
   }
 }
