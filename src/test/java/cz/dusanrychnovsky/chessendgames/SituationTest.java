@@ -169,4 +169,18 @@ public class SituationTest {
 
     assertFalse(situation.isValid(move));
   }
+
+  @Test
+  public void moveIsNotValid_whenAcrossAPiece() {
+    var move = new Move(D8, D3);
+    var situation = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, D6)
+        .add(BlackKing, D2)
+        .add(BlackRook, D8)
+        .build());
+
+    assertFalse(situation.isValid(move));
+  }
 }

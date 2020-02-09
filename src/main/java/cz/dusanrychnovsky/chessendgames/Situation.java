@@ -45,6 +45,15 @@ public class Situation {
     if (board.atPosition(move.to()).filter(target -> target.color() == color).isPresent()) {
       return false;
     }
+
+    for (var pos : Range.from(move.from(), move.to())) {
+      if (pos != move.from() && pos != move.to()) {
+        if (board.atPosition(pos).isPresent()) {
+          return false;
+        }
+      }
+    }
+
     return true;
   }
 }
