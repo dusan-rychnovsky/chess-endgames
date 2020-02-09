@@ -11,11 +11,16 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
   private final T to;
 
   public static <T extends Comparable<T> & Navigable> Range<T> from(T from, T to) {
-    return new Range<>(
-      from,
-      to,
-      from.compareTo(to) <= 0 ? Axis.right() : Axis.left()
-    );
+    return new Range<>(from, to, getAxis(from, to));
+  }
+
+  private static <T extends Comparable<T> & Navigable> Axis<T> getAxis(T from, T to) {
+    if (from.compareTo(to) <= 0) {
+      return Navigable::next;
+    }
+    else {
+      return Navigable::prev;
+    }
   }
 
   public static Range<Position> from(Position from, Position to) {
