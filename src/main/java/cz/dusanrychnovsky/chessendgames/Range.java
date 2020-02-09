@@ -14,8 +14,50 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
     return new Range<>(
       from,
       to,
-      from.compareTo(to) <= 1 ? Axis.right() : Axis.left()
+      from.compareTo(to) <= 0 ? Axis.right() : Axis.left()
     );
+  }
+
+  public static Range<Position> from(Position from, Position to) {
+    if (from.row() == to.row()) {
+      if (from.column().compareTo(to.column()) <= 0) {
+        // left to right
+        return new Range<>(
+          from,
+          to,
+          pos -> pos.column().next().map(col -> Position.get(col, pos.row()))
+        );
+      }
+      else {
+        // right to left
+        return new Range<>(
+          from,
+          to,
+          pos -> pos.column().prev().map(col -> Position.get(col, pos.row()))
+        );
+      }
+    }
+
+    if (from.column() == to.column()) {
+      if (from.row().compareTo(to.row()) <= 0) {
+        // bottom to top
+        return new Range<>(
+          from,
+          to,
+          pos -> pos.row().next().map(row -> Position.get(pos.column(), row))
+        );
+      }
+      else {
+        // top to bottom
+        return new Range<>(
+          from,
+          to,
+          pos -> pos.row().prev().map(row -> Position.get(pos.column(), row))
+        );
+      }
+    }
+
+    throw new IllegalArgumentException("Unsupported combination of positions: " + from + ", " + to + ".");
   }
 
   public Range(T from, T to, Axis<T> axis) {
