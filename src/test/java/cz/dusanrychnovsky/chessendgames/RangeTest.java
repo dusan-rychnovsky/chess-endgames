@@ -260,6 +260,142 @@ public class RangeTest {
   }
 
   // ==========================================================================
+  // Iterating Position Diagonal
+  // ==========================================================================
+
+  @Test
+  public void iterator_pos_topLeftToBotRight() {
+    var range = Range.from(B5, D3);
+    var it = range.iterator();
+    assertEquals(B5, it.next());
+    assertEquals(C4, it.next());
+    assertEquals(D3, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_topLeftToBotRight_fullDiagonal() {
+    var range = Range.from(A8, H1);
+    var it = range.iterator();
+    assertEquals(A8, it.next());
+    assertEquals(B7, it.next());
+    assertEquals(C6, it.next());
+    assertEquals(D5, it.next());
+    assertEquals(E4, it.next());
+    assertEquals(F3, it.next());
+    assertEquals(G2, it.next());
+    assertEquals(H1, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_topLeftToBotRight_leftCorner() {
+    var range = Range.from(A1, A1);
+    var it = range.iterator();
+    assertEquals(A1, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_topLeftToBotRight_rightCorner() {
+    var range = Range.from(H8, H8);
+    var it = range.iterator();
+    assertEquals(H8, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_botRightToTopLeft() {
+    var range = Range.from(D3, B5);
+    var it = range.iterator();
+    assertEquals(D3, it.next());
+    assertEquals(C4, it.next());
+    assertEquals(B5, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_botRightToTopLeft_fullDiagonal() {
+    var range = Range.from(H1, A8);
+    var it = range.iterator();
+    assertEquals(H1, it.next());
+    assertEquals(G2, it.next());
+    assertEquals(F3, it.next());
+    assertEquals(E4, it.next());
+    assertEquals(D5, it.next());
+    assertEquals(C6, it.next());
+    assertEquals(B7, it.next());
+    assertEquals(A8, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_botLeftToTopRight() {
+    var range = Range.from(B5, D7);
+    var it = range.iterator();
+    assertEquals(B5, it.next());
+    assertEquals(C6, it.next());
+    assertEquals(D7, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_botLeftToTopRight_fullDiagonal() {
+    var range = Range.from(A1, H8);
+    var it = range.iterator();
+    assertEquals(A1, it.next());
+    assertEquals(B2, it.next());
+    assertEquals(C3, it.next());
+    assertEquals(D4, it.next());
+    assertEquals(E5, it.next());
+    assertEquals(F6, it.next());
+    assertEquals(G7, it.next());
+    assertEquals(H8, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_botLeftToTopRight_leftCorner() {
+    var range = Range.from(A8, A8);
+    var it = range.iterator();
+    assertEquals(A8, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_botLeftToTopRight_rightCorner() {
+    var range = Range.from(H1, H1);
+    var it = range.iterator();
+    assertEquals(H1, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_topRightToBotLeft() {
+    var range = Range.from(F7, D5);
+    var it = range.iterator();
+    assertEquals(F7, it.next());
+    assertEquals(E6, it.next());
+    assertEquals(D5, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  @Test
+  public void iterator_pos_topRightToBotLeft_fullDiagonal() {
+    var range = Range.from(H8, A1);
+    var it = range.iterator();
+    assertEquals(H8, it.next());
+    assertEquals(G7, it.next());
+    assertEquals(F6, it.next());
+    assertEquals(E5, it.next());
+    assertEquals(D4, it.next());
+    assertEquals(C3, it.next());
+    assertEquals(B2, it.next());
+    assertEquals(A1, it.next());
+    assertFalse(it.hasNext());
+  }
+
+  // ==========================================================================
   // Iterating Position Illegal
   // ==========================================================================
 
