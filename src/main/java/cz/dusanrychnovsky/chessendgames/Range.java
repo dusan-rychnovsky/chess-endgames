@@ -82,4 +82,8 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
       }
     };
   }
+
+  private interface Axis<T> {
+    Optional<T> next(T from);
+  }
 }
