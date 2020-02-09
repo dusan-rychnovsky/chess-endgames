@@ -11,70 +11,11 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
   private final T to;
 
   public static <T extends Comparable<T> & Navigable> Range<T> from(T from, T to) {
-    return new Range<>(from, to, getAxis(from, to));
-  }
-
-  private static <T extends Comparable<T> & Navigable> Axis<T> getAxis(T from, T to) {
-    if (from.compareTo(to) <= 0) {
-      // left to right
-      return Navigable::next;
-    }
-    else {
-      // right to left
-      return Navigable::prev;
-    }
+    return new Range<>(from, to, Axis.get(from, to));
   }
 
   public static Range<Position> from(Position from, Position to) {
-    return new Range<>(from, to, getAxis(from, to));
-  }
-
-  private static Axis<Position> getAxis(Position from, Position to) {
-    if (from.row() == to.row()) {
-      if (from.column().compareTo(to.column()) <= 0) {
-        // left to right
-        return pos -> pos.column().next().map(col -> Position.get(col, pos.row()));
-      }
-      else {
-        // right to left
-        return pos -> pos.column().prev().map(col -> Position.get(col, pos.row()));
-      }
-    }
-    if (from.column() == to.column()) {
-      if (from.row().compareTo(to.row()) <= 0) {
-        // bottom to top
-        return pos -> pos.row().next().map(row -> Position.get(pos.column(), row));
-      }
-      else {
-        // top to bottom
-        return pos -> pos.row().prev().map(row -> Position.get(pos.column(), row));
-      }
-    }
-    if (from.column().distanceTo(to.column()) == from.row().distanceTo(to.row())) {
-      if (from.column().compareTo(to.column()) <= 0) {
-        if (from.row().compareTo(to.row()) <= 0) {
-          // bottom left to top right
-          return pos -> pos.row().next().flatMap(row -> pos.column().next().map(col -> Position.get(col, row)));
-        }
-        if (from.row().compareTo(to.row()) > 0) {
-          // top left to bottom right
-          return pos -> pos.row().prev().flatMap(row -> pos.column().next().map(col -> Position.get(col, row)));
-        }
-      }
-      else {
-        if (from.row().compareTo(to.row()) <= 0) {
-          // bottom right to top left
-          return pos -> pos.row().next().flatMap(row -> pos.column().prev().map(col -> Position.get(col, row)));
-        }
-        if (from.row().compareTo(to.row()) > 0) {
-          // top right to bottom left
-          return pos -> pos.row().prev().flatMap(row -> pos.column().prev().map(col -> Position.get(col, row)));
-        }
-      }
-    }
-    throw new IllegalArgumentException(
-      "Unsupported combination of positions: " + from + ", " + to + "."
-    );
+    return new Range<>(from, to, Axis.get(from, to));
   }
 
   public Range(T from, T to, Axis<T> axis) {
@@ -107,5 +48,64 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
 
   private interface Axis<T> {
     Optional<T> next(T from);
+
+    static <T extends Comparable<T> & Navigable> Axis<T> get(T from, T to) {
+      if (from.compareTo(to) <= 0) {
+        // left to right
+        return Navigable::next;
+      }
+      else {
+        // right to left
+        return Navigable::prev;
+      }
+    }
+
+    static Axis<Position> get(Position from, Position to) {
+      if (from.row() == to.row()) {
+        if (from.column().compareTo(to.column()) <= 0) {
+          // left to right
+          return pos -> pos.column().next().map(col -> Position.get(col, pos.row()));
+        }
+        else {
+          // right to left
+          return pos -> pos.column().prev().map(col -> Position.get(col, pos.row()));
+        }
+      }
+      if (from.column() == to.column()) {
+        if (from.row().compareTo(to.row()) <= 0) {
+          // bottom to top
+          return pos -> pos.row().next().map(row -> Position.get(pos.column(), row));
+        }
+        else {
+          // top to bottom
+          return pos -> pos.row().prev().map(row -> Position.get(pos.column(), row));
+        }
+      }
+      if (from.column().distanceTo(to.column()) == from.row().distanceTo(to.row())) {
+        if (from.column().compareTo(to.column()) <= 0) {
+          if (from.row().compareTo(to.row()) <= 0) {
+            // bottom left to top right
+            return pos -> pos.row().next().flatMap(row -> pos.column().next().map(col -> Position.get(col, row)));
+          }
+          if (from.row().compareTo(to.row()) > 0) {
+            // top left to bottom right
+            return pos -> pos.row().prev().flatMap(row -> pos.column().next().map(col -> Position.get(col, row)));
+          }
+        }
+        else {
+          if (from.row().compareTo(to.row()) <= 0) {
+            // bottom right to top left
+            return pos -> pos.row().next().flatMap(row -> pos.column().prev().map(col -> Position.get(col, row)));
+          }
+          if (from.row().compareTo(to.row()) > 0) {
+            // top right to bottom left
+            return pos -> pos.row().prev().flatMap(row -> pos.column().prev().map(col -> Position.get(col, row)));
+          }
+        }
+      }
+      throw new IllegalArgumentException(
+        "Unsupported combination of positions: " + from + ", " + to + "."
+      );
+    }
   }
 }
