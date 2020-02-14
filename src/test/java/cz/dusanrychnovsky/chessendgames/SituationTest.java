@@ -183,4 +183,34 @@ public class SituationTest {
 
     assertFalse(situation.isValid(move));
   }
+
+  @Test
+  public void moveIsNotValid_whenUnavailableForThatPieceType() {
+    var situation = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, D6)
+        .add(BlackKing, D2)
+        .add(BlackRook, D8)
+        .build());
+
+    assertFalse(situation.isValid(new Move(D8, E7)));
+    assertFalse(situation.isValid(new Move(D8, E2)));
+    assertFalse(situation.isValid(new Move(D2, D4)));
+  }
+
+  @Test
+  public void validMoves() {
+    var situation = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, D6)
+        .add(BlackKing, D2)
+        .add(BlackRook, D8)
+        .build());
+
+    assertTrue(situation.isValid(new Move(D2, D3)));
+    assertTrue(situation.isValid(new Move(D2, E3)));
+    assertTrue(situation.isValid(new Move(D8, G8)));
+  }
 }

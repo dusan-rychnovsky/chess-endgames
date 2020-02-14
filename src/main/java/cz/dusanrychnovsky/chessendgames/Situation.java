@@ -41,6 +41,9 @@ public class Situation {
     if (piece.color() != color) {
       return false;
     }
+    if (!piece.type().moves(move.from()).contains(move)) {
+      return false;
+    }
 
     if (board.atPosition(move.to()).filter(target -> target.color() == color).isPresent()) {
       return false;
