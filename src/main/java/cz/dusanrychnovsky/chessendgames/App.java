@@ -47,6 +47,11 @@ public class App
         line = in.readLine();
         var move = Move.parse(line);
 
+        if (!situation.isValid(move)) {
+          out.write("Move is not valid.\n");
+          continue;
+        }
+
         situation = situation.next(move);
 
         out.write(situation.print());

@@ -90,7 +90,6 @@ public class AppTest {
   }
 
   @Test
-  @Ignore
   public void run_executesScenarioWithConsoleInOut_handlesInvalidMoves() throws IOException {
     var in = new BufferedReader(new StringReader(
       "black\n" +
@@ -125,6 +124,7 @@ public class AppTest {
         "Enter Black move:\n" +
         "Move is not valid.\n" +
         "Enter Black move:\n" +
+        "White\n" +
         "8 | . . . . . . . .\n" +
         "7 | . . . . . . . .\n" +
         "6 | . . . . . . . .\n" +
