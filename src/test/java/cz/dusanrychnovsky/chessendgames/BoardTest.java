@@ -7,6 +7,7 @@ import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.Position.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
 
@@ -89,5 +90,24 @@ public class BoardTest {
         "--|----------------\n" +
         "  | A B C D E F G H\n",
       board.print());
+  }
+
+  // ==========================================================================
+  // Filtering
+  // ==========================================================================
+
+  @Test
+  public void pieces_ofColor_returnsAllPiecesOfTheGivenColor() {
+    var board = Board.builder()
+      .add(WhiteKing, D3)
+      .add(BlackKing, F5)
+      .add(BlackRook, E6)
+      .build();
+
+    var pieces = board.pieces(Black);
+
+    assertEquals(2, pieces.size());
+    assertEquals(BlackKing, pieces.get(F5));
+    assertEquals(BlackRook, pieces.get(E6));
   }
 }
