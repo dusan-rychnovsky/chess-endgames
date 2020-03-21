@@ -80,18 +80,21 @@ public class Situation {
   }
 
   public boolean isMate() {
-    if (!isCheck()) {
-      return false;
-    }
+    return isCheck() && !kingCanMove();
+  }
 
+  public boolean isStalemate() {
+    return !isCheck() && !kingCanMove();
+  }
+
+  private boolean kingCanMove() {
     var king = single(board.king(color).entrySet());
     var kingPos = king.getKey();
     for (var move : king.getValue().type().moves(kingPos)) {
       if (isValid(move)) {
-        return false;
+        return true;
       }
     }
-
-    return true;
+    return false;
   }
 }

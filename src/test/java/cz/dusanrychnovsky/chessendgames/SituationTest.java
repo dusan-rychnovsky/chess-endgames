@@ -327,4 +327,60 @@ public class SituationTest {
 
     assertFalse(situation.isMate());
   }
+
+  // ==========================================================================
+  // Stalemate
+  // ==========================================================================
+
+  @Test
+  public void isStalemate_whenNotCheckAndKingCanNotMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, A1)
+        .add(BlackKing, A3)
+        .add(BlackRook, B3)
+        .build());
+
+    assertTrue(situation.isStalemate());
+  }
+
+  @Test
+  public void isNotStalemate_whenCheckAndKingCanNotMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+
+    assertFalse(situation.isStalemate());
+  }
+
+  @Test
+  public void isNotStalemate_whenCheckAndKingCanMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B4)
+        .add(BlackRook, D1)
+        .build());
+
+    assertFalse(situation.isStalemate());
+  }
+
+  @Test
+  public void isNotStalemate_whenNotCheckAndKingCanMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B4)
+        .add(BlackRook, D4)
+        .build());
+
+    assertFalse(situation.isStalemate());
+  }
 }
