@@ -200,6 +200,21 @@ public class SituationTest {
   }
 
   @Test
+  public void moveIsNotValid_whenSteppingIntoCheck() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, C3)
+        .add(BlackKing, C5)
+        .add(BlackRook, D2)
+        .build());
+
+    assertFalse(situation.isValid(new Move(C3, C4)));
+    assertFalse(situation.isValid(new Move(C3, C2)));
+    assertTrue(situation.isValid(new Move(C3, D2)));
+  }
+
+  @Test
   public void validMoves() {
     var situation = new Situation(
       Black,

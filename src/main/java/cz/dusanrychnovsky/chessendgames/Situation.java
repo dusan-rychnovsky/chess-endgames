@@ -58,6 +58,12 @@ public class Situation {
       }
     }
 
+    var nextSituation = next(move);
+    nextSituation = new Situation(color, nextSituation.board);
+    if (nextSituation.isCheck()) {
+      return false;
+    }
+
     return true;
   }
 
