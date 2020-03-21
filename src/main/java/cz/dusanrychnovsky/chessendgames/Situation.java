@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import static cz.dusanrychnovsky.chessendgames.IterableExtensions.single;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
 
 import lombok.Value;
@@ -58,5 +59,17 @@ public class Situation {
     }
 
     return true;
+  }
+
+  public boolean isCheck() {
+    var opponentsView = new Situation(color.opposite(), board);
+    var kingPos = single(board.king(color).keySet());
+    var opponentsPieces = board.pieces(color.opposite());
+    for (var pos : opponentsPieces.keySet()) {
+      if (opponentsView.isValid(new Move(pos, kingPos))) {
+        return true;
+      }
+    }
+    return false;
   }
 }

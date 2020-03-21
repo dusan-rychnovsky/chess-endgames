@@ -213,4 +213,47 @@ public class SituationTest {
     assertTrue(situation.isValid(new Move(D2, E3)));
     assertTrue(situation.isValid(new Move(D8, G8)));
   }
+
+  // ==========================================================================
+  // Check
+  // ==========================================================================
+
+  @Test
+  public void isCheck_whenEnemyPieceCouldCaptureCurrentPlayersKing() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, D6)
+        .add(BlackRook, D8)
+        .add(BlackKing, C8)
+        .build());
+
+    assertTrue(situation.isCheck());
+  }
+
+  @Test
+  public void isNotCheck_whenOwnPieceCouldCaptureCurrentPlayersKing() {
+    var situation = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, A1)
+        .add(BlackRook, D8)
+        .add(BlackKing, D2)
+        .build());
+
+    assertFalse(situation.isCheck());
+  }
+
+  @Test
+  public void isNotCheck_whenCurrentPlayersPieceCouldCaptureOpponentsKing() {
+    var situation = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, D6)
+        .add(BlackRook, D8)
+        .add(BlackKing, C8)
+        .build());
+
+    assertFalse(situation.isCheck());
+  }
 }
