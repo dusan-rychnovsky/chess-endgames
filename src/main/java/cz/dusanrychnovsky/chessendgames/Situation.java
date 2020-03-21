@@ -78,4 +78,20 @@ public class Situation {
     }
     return false;
   }
+
+  public boolean isMate() {
+    if (!isCheck()) {
+      return false;
+    }
+
+    var king = single(board.king(color).entrySet());
+    var kingPos = king.getKey();
+    for (var move : king.getValue().type().moves(kingPos)) {
+      if (isValid(move)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

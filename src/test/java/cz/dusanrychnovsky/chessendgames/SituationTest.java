@@ -271,4 +271,60 @@ public class SituationTest {
 
     assertFalse(situation.isCheck());
   }
+
+  // ==========================================================================
+  // Mate
+  // ==========================================================================
+
+  @Test
+  public void isMate_whenCheckAndKingCanNotMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+
+    assertTrue(situation.isMate());
+  }
+
+  @Test
+  public void isNotMate_whenCheckAndKingCanMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B4)
+        .add(BlackRook, D1)
+        .build());
+
+    assertFalse(situation.isMate());
+  }
+
+  @Test
+  public void isNotMate_whenNotCheckAndKingCanMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B4)
+        .add(BlackRook, D4)
+        .build());
+
+    assertFalse(situation.isMate());
+  }
+
+  @Test
+  public void isNotMate_whenNotCheckAndKingCanNotMove() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, A1)
+        .add(BlackKing, A3)
+        .add(BlackRook, B3)
+        .build());
+
+    assertFalse(situation.isMate());
+  }
 }
