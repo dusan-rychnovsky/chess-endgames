@@ -110,4 +110,18 @@ public class BoardTest {
     assertEquals(BlackKing, pieces.get(F5));
     assertEquals(BlackRook, pieces.get(E6));
   }
+
+  @Test
+  public void king_ofColor_returnsKingOfTheGivenColor() {
+    var board = Board.builder()
+      .add(WhiteKing, D3)
+      .add(BlackKing, F5)
+      .add(BlackRook, E6)
+      .build();
+
+    var pieces = board.king(Black);
+
+    assertEquals(1, pieces.size());
+    assertEquals(BlackKing, pieces.get(F5));
+  }
 }

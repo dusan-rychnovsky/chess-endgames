@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filter;
+import static cz.dusanrychnovsky.chessendgames.PieceType.King;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
 
@@ -22,6 +23,10 @@ public class Board {
 
   public Map<Position, Piece> pieces(Color color) {
     return filter(pieces, entry -> entry.getValue().color() == color);
+  }
+
+  public Map<Position, Piece> king(Color color) {
+    return filter(pieces, entry -> entry.getValue().equals(new Piece(color, King)));
   }
 
   public static Builder builder() {
