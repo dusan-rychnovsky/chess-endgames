@@ -75,11 +75,14 @@ public class Situation {
   }
 
   public boolean isCheck() {
-    var opponentsView = new Situation(color.opposite(), board);
-    var kingPos = single(board.king(color).keySet());
     var opponentsPieces = board.pieces(color.opposite());
+    var kingPos = board.king(color).keySet();
+    if (kingPos.isEmpty()) {
+      return false;
+    }
+    var opponentsView = new Situation(color.opposite(), board);
     for (var pos : opponentsPieces.keySet()) {
-      if (opponentsView.isValid(new Move(pos, kingPos))) {
+      if (opponentsView.isValid(new Move(pos, single(kingPos)))) {
         return true;
       }
     }

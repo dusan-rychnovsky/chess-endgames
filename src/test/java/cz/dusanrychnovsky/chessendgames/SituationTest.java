@@ -230,6 +230,19 @@ public class SituationTest {
     assertTrue(situation.isValid(new Move(D8, G8)));
   }
 
+  @Test
+  public void moveIsNotValid_WhenKingMovesNextToOpponentsKing() {
+    var situation = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, C3)
+        .add(BlackRook, C2)
+        .build());
+
+    situation.isValid(new Move(C3, B2));
+  }
+
   // ==========================================================================
   // Check
   // ==========================================================================
