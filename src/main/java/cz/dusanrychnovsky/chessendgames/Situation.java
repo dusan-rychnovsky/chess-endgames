@@ -2,6 +2,7 @@ package cz.dusanrychnovsky.chessendgames;
 
 import static cz.dusanrychnovsky.chessendgames.IterableExtensions.single;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
+import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 import lombok.Value;
 import lombok.experimental.Accessors;
@@ -14,7 +15,13 @@ public class Situation {
   Board board;
 
   public Status status() {
-    return Status.InProgress;
+    if (isStalemate()) {
+      return Draw;
+    }
+    if (isMate()) {
+      return win(color.opposite());
+    }
+    return InProgress;
   }
 
   public Situation next(Move move) {

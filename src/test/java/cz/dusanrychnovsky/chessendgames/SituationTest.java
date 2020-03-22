@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Position.*;
+import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 public class SituationTest {
 
@@ -382,5 +383,48 @@ public class SituationTest {
         .build());
 
     assertFalse(situation.isStalemate());
+  }
+
+  // ==========================================================================
+  // Status
+  // ==========================================================================
+
+  @Test
+  public void status_inProgress() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B4)
+        .add(BlackRook, D4)
+        .build());
+
+    assertEquals(InProgress, situation.status());
+  }
+
+  @Test
+  public void status_stalemate_isDraw() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, A1)
+        .add(BlackKing, A3)
+        .add(BlackRook, B3)
+        .build());
+
+    assertEquals(Draw, situation.status());
+  }
+
+  @Test
+  public void status_mate_isWin() {
+    var situation = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+
+    assertEquals(win(Black), situation.status());
   }
 }

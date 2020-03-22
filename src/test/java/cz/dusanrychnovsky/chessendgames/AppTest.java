@@ -325,7 +325,7 @@ public class AppTest {
       "1 | K . R . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Checkmate. Black wins.",
+      "Mate. Black wins.",
       writer.toString()
     );
   }

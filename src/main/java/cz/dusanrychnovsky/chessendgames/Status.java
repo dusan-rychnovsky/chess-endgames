@@ -1,5 +1,11 @@
 package cz.dusanrychnovsky.chessendgames;
 
-public enum Status {
-  InProgress
+public interface Status {
+
+  Status InProgress = new InProgress();
+  Status Draw = new Draw();
+
+  static Status win(Color color) {
+    return new Win(color);
+  }
 }
