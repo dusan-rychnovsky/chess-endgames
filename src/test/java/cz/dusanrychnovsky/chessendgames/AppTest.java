@@ -8,7 +8,6 @@ import java.io.*;
 
 public class AppTest {
   @Test
-  @Ignore
   public void run_executesScenarioWithConsoleInOut() throws IOException {
     var in = new BufferedReader(new StringReader(
       "black\n" +
@@ -97,8 +96,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter White move:\n" +
+      "Black\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -109,8 +108,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter Black move:\n" +
+      "White\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -121,13 +120,25 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter White move:\n" +
+      "Black\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
       "5 | . . . K . . . .\n" +
       "4 | . . . . R . . .\n" +
+      "3 | . . . . . . . .\n" +
+      "2 | . . . K . . . .\n" +
+      "1 | . . . . . . . .\n" +
+      "--|----------------\n" +
+      "  | A B C D E F G H\n" +
+      "Enter Black move:\n" +
+      "White\n" +
+      "8 | . . . . . . . .\n" +
+      "7 | . . . . . . . .\n" +
+      "6 | . . . . . . . .\n" +
+      "5 | . . . . . . . .\n" +
+      "4 | . . . K R . . .\n" +
       "3 | . . . . . . . .\n" +
       "2 | . . . K . . . .\n" +
       "1 | . . . . . . . .\n" +
@@ -141,7 +152,7 @@ public class AppTest {
       "5 | . . . . . . . .\n" +
       "4 | . . . K R . . .\n" +
       "3 | . . . . . . . .\n" +
-      "2 | . . . K . . . .\n" +
+      "2 | . . K . . . . .\n" +
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
@@ -151,8 +162,8 @@ public class AppTest {
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
       "5 | . . . . . . . .\n" +
-      "4 | . . . K R . . .\n" +
-      "3 | . . . . . . . .\n" +
+      "4 | . . . K . . . .\n" +
+      "3 | . . . . R . . .\n" +
       "2 | . . K . . . . .\n" +
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
@@ -325,7 +336,7 @@ public class AppTest {
       "1 | K . R . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Mate. Black wins.",
+      "Mate. Black wins.\n",
       writer.toString()
     );
   }
@@ -334,12 +345,12 @@ public class AppTest {
   public void run_executesScenarioWithConsoleInOut_handlesInvalidMoves() throws IOException {
     var in = new BufferedReader(new StringReader(
       "black\n" +
-        "white king d3\n" +
-        "black king f5\n" +
-        "black rook e6\n" +
+        "white king a1\n" +
+        "black king b3\n" +
+        "black rook c3\n" +
         "\n" +
-        "e7 e4\n" +
-        "e6 e4\n"
+        "c3 b3\n" +
+        "c3 c1\n"
     ));
 
     var writer = new StringWriter();
@@ -354,12 +365,12 @@ public class AppTest {
         "Black\n" +
         "8 | . . . . . . . .\n" +
         "7 | . . . . . . . .\n" +
-        "6 | . . . . R . . .\n" +
-        "5 | . . . . . K . .\n" +
+        "6 | . . . . . . . .\n" +
+        "5 | . . . . . . . .\n" +
         "4 | . . . . . . . .\n" +
-        "3 | . . . K . . . .\n" +
+        "3 | . K R . . . . .\n" +
         "2 | . . . . . . . .\n" +
-        "1 | . . . . . . . .\n" +
+        "1 | K . . . . . . .\n" +
         "--|----------------\n" +
         "  | A B C D E F G H\n" +
         "Enter Black move:\n" +
@@ -369,13 +380,14 @@ public class AppTest {
         "8 | . . . . . . . .\n" +
         "7 | . . . . . . . .\n" +
         "6 | . . . . . . . .\n" +
-        "5 | . . . . . K . .\n" +
-        "4 | . . . . R . . .\n" +
-        "3 | . . . K . . . .\n" +
+        "5 | . . . . . . . .\n" +
+        "4 | . . . . . . . .\n" +
+        "3 | . K . . . . . .\n" +
         "2 | . . . . . . . .\n" +
-        "1 | . . . . . . . .\n" +
+        "1 | K . R . . . . .\n" +
         "--|----------------\n" +
-        "  | A B C D E F G H\n",
+        "  | A B C D E F G H\n" +
+        "Mate. Black wins.\n",
       writer.toString()
     );
   }

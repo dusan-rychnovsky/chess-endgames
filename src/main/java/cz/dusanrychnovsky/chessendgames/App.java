@@ -1,5 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import static cz.dusanrychnovsky.chessendgames.Status.*;
+
 import java.io.*;
 
 public class App
@@ -40,7 +42,9 @@ public class App
       out.write(situation.print());
       out.flush();
 
-      for (int i = 0; i < 2; i++) {
+      var status = situation.status();
+      while (status.equals(InProgress)) {
+        System.out.println(situation.print());
         color = situation.color();
 
         out.write("Enter " + color + " move:\n");
@@ -53,9 +57,13 @@ public class App
         }
 
         situation = situation.next(move);
+        status = situation.status();
 
         out.write(situation.print());
         out.flush();
       }
+
+      out.write(status.print() + "\n");
+      out.flush();
     }
 }
