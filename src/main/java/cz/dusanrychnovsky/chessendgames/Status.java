@@ -8,4 +8,6 @@ public interface Status {
   static Status win(Color color) {
     return new Win(color);
   }
+
+  String print();
 }

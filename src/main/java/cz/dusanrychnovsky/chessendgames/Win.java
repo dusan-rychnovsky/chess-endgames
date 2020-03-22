@@ -5,4 +5,9 @@ import lombok.Value;
 @Value
 public class Win implements Status {
   Color color;
+
+  @Override
+  public String print() {
+    return "Mate. " + color + " wins.";
+  }
 }
