@@ -1,0 +1,53 @@
+syntax = "proto3";
+option java_package = "cz.dusanrychnovsky.chessendgames.proto";
+
+enum Column {
+  CA = 0; CB = 1; CC = 2; CD = 3; CE = 4; CF = 5; CG = 6; CH = 7;
+}
+
+enum Row {
+  R1 = 0; R2 = 1; R3 = 2; R4 = 3; R5 = 4; R6 = 5; R7 = 6; R8 = 7;
+}
+
+enum Color {
+  White = 0;
+  Black = 1;
+}
+
+enum PieceType {
+  King = 0;
+  Rook = 1;
+}
+
+message Piece {
+  Color color = 1;
+  PieceType type = 2;
+}
+
+message Position {
+  Column column = 1;
+  Row row = 2;
+}
+
+message Situation {
+  repeated Pair pairs = 1;
+
+  message Pair {
+    Position position = 1;
+    Piece piece = 2;
+  }
+}
+
+message Move {
+  Position from = 1;
+  Position to = 2;
+}
+
+message MovesDb {
+  repeated Pair pairs = 1;
+
+  message Pair {
+    Situation situation = 1;
+    Move move = 2;
+  }
+}
