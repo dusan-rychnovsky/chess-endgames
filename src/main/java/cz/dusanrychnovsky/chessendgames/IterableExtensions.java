@@ -8,6 +8,14 @@ import static java.util.stream.Collectors.toList;
 
 public class IterableExtensions {
 
+  public static <T> int size(Iterable<T> values) {
+    int result = 0;
+    for (var ignored : values) {
+      result++;
+    }
+    return result;
+  }
+
   public static <T> T single(Iterable<T> values) {
     var it = values.iterator();
     var result = it.next();
