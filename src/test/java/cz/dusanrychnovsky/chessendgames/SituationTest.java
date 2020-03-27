@@ -1,9 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
@@ -439,5 +437,70 @@ public class SituationTest {
         .build());
 
     assertEquals(win(Black), situation.status());
+  }
+
+  // ==========================================================================
+  // Equality
+  // ==========================================================================
+
+  @Test
+  public void sameSituations_areEqual() {
+    var first = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+    var second = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+
+    assertEquals(first, second);
+    assertEquals(first.hashCode(), second.hashCode());
+  }
+
+  @Test
+  public void differentColors_areNotEqual() {
+    var first = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+    var second = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+
+    assertNotEquals(first, second);
+  }
+
+  @Test
+  public void differentPositions_areNotEqual() {
+    var first = new Situation(
+      White,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, D1)
+        .add(BlackRook, B3)
+        .build());
+    var second = new Situation(
+      Black,
+      Board.builder()
+        .add(WhiteKing, B1)
+        .add(BlackKing, B3)
+        .add(BlackRook, D1)
+        .build());
+
+    assertNotEquals(first, second);
   }
 }
