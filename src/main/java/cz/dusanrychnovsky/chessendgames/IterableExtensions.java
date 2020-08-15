@@ -8,6 +8,15 @@ import static java.util.stream.Collectors.toList;
 
 public class IterableExtensions {
 
+  public static <T> boolean contains(Iterable<T> values, T value) {
+    for (var element : values) {
+      if (element.equals(value)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static <T> int size(Iterable<T> values) {
     int result = 0;
     for (var ignored : values) {

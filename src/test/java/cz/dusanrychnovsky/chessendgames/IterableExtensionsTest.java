@@ -6,9 +6,9 @@ import java.util.NoSuchElementException;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 public class IterableExtensionsTest {
 
@@ -67,5 +67,24 @@ public class IterableExtensionsTest {
   @Test
   public void size_returnsSizeOfIterable() {
     assertEquals(5, size(asList(1, 2, 3, 4, 5)));
+  }
+
+  // ==========================================================================
+  // contains
+  // ==========================================================================
+
+  @Test
+  public void contains_emptyIterable_doesNotContainAnyElements() {
+    assertFalse(contains(emptyList(), 1));
+  }
+
+  @Test
+  public void contains_existingElement_returnsTrue() {
+    assertTrue((contains(asList(1, 2, 3), 3)));
+  }
+
+  @Test
+  public void contains_nonExistingElement_returnsFalse() {
+    assertFalse(contains(asList(1, 2, 3), 4));
   }
 }
