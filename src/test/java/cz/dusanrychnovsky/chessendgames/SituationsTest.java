@@ -1,9 +1,13 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
-
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+
+import static cz.dusanrychnovsky.chessendgames.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.Position.*;
+import static cz.dusanrychnovsky.chessendgames.Color.*;
+import static cz.dusanrychnovsky.chessendgames.IterableExtensions.contains;
+import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
+import static org.junit.Assert.*;
 
 public class SituationsTest {
 
@@ -11,8 +15,41 @@ public class SituationsTest {
   // All
   // ==========================================================================
 
+  private static Iterable<Situation> ALL_SITUATIONS = Situations.all();
+
   @Test
   public void all_generatesAllValidSituations() {
-    assertEquals(411_992, size(Situations.all()));
+    assertEquals(411_992, size(ALL_SITUATIONS));
+  }
+
+  @Test
+  public void all_containsASampleValidSituation() {
+    assertTrue(contains(ALL_SITUATIONS, new Situation(White, Board.builder()
+      .add(WhiteKing, C3)
+      .add(BlackKing, E5)
+      .build())));
+  }
+
+  @Test
+  public void all_doesNotContainInvalidSituation_twoWhiteKings() {
+    assertFalse(contains(ALL_SITUATIONS, new Situation(White, Board.builder()
+      .add(WhiteKing, C3)
+      .add(WhiteKing, E5)
+      .build())));
+  }
+
+  @Test
+  public void all_doesNotContainInvalidSituation_aSingleKing() {
+    assertFalse(contains(ALL_SITUATIONS, new Situation(White, Board.builder()
+      .add(WhiteKing, C3)
+      .build())));
+  }
+
+  @Test
+  public void all_doesNotContainInvalidSituation_adjacentKings() {
+    assertFalse(contains(ALL_SITUATIONS, new Situation(White, Board.builder()
+      .add(WhiteKing, C3)
+      .add(BlackKing, D3)
+      .build())));
   }
 }
