@@ -8,4 +8,9 @@ public class Draw implements Status {
   public String print() {
     return "Draw.";
   }
+
+  @Override
+  public boolean IsFinal() {
+    return true;
+  }
 }

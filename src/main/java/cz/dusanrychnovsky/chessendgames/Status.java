@@ -10,4 +10,6 @@ public interface Status {
   }
 
   String print();
+
+  boolean IsFinal();
 }

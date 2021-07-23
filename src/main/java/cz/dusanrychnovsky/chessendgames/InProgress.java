@@ -8,4 +8,9 @@ public class InProgress implements Status {
   public String print() {
     return "In progress.";
   }
+
+  @Override
+  public boolean IsFinal() {
+    return false;
+  }
 }

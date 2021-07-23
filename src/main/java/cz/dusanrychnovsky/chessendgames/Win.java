@@ -10,4 +10,9 @@ public class Win implements Status {
   public String print() {
     return "Mate. " + color + " wins.";
   }
+
+  @Override
+  public boolean IsFinal() {
+    return true;
+  }
 }
