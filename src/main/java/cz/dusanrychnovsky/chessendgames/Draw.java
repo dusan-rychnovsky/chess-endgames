@@ -13,4 +13,9 @@ public class Draw implements Status {
   public boolean IsFinal() {
     return true;
   }
+
+  @Override
+  public boolean IsWin(Color color) {
+    return false;
+  }
 }

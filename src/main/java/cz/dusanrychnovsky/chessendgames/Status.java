@@ -12,4 +12,6 @@ public interface Status {
   String print();
 
   boolean IsFinal();
+
+  boolean IsWin(Color color);
 }

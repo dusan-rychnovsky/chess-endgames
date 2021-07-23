@@ -13,4 +13,9 @@ public class InProgress implements Status {
   public boolean IsFinal() {
     return false;
   }
+
+  @Override
+  public boolean IsWin(Color color) {
+    return false;
+  }
 }

@@ -15,4 +15,9 @@ public class Win implements Status {
   public boolean IsFinal() {
     return true;
   }
+
+  @Override
+  public boolean IsWin(Color color) {
+    return color.equals(this.color);
+  }
 }
