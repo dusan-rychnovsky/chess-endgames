@@ -1,12 +1,15 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Position.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
+import static cz.dusanrychnovsky.chessendgames.IterableExtensions.contains;
+import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
 
 public class SituationTest {
 
@@ -15,15 +18,43 @@ public class SituationTest {
   // ==========================================================================
 
   @Test
-  public void next_swapsColor() {
+  public void next_generatesValidMoves() {
+    var situation = new Situation(Black, Board.builder()
+      .add(WhiteKing, E5)
+      .add(BlackKing, F3)
+      .add(BlackRook, G3)
+      .build());
+    var situations = situation.next();
+    assertEquals(13, size(situations));
+    assertTrue(contains(situations, situation.move(new Move(G3, G1))));
+    assertTrue(contains(situations, situation.move(new Move(G3, G2))));
+    assertTrue(contains(situations, situation.move(new Move(G3, G4))));
+    assertTrue(contains(situations, situation.move(new Move(G3, G5))));
+    assertTrue(contains(situations, situation.move(new Move(G3, G6))));
+    assertTrue(contains(situations, situation.move(new Move(G3, G7))));
+    assertTrue(contains(situations, situation.move(new Move(G3, G8))));
+    assertTrue(contains(situations, situation.move(new Move(G3, H3))));
+    assertTrue(contains(situations, situation.move(new Move(F3, G4))));
+    assertTrue(contains(situations, situation.move(new Move(F3, E3))));
+    assertTrue(contains(situations, situation.move(new Move(F3, E2))));
+    assertTrue(contains(situations, situation.move(new Move(F3, F2))));
+    assertTrue(contains(situations, situation.move(new Move(F3, G2))));
+  }
+
+  // ==========================================================================
+  // Move
+  // ==========================================================================
+
+  @Test
+  public void move_swapsColor() {
     var board = Board.builder().add(BlackKing, D3).build();
     var move = new Move(D3, E5);
-    assertEquals(Black, new Situation(White, board).next(move).color());
-    assertEquals(White, new Situation(Black, board).next(move).color());
+    assertEquals(Black, new Situation(White, board).move(move).color());
+    assertEquals(White, new Situation(Black, board).move(move).color());
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void next_failsWhenFromEmptyPosition() {
+  public void move_failsWhenFromEmptyPosition() {
     var situation = new Situation(
       White,
       Board.builder()
@@ -32,11 +63,11 @@ public class SituationTest {
         .add(BlackRook, E6)
         .build());
 
-    situation.next(new Move(D4, D3));
+    situation.move(new Move(D4, D3));
   }
 
   @Test
-  public void next_movesPiece() {
+  public void move_movesPiece() {
     var move = new Move(D3, D4);
     var situation = new Situation(
       White,
@@ -46,7 +77,7 @@ public class SituationTest {
         .add(BlackRook, E6)
         .build());
 
-    situation = situation.next(move);
+    situation = situation.move(move);
 
     assertEquals(
       Board.builder()
@@ -59,7 +90,7 @@ public class SituationTest {
   }
 
   @Test
-  public void next_capturesPieceAtTo() {
+  public void move_capturesPieceAtTo() {
     var move = new Move(D3, C2);
     var situation = new Situation(
       White,
@@ -69,7 +100,7 @@ public class SituationTest {
         .add(BlackRook, E6)
         .build());
 
-    situation = situation.next(move);
+    situation = situation.move(move);
 
     assertEquals(
       Board.builder()

@@ -56,7 +56,7 @@ public class App
           continue;
         }
 
-        situation = situation.next(move);
+        situation = situation.move(move);
         status = situation.status();
 
         out.write(situation.print());
