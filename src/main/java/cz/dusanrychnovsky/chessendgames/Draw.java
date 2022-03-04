@@ -10,12 +10,12 @@ public class Draw implements Status {
   }
 
   @Override
-  public boolean IsFinal() {
+  public boolean isFinal() {
     return true;
   }
 
   @Override
-  public boolean IsWin(Color color) {
+  public boolean isWin(Color color) {
     return false;
   }
 }

@@ -13,17 +13,17 @@ public class StatusTest {
 
   @Test
   public void isFinal_win_returnsTrue() {
-    assertTrue(win(White).IsFinal());
+    assertTrue(win(White).isFinal());
   }
 
   @Test
   public void isFinal_draw_returnsTrue() {
-    assertTrue(Draw.IsFinal());
+    assertTrue(Draw.isFinal());
   }
 
   @Test
   public void isFinal_inProgress_returnsFalse() {
-    assertFalse(InProgress.IsFinal());
+    assertFalse(InProgress.isFinal());
   }
 
   // ==========================================================================
@@ -32,22 +32,22 @@ public class StatusTest {
 
   @Test
   public void isWin_win_returnsTrue() {
-    assertTrue(win(White).IsWin(White));
+    assertTrue(win(White).isWin(White));
   }
 
   @Test
   public void isWin_winOfOpponent_returnsFalse() {
-    assertFalse(win(Black).IsWin(White));
+    assertFalse(win(Black).isWin(White));
   }
 
   @Test
   public void isWin_draw_returnsFalse() {
-    assertFalse(Draw.IsWin(White));
+    assertFalse(Draw.isWin(White));
   }
 
   @Test
   public void isWin_inProgress_returnsFalse() {
-    assertFalse(InProgress.IsWin(White));
+    assertFalse(InProgress.isWin(White));
   }
 
 }
