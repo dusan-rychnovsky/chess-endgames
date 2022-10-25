@@ -2,6 +2,7 @@ package cz.dusanrychnovsky.chessendgames;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class MapExtensions {
@@ -18,5 +19,9 @@ public class MapExtensions {
       }
     }
     return result;
+  }
+
+  public static <K, V> Optional<V> get(Map<K, V> map, K key) {
+    return Optional.ofNullable(map.get(key));
   }
 }

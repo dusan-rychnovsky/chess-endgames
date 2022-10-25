@@ -1,12 +1,12 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.filter;
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
-
 import org.junit.Test;
+
+import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class MapExtensionsTest {
 
@@ -39,5 +39,25 @@ public class MapExtensionsTest {
       filter(
         Map.of(1, "a", 2, "b", 3, "c"),
         entry -> entry.getKey() == 1 || entry.getValue().equals("c")));
+  }
+
+  // ==========================================================================
+  // Get
+  // ==========================================================================
+
+  @Test
+  public void get_keyDefined_ReturnsOptionalOfValue() {
+    assertEquals(
+      Optional.of("a"),
+      get(Map.of(1, "a", 3, "c"),1)
+    );
+  }
+
+  @Test
+  public void get_keyUndefined_ReturnsEmptyOptional() {
+    assertEquals(
+      Optional.empty(),
+      get(Map.of(1, "a", 3, "c"),2)
+    );
   }
 }
