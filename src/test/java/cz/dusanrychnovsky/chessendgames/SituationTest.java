@@ -1,15 +1,14 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
+
+import java.util.Arrays;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Position.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.contains;
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
 
 public class SituationTest {
 
@@ -25,20 +24,24 @@ public class SituationTest {
       .add(BlackRook, G3)
       .build());
     var situations = situation.next();
-    assertEquals(13, size(situations));
-    assertTrue(contains(situations, situation.move(new Move(G3, G1))));
-    assertTrue(contains(situations, situation.move(new Move(G3, G2))));
-    assertTrue(contains(situations, situation.move(new Move(G3, G4))));
-    assertTrue(contains(situations, situation.move(new Move(G3, G5))));
-    assertTrue(contains(situations, situation.move(new Move(G3, G6))));
-    assertTrue(contains(situations, situation.move(new Move(G3, G7))));
-    assertTrue(contains(situations, situation.move(new Move(G3, G8))));
-    assertTrue(contains(situations, situation.move(new Move(G3, H3))));
-    assertTrue(contains(situations, situation.move(new Move(F3, G4))));
-    assertTrue(contains(situations, situation.move(new Move(F3, E3))));
-    assertTrue(contains(situations, situation.move(new Move(F3, E2))));
-    assertTrue(contains(situations, situation.move(new Move(F3, F2))));
-    assertTrue(contains(situations, situation.move(new Move(F3, G2))));
+    assertEquals(13, situations.size());
+    var moves = Arrays.asList(
+      new Move(G3, G1),
+      new Move(G3, G2),
+      new Move(G3, G4),
+      new Move(G3, G5),
+      new Move(G3, G6),
+      new Move(G3, G7),
+      new Move(G3, G8),
+      new Move(G3, H3),
+      new Move(F3, G4),
+      new Move(F3, E3),
+      new Move(F3, E2),
+      new Move(F3, F2),
+      new Move(F3, G2));
+    for (var move : moves) {
+      assertEquals(situation.move(move), situations.get(move));
+    }
   }
 
   // ==========================================================================

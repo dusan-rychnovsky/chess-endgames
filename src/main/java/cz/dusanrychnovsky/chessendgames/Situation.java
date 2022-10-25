@@ -7,7 +7,8 @@ import static cz.dusanrychnovsky.chessendgames.Status.*;
 import lombok.Value;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Value
 @Accessors(fluent = true)
@@ -26,15 +27,15 @@ public class Situation {
     return InProgress;
   }
 
-  public Iterable<Situation> next() {
-    var result = new ArrayList<Situation>();
+  public Map<Move, Situation> next() {
+    var result = new HashMap<Move, Situation>();
     for (var entry : board().pieces(color).entrySet()) {
       var position = entry.getKey();
       var piece = entry.getValue();
 
       for (var move : piece.type().moves(position)) {
         if (isValid(move)) {
-          result.add(move(move));
+          result.put(move, move(move));
         }
       }
     }
