@@ -23,9 +23,18 @@ public class SituationsTest {
   }
 
   @Test
-  public void all_containsASampleValidSituation() {
+  public void all_containsASampleValidSituation_twoFigures() {
     assertTrue(contains(ALL_SITUATIONS, new Situation(White, Board.builder()
       .add(WhiteKing, C3)
+      .add(BlackKing, E5)
+      .build())));
+  }
+
+  @Test
+  public void all_containsASampleValidSituation_threeFigures() {
+    assertTrue(contains(ALL_SITUATIONS, new Situation(White, Board.builder()
+      .add(WhiteKing, C3)
+      .add(WhiteRook, F1)
       .add(BlackKing, E5)
       .build())));
   }

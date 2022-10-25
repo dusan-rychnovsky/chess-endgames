@@ -16,12 +16,12 @@ public class Situations {
   public static Iterable<Situation> all() {
     var result = new HashSet<Situation>();
     for (var color : Color.values()) {
-      for (var whiteKingEntry : entries(WhiteKing)) {
-        for (var blackKingEntry : entries(BlackKing)) {
+      for (var blackKingEntry : entries(BlackKing)) {
+        for (var whiteKingEntry : entries(WhiteKing)) {
           situation(color, whiteKingEntry, blackKingEntry)
             .ifPresent(result::add);
-          for (var blackRookEntry : entries(BlackRook)) {
-            situation(color, whiteKingEntry, blackKingEntry, blackRookEntry)
+          for (var whiteRookEntry : entries(WhiteRook)) {
+            situation(color, whiteKingEntry, whiteRookEntry, blackKingEntry)
               .ifPresent(result::add);
           }
         }
