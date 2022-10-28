@@ -30,7 +30,7 @@ message Position {
 }
 
 message Situation {
-  repeated Pair pairs = 1;
+  repeated Pair values = 1;
 
   message Pair {
     Position position = 1;
@@ -43,8 +43,8 @@ message Move {
   Position to = 2;
 }
 
-message MovesDb {
-  repeated Pair pairs = 1;
+message Database {
+  repeated Pair values = 1;
 
   message Pair {
     Situation situation = 1;
