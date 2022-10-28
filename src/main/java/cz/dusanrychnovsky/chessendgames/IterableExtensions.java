@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -43,6 +44,10 @@ public class IterableExtensions {
           .map(Object::toString)
           .collect(toList())) +
       "]";
+  }
+
+  public static <T, R> Iterable<R> map(Iterable<T> values, Function<? super T, ? extends R> mapper) {
+    return stream(values).map(mapper).collect(toList());
   }
 
   private static <T> Stream<T> stream(Iterable<T> values) {
