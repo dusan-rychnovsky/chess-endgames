@@ -63,10 +63,11 @@ public class Generator {
       }
     }
 
-    var converter = new DatabaseConverter();
-    return converter.toProto(mapValues(
+    var serializer = new Serializer();
+    var db = new Database(mapValues(
       filter(acc, entry -> entry.getKey().color() == color),
       value -> value.move));
+    return serializer.toProto(db);
   }
 
   private int walkThrough(Color color, Iterable<Situation> situations, HashMap<Situation, Record> acc) {

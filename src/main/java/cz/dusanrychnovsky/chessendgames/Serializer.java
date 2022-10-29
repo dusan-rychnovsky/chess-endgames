@@ -2,13 +2,11 @@ package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 
-import java.util.Map;
+public class Serializer {
 
-public class DatabaseConverter {
-
-  public Movesdb.Database toProto(Map<Situation, Move> database) {
+  public Movesdb.Database toProto(Database database) {
     var builder = Movesdb.Database.newBuilder();
-    for (var entry : database.entrySet()) {
+    for (var entry : database.moves().entrySet()) {
       builder.addValues(
         Movesdb.Database.Pair.newBuilder()
           .setSituation(toProto(entry.getKey()))
