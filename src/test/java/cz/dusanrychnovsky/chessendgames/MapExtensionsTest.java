@@ -3,9 +3,10 @@ package cz.dusanrychnovsky.chessendgames;
 import org.junit.Test;
 
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
+import static java.util.Collections.emptyMap;
+import static java.util.Map.of;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class MapExtensionsTest {
@@ -17,15 +18,15 @@ public class MapExtensionsTest {
   @Test
   public void filterByKey_returnsSubMap() {
     assertEquals(
-      Map.of(1, "a", 3, "c"),
+      of(1, "a", 3, "c"),
       filterByKey(
-        Map.of(1, "a", 2, "b", 3, "c"),
+        of(1, "a", 2, "b", 3, "c"),
         key -> key % 2 == 1));
   }
 
   @Test
   public void filterByKey_emptyMap_returnsEmptySubmap() {
-    assertEquals(Map.of(), filterByKey(Map.of(), key -> true));
+    assertEquals(of(), filterByKey(of(), key -> true));
   }
 
   // ==========================================================================
@@ -35,9 +36,9 @@ public class MapExtensionsTest {
   @Test
   public void filter_returnsSubMap() {
     assertEquals(
-      Map.of(1, "a", 3, "c"),
+      of(1, "a", 3, "c"),
       filter(
-        Map.of(1, "a", 2, "b", 3, "c"),
+        of(1, "a", 2, "b", 3, "c"),
         entry -> entry.getKey() == 1 || entry.getValue().equals("c")));
   }
 
@@ -49,7 +50,7 @@ public class MapExtensionsTest {
   public void get_keyDefined_ReturnsOptionalOfValue() {
     assertEquals(
       Optional.of("a"),
-      get(Map.of(1, "a", 3, "c"),1)
+      get(of(1, "a", 3, "c"),1)
     );
   }
 
@@ -57,7 +58,24 @@ public class MapExtensionsTest {
   public void get_keyUndefined_ReturnsEmptyOptional() {
     assertEquals(
       Optional.empty(),
-      get(Map.of(1, "a", 3, "c"),2)
+      get(of(1, "a", 3, "c"),2)
+    );
+  }
+
+  // ==========================================================================
+  // Map Values
+  // ==========================================================================
+
+  @Test
+  public void mapValues_emptyMap_returnsEmptyMap() {
+    assertEquals(emptyMap(), mapValues(emptyMap(), value -> value));
+  }
+
+  @Test
+  public void get_returnsNewMapWithMapFunctionAppliedPerValue() {
+    assertEquals(
+      of("a", 2, "b", 4, "c", 6),
+      mapValues(of("a", 1, "b", 2, "c", 3),value -> value * 2)
     );
   }
 }

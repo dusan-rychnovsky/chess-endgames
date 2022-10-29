@@ -3,7 +3,10 @@ package cz.dusanrychnovsky.chessendgames;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.toList;
 
 public class MapExtensions {
 
@@ -17,6 +20,15 @@ public class MapExtensions {
       if (predicate.test(entry)) {
         result.put(entry.getKey(), entry.getValue());
       }
+    }
+    return result;
+  }
+
+  public static <K, V1, V2> Map<K, V2> mapValues(Map<K, V1> map, Function<V1, V2> mapper) {
+    var result = new HashMap<K, V2>();
+    for (var entry : map.entrySet()) {
+      var newValue = mapper.apply(entry.getValue());
+      result.put(entry.getKey(), newValue);
     }
     return result;
   }
