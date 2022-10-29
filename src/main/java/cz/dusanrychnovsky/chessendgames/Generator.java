@@ -3,6 +3,8 @@ package cz.dusanrychnovsky.chessendgames;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 import lombok.Value;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,13 +17,23 @@ public class Generator {
 
   private static final int INFINITE = Integer.MAX_VALUE;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
+
+    if (args.length == 0) {
+      System.err.println("USAGE: [FILE-PATH] - file to store generated database into");
+      System.exit(-1);
+    }
+
     System.out.println("Going to generate DB.");
 
     var generator = new Generator();
     var db = generator.generate();
 
     System.out.println("DB size: " + db.getValuesCount());
+
+    var os = new FileOutputStream(args[0]);
+    db.writeTo(os);
+
     System.out.println("DONE");
   }
 
