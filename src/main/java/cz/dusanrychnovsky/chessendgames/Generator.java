@@ -6,12 +6,11 @@ import lombok.Value;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static cz.dusanrychnovsky.chessendgames.IterableExtensions.map;
 import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.get;
+import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
 
 public class Generator {
 
@@ -64,86 +63,10 @@ public class Generator {
       }
     }
 
-    return toDbDatabase(color, acc);
-  }
-
-  private Movesdb.Database toDbDatabase(Color color, Map<Situation, Record> database) {
-    var builder = Movesdb.Database.newBuilder();
-    for (var entry : database.entrySet()) {
-      var situation = entry.getKey();
-      if (situation.color() == color) {
-        var move = entry.getValue().move;
-        builder.addValues(
-          Movesdb.Database.Pair.newBuilder()
-            .setSituation(toDbSituation(situation))
-            .setMove(toDbMove(move)));
-      }
-    }
-    return builder.build();
-  }
-
-  private Movesdb.Move toDbMove(Move move) {
-    return Movesdb.Move.newBuilder()
-      .setFrom(toDbPosition(move.from()))
-      .setTo(toDbPosition(move.to()))
-      .build();
-  }
-
-  private Movesdb.Situation toDbSituation(Situation situation) {
-    var builder = Movesdb.Situation.newBuilder();
-    for (var entry : situation.board().pieces().entrySet()) {
-      builder.addValues(
-        Movesdb.Situation.Pair.newBuilder()
-          .setPosition(toDbPosition(entry.getKey()))
-          .setPiece(toDbPiece(entry.getValue())));
-    }
-    return builder.build();
-  }
-
-  private Movesdb.Position toDbPosition(Position position) {
-    var column = switch (position.column()) {
-      case CA -> Movesdb.Column.CA;
-      case CB -> Movesdb.Column.CB;
-      case CC -> Movesdb.Column.CC;
-      case CD -> Movesdb.Column.CD;
-      case CE -> Movesdb.Column.CE;
-      case CF -> Movesdb.Column.CF;
-      case CG -> Movesdb.Column.CG;
-      case CH -> Movesdb.Column.CH;
-      default -> throw new IllegalArgumentException("Unknown column: " + position.column());
-    };
-    var row = switch (position.row()) {
-      case R1 -> Movesdb.Row.R1;
-      case R2 -> Movesdb.Row.R2;
-      case R3 -> Movesdb.Row.R3;
-      case R4 -> Movesdb.Row.R4;
-      case R5 -> Movesdb.Row.R5;
-      case R6 -> Movesdb.Row.R6;
-      case R7 -> Movesdb.Row.R7;
-      case R8 -> Movesdb.Row.R8;
-      default -> throw new IllegalArgumentException("Unknown row: " + position.row());
-    };
-    return Movesdb.Position.newBuilder()
-      .setRow(row)
-      .setColumn(column)
-      .build();
-  }
-
-  private Movesdb.Piece toDbPiece(Piece piece) {
-    var color = switch (piece.color()) {
-      case White -> Movesdb.Color.White;
-      case Black -> Movesdb.Color.Black;
-      default -> throw new IllegalArgumentException("Unknown piece color: " + piece.color());
-    };
-    var type = switch (piece.type()) {
-      case King -> Movesdb.PieceType.King;
-      case Rook -> Movesdb.PieceType.Rook;
-      default -> throw new IllegalArgumentException(("Unknown piece type: " + piece.type()));
-    };
-    return Movesdb.Piece.newBuilder()
-      .setColor(color)
-      .setType(type)
-      .build();
+    var converter = new DatabaseConverter();
+    return converter.toProto(mapValues(
+      filter(acc, entry -> entry.getKey().color() == color),
+      value -> value.move));
   }
 
   private int walkThrough(Color color, Iterable<Situation> situations, HashMap<Situation, Record> acc) {
