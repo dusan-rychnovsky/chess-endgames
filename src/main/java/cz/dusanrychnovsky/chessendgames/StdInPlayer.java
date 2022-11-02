@@ -4,12 +4,10 @@ import java.io.*;
 
 public class StdInPlayer implements Player {
 
-  private final Color color;
   private final BufferedReader reader;
   private final BufferedWriter writer;
 
-  public StdInPlayer(Color color, BufferedReader reader, BufferedWriter writer) {
-    this.color = color;
+  public StdInPlayer(BufferedReader reader, BufferedWriter writer) {
     this.reader = reader;
     this.writer = writer;
   }
@@ -18,7 +16,7 @@ public class StdInPlayer implements Player {
   public Move getMove(Situation situation) {
     try {
       while (true) {
-        writer.write("Enter " + color + " move:\n");
+        writer.write("Enter " + situation.color() + " move:\n");
         writer.flush();
 
         var line = reader.readLine();

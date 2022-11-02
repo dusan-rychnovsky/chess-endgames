@@ -19,7 +19,7 @@ public class StdInPlayerTest {
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
 
-    var player = new StdInPlayer(Color.White, in, out);
+    var player = new StdInPlayer(in, out);
     var result = player.getMove(
       new Situation(
         Color.White,
@@ -44,7 +44,7 @@ public class StdInPlayerTest {
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
 
-    var player = new StdInPlayer(Color.White, in, out);
+    var player = new StdInPlayer(in, out);
     var result = player.getMove(
       new Situation(
         Color.White,

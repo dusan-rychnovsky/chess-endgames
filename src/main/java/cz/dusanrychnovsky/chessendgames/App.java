@@ -21,10 +21,8 @@ public class App
 
     public static void run(BufferedReader in, BufferedWriter out) throws IOException {
 
-      var players = Map.of(
-        Color.White, new StdInPlayer(Color.White, in, out),
-        Color.Black, new StdInPlayer(Color.Black, in, out)
-      );
+      var player = new StdInPlayer(in, out);
+      var players = Map.of(Color.White, player, Color.Black, player);
 
       out.write("Chess End Games v. 0.1\n\n");
       out.write("Enter Initial Situation:\n");
