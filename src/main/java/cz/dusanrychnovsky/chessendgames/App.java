@@ -3,6 +3,7 @@ package cz.dusanrychnovsky.chessendgames;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 import java.io.*;
+import java.util.Map;
 
 public class App
 {
@@ -19,6 +20,11 @@ public class App
     }
 
     public static void run(BufferedReader in, BufferedWriter out) throws IOException {
+
+      var players = Map.of(
+        Color.White, new StdInPlayer(Color.White, in, out),
+        Color.Black, new StdInPlayer(Color.Black, in, out)
+      );
 
       out.write("Chess End Games v. 0.1\n\n");
       out.write("Enter Initial Situation:\n");
@@ -47,15 +53,7 @@ public class App
         System.out.println(situation.print());
         color = situation.color();
 
-        out.write("Enter " + color + " move:\n");
-        line = in.readLine();
-        var move = Move.parse(line);
-
-        if (!situation.isValid(move)) {
-          out.write("Move is not valid.\n");
-          continue;
-        }
-
+        var move = players.get(color).getMove(situation);
         situation = situation.move(move);
         status = situation.status();
 
