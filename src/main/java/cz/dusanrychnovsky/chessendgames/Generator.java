@@ -65,7 +65,9 @@ public class Generator {
 
     var serializer = new Serializer();
     var db = new Database(mapValues(
-      filter(acc, entry -> entry.getKey().color() == color),
+      filter(
+        filter(acc, entry -> entry.getValue().move != null),
+        entry -> entry.getKey().color() == color),
       value -> value.move));
     return serializer.toProto(db);
   }
