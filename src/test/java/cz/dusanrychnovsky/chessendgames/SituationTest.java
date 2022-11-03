@@ -272,7 +272,7 @@ public class SituationTest {
         .add(BlackRook, C2)
         .build());
 
-    situation.isValid(new Move(C3, B2));
+    assertFalse(situation.isValid(new Move(C3, B2)));
   }
 
   // ==========================================================================

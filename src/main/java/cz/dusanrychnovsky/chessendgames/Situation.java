@@ -94,13 +94,20 @@ public class Situation {
 
   public boolean isCheck() {
     var opponentsPieces = board.pieces(color.opposite());
-    var kingPos = board.king(color).keySet();
+    var kingPos = board.kingPos(color);
     if (kingPos.isEmpty()) {
       return false;
     }
+    var opponentsKingPos = board.kingPos(color.opposite());
+    if (opponentsKingPos.isPresent()) {
+      var move = new Move(kingPos.get(), opponentsKingPos.get());
+      if (PieceType.King.moves(kingPos.get()).contains(move)) {
+        return true;
+      }
+    }
     var opponentsView = new Situation(color.opposite(), board);
     for (var pos : opponentsPieces.keySet()) {
-      if (opponentsView.isValid(new Move(pos, single(kingPos)))) {
+      if (opponentsView.isValid(new Move(pos, kingPos.get()))) {
         return true;
       }
     }
@@ -116,11 +123,12 @@ public class Situation {
   }
 
   private boolean kingCanMove() {
-    var king = single(board.king(color).entrySet());
-    var kingPos = king.getKey();
-    for (var move : king.getValue().type().moves(kingPos)) {
-      if (isValid(move)) {
-        return true;
+    var kingPos = board.kingPos(color);
+    if (kingPos.isPresent()) {
+      for (var move : PieceType.King.moves(kingPos.get())) {
+        if (isValid(move)) {
+          return true;
+        }
       }
     }
     return false;

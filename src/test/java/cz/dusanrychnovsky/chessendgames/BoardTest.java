@@ -111,17 +111,25 @@ public class BoardTest {
     assertEquals(BlackRook, pieces.get(E6));
   }
 
+  // ==========================================================================
+  // King position
+  // ==========================================================================
+
   @Test
-  public void king_ofColor_returnsKingOfTheGivenColor() {
+  public void kingPos_returnsPositionOfKingOfTheGivenColor() {
     var board = Board.builder()
       .add(WhiteKing, D3)
       .add(BlackKing, F5)
       .add(BlackRook, E6)
       .build();
 
-    var pieces = board.king(Black);
+    var pos = board.kingPos(Black);
+    assertEquals(F5, pos.get());
+  }
 
-    assertEquals(1, pieces.size());
-    assertEquals(BlackKing, pieces.get(F5));
+  @Test
+  public void kingPos_kingNotPresent_returnsEmptyOptional() {
+    var board = Board.builder().build();
+    assertEquals(Optional.empty(), board.kingPos(White));
   }
 }

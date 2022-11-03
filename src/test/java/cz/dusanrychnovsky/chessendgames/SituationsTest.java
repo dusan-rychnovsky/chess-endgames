@@ -19,7 +19,7 @@ public class SituationsTest {
 
   @Test
   public void all_generatesAllValidSituations() {
-    assertEquals(411_992, size(ALL_SITUATIONS));
+    assertEquals(406_336, size(ALL_SITUATIONS));
   }
 
   @Test

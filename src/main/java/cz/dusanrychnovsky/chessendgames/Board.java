@@ -25,8 +25,13 @@ public class Board {
     return filter(pieces, entry -> entry.getValue().color() == color);
   }
 
-  public Map<Position, Piece> king(Color color) {
-    return filter(pieces, entry -> entry.getValue().equals(new Piece(color, King)));
+  public Optional<Position> kingPos(Color color) {
+    for (var entry : pieces.entrySet()) {
+      if (entry.getValue().equals(new Piece(color, King))) {
+        return Optional.of(entry.getKey());
+      }
+    }
+    return Optional.empty();
   }
 
   public static Builder builder() {
