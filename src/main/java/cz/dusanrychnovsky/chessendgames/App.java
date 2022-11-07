@@ -1,14 +1,25 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import static cz.dusanrychnovsky.chessendgames.Color.Black;
+import static cz.dusanrychnovsky.chessendgames.Color.White;
+import static cz.dusanrychnovsky.chessendgames.PlayerType.Db;
+import static cz.dusanrychnovsky.chessendgames.PlayerType.StdIn;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 public class App
 {
     public static void main(String[] args) throws IOException {
-      run(reader(System.in), writer(System.out));
+      var reader = reader(System.in);
+      var writer = writer(System.out);
+      var playerDb = Map.of(
+        StdIn, new StdInPlayer(reader, writer),
+        Db, new DbPlayer("movesdb")
+      );
+      run(reader, writer, playerDb);
     }
 
     private static BufferedReader reader(InputStream in) {
@@ -19,17 +30,33 @@ public class App
       return new BufferedWriter(new OutputStreamWriter(out));
     }
 
-    public static void run(BufferedReader in, BufferedWriter out) throws IOException {
-
-      var player = new StdInPlayer(in, out);
-      var players = Map.of(Color.White, player, Color.Black, player);
+    public static void run(BufferedReader in, BufferedWriter out, Map<PlayerType, Player> playerDb)
+      throws IOException {
 
       out.write("CHESS END GAMES v. 0.1\n\n");
 
-      out.write("Enter current player's color (White/Black):\n");
+      var players = new HashMap<Color, Player>();
+
+      out.write("Choose players.\n");
+      out.write("[a] StdIn - command line interface\n");
+      out.write("[b] Db - computer algorithm\n\n");
+
+      out.write("White player:\n");
       out.flush();
 
       var line = in.readLine();
+      players.put(White, playerDb.get(PlayerType.parse(line)));
+
+      out.write("\nBlack player:\n");
+      out.flush();
+
+      line = in.readLine();
+      players.put(Black, playerDb.get(PlayerType.parse(line)));
+
+      out.write("\nEnter current player's color (White/Black):\n");
+      out.flush();
+
+      line = in.readLine();
       var color = Color.parse(line);
 
       out.write("\nNow enter positions of all pieces on the board.\n");

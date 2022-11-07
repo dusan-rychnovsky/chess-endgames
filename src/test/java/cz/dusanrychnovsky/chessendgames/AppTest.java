@@ -1,16 +1,21 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.Map;
+
+import static cz.dusanrychnovsky.chessendgames.PlayerType.StdIn;
 
 public class AppTest {
+
   @Test
   public void run_executesScenarioWithConsoleInOut() throws IOException {
     var in = new BufferedReader(new StringReader(
-      "black\n" +
+        "StdIn\n" +
+        "StdIn\n" +
+        "black\n" +
         "white king d3\n" +
         "black king f5\n" +
         "black rook e6\n" +
@@ -42,11 +47,20 @@ public class AppTest {
 
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
+    var playerDb = Map.<PlayerType, Player>of(StdIn, new StdInPlayer(in, out));
 
-    App.run(in, out);
+    App.run(in, out, playerDb);
 
     Assert.assertEquals(
       "CHESS END GAMES v. 0.1\n" +
+      "\n" +
+      "Choose players.\n" +
+      "[a] StdIn - command line interface\n" +
+      "[b] Db - computer algorithm\n" +
+      "\n" +
+      "White player:\n" +
+      "\n" +
+      "Black player:\n" +
       "\n" +
       "Enter current player's color (White/Black):\n" +
       "\n" +
@@ -358,7 +372,9 @@ public class AppTest {
   @Test
   public void run_executesScenarioWithConsoleInOut_handlesInvalidMoves() throws IOException {
     var in = new BufferedReader(new StringReader(
-      "black\n" +
+        "StdIn\n" +
+        "StdIn\n" +
+        "black\n" +
         "white king a1\n" +
         "black king b3\n" +
         "black rook c3\n" +
@@ -369,53 +385,62 @@ public class AppTest {
 
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
+    var playerDb = Map.<PlayerType, Player>of(StdIn, new StdInPlayer(in, out));
 
-    App.run(in, out);
+    App.run(in, out, playerDb);
 
     Assert.assertEquals(
-      "CHESS END GAMES v. 0.1\n" +
-        "\n" +
-        "Enter current player's color (White/Black):\n" +
-        "\n" +
-        "Now enter positions of all pieces on the board.\n" +
-        ". One piece per line.\n" +
-        ". Format: \"[Color] [Type] [Position]\".\n" +
-        ". Example: \"White King A1\".\n" +
-        ". Finish with an empty line.\n" +
-        "\n" +
-        "Enter first piece:\n" +
-        "\n" +
-        "Enter next piece:\n" +
-        "\n" +
-        "Enter next piece:\n" +
-        "\n" +
-        "Enter next piece:\n" +
-        "Black\n" +
-        "8 | . . . . . . . .\n" +
-        "7 | . . . . . . . .\n" +
-        "6 | . . . . . . . .\n" +
-        "5 | . . . . . . . .\n" +
-        "4 | . . . . . . . .\n" +
-        "3 | . K R . . . . .\n" +
-        "2 | . . . . . . . .\n" +
-        "1 | K . . . . . . .\n" +
-        "--|----------------\n" +
-        "  | A B C D E F G H\n" +
-        "Enter Black move:\n" +
-        "Move is not valid.\n" +
-        "Enter Black move:\n" +
-        "White\n" +
-        "8 | . . . . . . . .\n" +
-        "7 | . . . . . . . .\n" +
-        "6 | . . . . . . . .\n" +
-        "5 | . . . . . . . .\n" +
-        "4 | . . . . . . . .\n" +
-        "3 | . K . . . . . .\n" +
-        "2 | . . . . . . . .\n" +
-        "1 | K . R . . . . .\n" +
-        "--|----------------\n" +
-        "  | A B C D E F G H\n" +
-        "Mate. Black wins.\n",
+    "CHESS END GAMES v. 0.1\n" +
+      "\n" +
+      "Choose players.\n" +
+      "[a] StdIn - command line interface\n" +
+      "[b] Db - computer algorithm\n" +
+      "\n" +
+      "White player:\n" +
+      "\n" +
+      "Black player:\n" +
+      "\n" +
+      "Enter current player's color (White/Black):\n" +
+      "\n" +
+      "Now enter positions of all pieces on the board.\n" +
+      ". One piece per line.\n" +
+      ". Format: \"[Color] [Type] [Position]\".\n" +
+      ". Example: \"White King A1\".\n" +
+      ". Finish with an empty line.\n" +
+      "\n" +
+      "Enter first piece:\n" +
+      "\n" +
+      "Enter next piece:\n" +
+      "\n" +
+      "Enter next piece:\n" +
+      "\n" +
+      "Enter next piece:\n" +
+      "Black\n" +
+      "8 | . . . . . . . .\n" +
+      "7 | . . . . . . . .\n" +
+      "6 | . . . . . . . .\n" +
+      "5 | . . . . . . . .\n" +
+      "4 | . . . . . . . .\n" +
+      "3 | . K R . . . . .\n" +
+      "2 | . . . . . . . .\n" +
+      "1 | K . . . . . . .\n" +
+      "--|----------------\n" +
+      "  | A B C D E F G H\n" +
+      "Enter Black move:\n" +
+      "Move is not valid.\n" +
+      "Enter Black move:\n" +
+      "White\n" +
+      "8 | . . . . . . . .\n" +
+      "7 | . . . . . . . .\n" +
+      "6 | . . . . . . . .\n" +
+      "5 | . . . . . . . .\n" +
+      "4 | . . . . . . . .\n" +
+      "3 | . K . . . . . .\n" +
+      "2 | . . . . . . . .\n" +
+      "1 | K . R . . . . .\n" +
+      "--|----------------\n" +
+      "  | A B C D E F G H\n" +
+      "Mate. Black wins.\n",
       writer.toString()
     );
   }

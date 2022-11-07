@@ -2,6 +2,9 @@ package cz.dusanrychnovsky.chessendgames;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import static cz.dusanrychnovsky.chessendgames.MapExtensions.get;
 
 public class Database {
 
@@ -13,6 +16,10 @@ public class Database {
 
   public Map<Situation, Move> moves() {
     return moves;
+  }
+
+  public Optional<Move> lookUp(Situation situation) {
+    return get(moves, situation);
   }
 
   public static class Builder {
