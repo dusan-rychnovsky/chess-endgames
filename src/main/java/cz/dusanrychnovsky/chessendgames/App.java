@@ -24,12 +24,22 @@ public class App
       var player = new StdInPlayer(in, out);
       var players = Map.of(Color.White, player, Color.Black, player);
 
-      out.write("Chess End Games v. 0.1\n\n");
-      out.write("Enter Initial Situation:\n");
+      out.write("CHESS END GAMES v. 0.1\n\n");
+
+      out.write("Enter current player's color (White/Black):\n");
       out.flush();
 
       var line = in.readLine();
       var color = Color.parse(line);
+
+      out.write("\nNow enter positions of all pieces on the board.\n");
+      out.write(". One piece per line.\n");
+      out.write(". Format: \"[Color] [Type] [Position]\".\n");
+      out.write(". Example: \"White King A1\".\n");
+      out.write(". Finish with an empty line.\n\n");
+
+      out.write("Enter first piece:\n");
+      out.flush();
 
       var builder = new Board.Builder();
       while ((line = in.readLine()) != null) {
@@ -39,7 +49,11 @@ public class App
 
         var entry = Board.Entry.parse(line);
         builder.add(entry.piece(), entry.position());
+
+        out.write("\nEnter next piece:\n");
+        out.flush();
       }
+
       var board = builder.build();
       var situation = new Situation(color, board);
 
@@ -48,7 +62,6 @@ public class App
 
       var status = situation.status();
       while (status.equals(InProgress)) {
-        System.out.println(situation.print());
         color = situation.color();
 
         var move = players.get(color).getMove(situation);

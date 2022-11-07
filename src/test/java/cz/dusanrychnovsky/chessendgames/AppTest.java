@@ -46,9 +46,23 @@ public class AppTest {
     App.run(in, out);
 
     Assert.assertEquals(
-      "Chess End Games v. 0.1\n" +
+      "CHESS END GAMES v. 0.1\n" +
       "\n" +
-      "Enter Initial Situation:\n" +
+      "Enter current player's color (White/Black):\n" +
+      "\n" +
+      "Now enter positions of all pieces on the board.\n" +
+      ". One piece per line.\n" +
+      ". Format: \"[Color] [Type] [Position]\".\n" +
+      ". Example: \"White King A1\".\n" +
+      ". Finish with an empty line.\n" +
+      "\n" +
+      "Enter first piece:\n" +
+      "\n" +
+      "Enter next piece:\n" +
+      "\n" +
+      "Enter next piece:\n" +
+      "\n" +
+      "Enter next piece:\n" +
       "Black\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
@@ -359,9 +373,23 @@ public class AppTest {
     App.run(in, out);
 
     Assert.assertEquals(
-      "Chess End Games v. 0.1\n" +
+      "CHESS END GAMES v. 0.1\n" +
         "\n" +
-        "Enter Initial Situation:\n" +
+        "Enter current player's color (White/Black):\n" +
+        "\n" +
+        "Now enter positions of all pieces on the board.\n" +
+        ". One piece per line.\n" +
+        ". Format: \"[Color] [Type] [Position]\".\n" +
+        ". Example: \"White King A1\".\n" +
+        ". Finish with an empty line.\n" +
+        "\n" +
+        "Enter first piece:\n" +
+        "\n" +
+        "Enter next piece:\n" +
+        "\n" +
+        "Enter next piece:\n" +
+        "\n" +
+        "Enter next piece:\n" +
         "Black\n" +
         "8 | . . . . . . . .\n" +
         "7 | . . . . . . . .\n" +
