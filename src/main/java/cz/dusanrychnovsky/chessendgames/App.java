@@ -1,9 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.Color.Black;
-import static cz.dusanrychnovsky.chessendgames.Color.White;
-import static cz.dusanrychnovsky.chessendgames.PlayerType.Db;
-import static cz.dusanrychnovsky.chessendgames.PlayerType.StdIn;
+import static cz.dusanrychnovsky.chessendgames.Color.*;
+import static cz.dusanrychnovsky.chessendgames.PlayerType.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 import java.io.*;
@@ -16,8 +14,8 @@ public class App
       var reader = reader(System.in);
       var writer = writer(System.out);
       var playerDb = Map.of(
-        StdIn, new StdInPlayer(reader, writer),
-        Db, new DbPlayer("movesdb")
+        STDIN, new StdInPlayer(reader, writer),
+        DB, new DbPlayer("movesdb")
       );
       run(reader, writer, playerDb);
     }
@@ -45,13 +43,13 @@ public class App
       out.flush();
 
       var line = in.readLine();
-      players.put(White, playerDb.get(PlayerType.parse(line)));
+      players.put(WHITE, playerDb.get(PlayerType.parse(line)));
 
       out.write("\nBlack player:\n");
       out.flush();
 
       line = in.readLine();
-      players.put(Black, playerDb.get(PlayerType.parse(line)));
+      players.put(BLACK, playerDb.get(PlayerType.parse(line)));
 
       out.write("\nEnter current player's color (White/Black):\n");
       out.flush();

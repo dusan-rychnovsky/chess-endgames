@@ -15,19 +15,19 @@ public class PieceTest {
 
   @Test
   public void samePiecesAreEqual() {
-    assertEquals(new Piece(White, Rook), new Piece(White, Rook));
-    assertEquals(new Piece(White, Rook).hashCode(), new Piece(White, Rook).hashCode());
+    assertEquals(new Piece(WHITE, ROOK), new Piece(WHITE, ROOK));
+    assertEquals(new Piece(WHITE, ROOK).hashCode(), new Piece(WHITE, ROOK).hashCode());
   }
 
   @Test
   public void piecesWithDifferentColorsAreNotEqual() {
-    assertNotEquals(new Piece(White, Rook), new Piece(Black, Rook));
-    assertNotEquals(new Piece(White, Rook).hashCode(), new Piece(Black, Rook).hashCode());
+    assertNotEquals(new Piece(WHITE, ROOK), new Piece(BLACK, ROOK));
+    assertNotEquals(new Piece(WHITE, ROOK).hashCode(), new Piece(BLACK, ROOK).hashCode());
   }
 
   @Test
   public void piecesWithDifferentTypesAreNotEqual() {
-    assertNotEquals(new Piece(White, Rook), new Piece(White, King));
-    assertNotEquals(new Piece(White, Rook).hashCode(), new Piece(White, King).hashCode());
+    assertNotEquals(new Piece(WHITE, ROOK), new Piece(WHITE, KING));
+    assertNotEquals(new Piece(WHITE, ROOK).hashCode(), new Piece(WHITE, KING).hashCode());
   }
 }

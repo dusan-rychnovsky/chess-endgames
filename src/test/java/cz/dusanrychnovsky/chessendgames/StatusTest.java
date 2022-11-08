@@ -13,7 +13,7 @@ public class StatusTest {
 
   @Test
   public void isFinal_win_returnsTrue() {
-    assertTrue(win(White).isFinal());
+    assertTrue(win(WHITE).isFinal());
   }
 
   @Test
@@ -32,22 +32,22 @@ public class StatusTest {
 
   @Test
   public void isWin_win_returnsTrue() {
-    assertTrue(win(White).isWin(White));
+    assertTrue(win(WHITE).isWin(WHITE));
   }
 
   @Test
   public void isWin_winOfOpponent_returnsFalse() {
-    assertFalse(win(Black).isWin(White));
+    assertFalse(win(BLACK).isWin(WHITE));
   }
 
   @Test
   public void isWin_draw_returnsFalse() {
-    assertFalse(Draw.isWin(White));
+    assertFalse(Draw.isWin(WHITE));
   }
 
   @Test
   public void isWin_inProgress_returnsFalse() {
-    assertFalse(InProgress.isWin(White));
+    assertFalse(InProgress.isWin(WHITE));
   }
 
 }

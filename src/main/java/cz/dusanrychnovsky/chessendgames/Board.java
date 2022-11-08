@@ -1,7 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filter;
-import static cz.dusanrychnovsky.chessendgames.PieceType.King;
+import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
 
@@ -27,7 +27,7 @@ public class Board {
 
   public Optional<Position> kingPos(Color color) {
     for (var entry : pieces.entrySet()) {
-      if (entry.getValue().equals(new Piece(color, King))) {
+      if (entry.getValue().equals(new Piece(color, KING))) {
         return Optional.of(entry.getKey());
       }
     }

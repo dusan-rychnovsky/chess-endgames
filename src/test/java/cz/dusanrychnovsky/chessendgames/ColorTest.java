@@ -13,20 +13,20 @@ public class ColorTest {
 
   @Test
   public void parse_supportsLowerCase() {
-    assertEquals(White, parse("white"));
-    assertEquals(Black, parse("black"));
+    assertEquals(WHITE, parse("white"));
+    assertEquals(BLACK, parse("black"));
   }
 
   @Test
   public void parse_supportsUpperCase() {
-    assertEquals(White, parse("WHITE"));
-    assertEquals(Black, parse("BLACK"));
+    assertEquals(WHITE, parse("WHITE"));
+    assertEquals(BLACK, parse("BLACK"));
   }
 
   @Test
   public void parse_supportsCamelCase() {
-    assertEquals(White, parse("White"));
-    assertEquals(Black, parse("Black"));
+    assertEquals(WHITE, parse("White"));
+    assertEquals(BLACK, parse("Black"));
   }
 
   // ==========================================================================
@@ -35,7 +35,7 @@ public class ColorTest {
 
   @Test
   public void opposite() {
-    assertEquals(White, Black.opposite());
-    assertEquals(Black, White.opposite());
+    assertEquals(WHITE, BLACK.opposite());
+    assertEquals(BLACK, WHITE.opposite());
   }
 }

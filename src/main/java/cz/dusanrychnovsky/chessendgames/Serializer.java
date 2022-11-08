@@ -42,16 +42,16 @@ public class Serializer {
 
   public Movesdb.Color toProto(Color color) {
     return switch (color) {
-      case White -> Movesdb.Color.White;
-      case Black -> Movesdb.Color.Black;
+      case WHITE -> Movesdb.Color.White;
+      case BLACK -> Movesdb.Color.Black;
       default -> throw new IllegalArgumentException("Unknown color: " + color);
     };
   }
 
   public Movesdb.PieceType toProto(PieceType type) {
     return switch (type) {
-      case King -> Movesdb.PieceType.King;
-      case Rook -> Movesdb.PieceType.Rook;
+      case KING -> Movesdb.PieceType.King;
+      case ROOK -> Movesdb.PieceType.Rook;
       default -> throw new IllegalArgumentException(("Unknown piece type: " + type));
     };
   }

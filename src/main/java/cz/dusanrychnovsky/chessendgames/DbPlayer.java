@@ -12,7 +12,7 @@ public class DbPlayer implements Player {
     var proto = Movesdb.Database.parseFrom(
       getClass().getResourceAsStream(resourceName)
     );
-    this.database = new Deserializer().fromProto(Color.White, proto);
+    this.database = new Deserializer().fromProto(Color.WHITE, proto);
   }
 
   @Override

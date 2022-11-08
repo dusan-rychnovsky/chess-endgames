@@ -75,7 +75,7 @@ public class SerializerTest {
 
   @Test
   public void toProto_convertsColor() {
-    assertEquals(Movesdb.Color.White, serializer.toProto(Color.White));
+    assertEquals(Movesdb.Color.White, serializer.toProto(Color.WHITE));
   }
 
   // ==========================================================================
@@ -84,7 +84,7 @@ public class SerializerTest {
 
   @Test
   public void toProto_convertsPieceType() {
-    assertEquals(Movesdb.PieceType.King, serializer.toProto(PieceType.King));
+    assertEquals(Movesdb.PieceType.King, serializer.toProto(PieceType.KING));
   }
 
   // ==========================================================================
@@ -109,7 +109,7 @@ public class SerializerTest {
   public void toProto_convertsSituation() {
     var result = serializer.toProto(
       new Situation(
-        Color.White,
+        Color.WHITE,
         Board.builder()
           .add(Piece.WhiteKing, Position.A6)
           .add(Piece.BlackRook, Position.H1)
@@ -153,7 +153,7 @@ public class SerializerTest {
         ofEntries(
           entry(
             new Situation(
-              Color.White,
+              Color.WHITE,
               Board.builder()
                 .add(Piece.WhiteKing, Position.A6)
                 .add(Piece.BlackRook, Position.H1)

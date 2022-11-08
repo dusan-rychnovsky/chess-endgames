@@ -18,7 +18,7 @@ public class SituationTest {
 
   @Test
   public void next_generatesValidMoves() {
-    var situation = new Situation(Black, Board.builder()
+    var situation = new Situation(BLACK, Board.builder()
       .add(WhiteKing, E5)
       .add(BlackKing, F3)
       .add(BlackRook, G3)
@@ -52,14 +52,14 @@ public class SituationTest {
   public void move_swapsColor() {
     var board = Board.builder().add(BlackKing, D3).build();
     var move = new Move(D3, E5);
-    assertEquals(Black, new Situation(White, board).move(move).color());
-    assertEquals(White, new Situation(Black, board).move(move).color());
+    assertEquals(BLACK, new Situation(WHITE, board).move(move).color());
+    assertEquals(WHITE, new Situation(BLACK, board).move(move).color());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void move_failsWhenFromEmptyPosition() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, D3)
         .add(BlackKing, F5)
@@ -73,7 +73,7 @@ public class SituationTest {
   public void move_movesPiece() {
     var move = new Move(D3, D4);
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, D3)
         .add(BlackKing, F5)
@@ -96,7 +96,7 @@ public class SituationTest {
   public void move_capturesPieceAtTo() {
     var move = new Move(D3, C2);
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, D3)
         .add(BlackKing, C2)
@@ -121,7 +121,7 @@ public class SituationTest {
   @Test
   public void print_boardWithPieces() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, D3)
         .add(BlackKing, F5)
@@ -129,7 +129,7 @@ public class SituationTest {
         .build());
 
     assertEquals(
-      "White\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . R . . .\n" +
@@ -151,7 +151,7 @@ public class SituationTest {
   public void moveIsNotValid_whenNoPiecePresentAtFrom() {
     var move = new Move(E7, E1);
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, D3)
         .add(BlackKing, F5)
@@ -165,7 +165,7 @@ public class SituationTest {
   public void moveIsNotValid_whenWithOpponentsPiece() {
     var move = new Move(D8, D1);
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, F5)
         .add(BlackKing, D3)
@@ -179,7 +179,7 @@ public class SituationTest {
   public void moveIsValid_whenCapturing() {
     var move = new Move(F5, E6);
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, F5)
         .add(BlackKing, D3)
@@ -193,7 +193,7 @@ public class SituationTest {
   public void moveIsNotValid_whenCapturingOwnPiece() {
     var move = new Move(D8, D3);
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, F5)
         .add(BlackKing, D3)
@@ -207,7 +207,7 @@ public class SituationTest {
   public void moveIsNotValid_whenAcrossAPiece() {
     var move = new Move(D8, D3);
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, D6)
         .add(BlackKing, D2)
@@ -220,7 +220,7 @@ public class SituationTest {
   @Test
   public void moveIsNotValid_whenUnavailableForThatPieceType() {
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, D6)
         .add(BlackKing, D2)
@@ -235,7 +235,7 @@ public class SituationTest {
   @Test
   public void moveIsNotValid_whenSteppingIntoCheck() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, C3)
         .add(BlackKing, C5)
@@ -250,7 +250,7 @@ public class SituationTest {
   @Test
   public void validMoves() {
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, D6)
         .add(BlackKing, D2)
@@ -265,7 +265,7 @@ public class SituationTest {
   @Test
   public void moveIsNotValid_WhenKingMovesNextToOpponentsKing() {
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, C3)
@@ -282,7 +282,7 @@ public class SituationTest {
   @Test
   public void isCheck_whenEnemyPieceCouldCaptureCurrentPlayersKing() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, D6)
         .add(BlackRook, D8)
@@ -295,7 +295,7 @@ public class SituationTest {
   @Test
   public void isNotCheck_whenOwnPieceCouldCaptureCurrentPlayersKing() {
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, A1)
         .add(BlackRook, D8)
@@ -308,7 +308,7 @@ public class SituationTest {
   @Test
   public void isNotCheck_whenCurrentPlayersPieceCouldCaptureOpponentsKing() {
     var situation = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, D6)
         .add(BlackRook, D8)
@@ -325,7 +325,7 @@ public class SituationTest {
   @Test
   public void isMate_whenCheckAndKingCanNotMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
@@ -338,7 +338,7 @@ public class SituationTest {
   @Test
   public void isNotMate_whenCheckAndKingCanMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B4)
@@ -351,7 +351,7 @@ public class SituationTest {
   @Test
   public void isNotMate_whenNotCheckAndKingCanMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B4)
@@ -364,7 +364,7 @@ public class SituationTest {
   @Test
   public void isNotMate_whenNotCheckAndKingCanNotMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, A1)
         .add(BlackKing, A3)
@@ -381,7 +381,7 @@ public class SituationTest {
   @Test
   public void isStalemate_whenNotCheckAndKingCanNotMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, A1)
         .add(BlackKing, A3)
@@ -394,7 +394,7 @@ public class SituationTest {
   @Test
   public void isNotStalemate_whenCheckAndKingCanNotMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
@@ -407,7 +407,7 @@ public class SituationTest {
   @Test
   public void isNotStalemate_whenCheckAndKingCanMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B4)
@@ -420,7 +420,7 @@ public class SituationTest {
   @Test
   public void isNotStalemate_whenNotCheckAndKingCanMove() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B4)
@@ -437,7 +437,7 @@ public class SituationTest {
   @Test
   public void status_inProgress() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B4)
@@ -450,7 +450,7 @@ public class SituationTest {
   @Test
   public void status_stalemate_isDraw() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, A1)
         .add(BlackKing, A3)
@@ -463,14 +463,14 @@ public class SituationTest {
   @Test
   public void status_mate_isWin() {
     var situation = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
         .add(BlackRook, D1)
         .build());
 
-    assertEquals(win(Black), situation.status());
+    assertEquals(win(BLACK), situation.status());
   }
 
   // ==========================================================================
@@ -480,14 +480,14 @@ public class SituationTest {
   @Test
   public void sameSituations_areEqual() {
     var first = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
         .add(BlackRook, D1)
         .build());
     var second = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
@@ -501,14 +501,14 @@ public class SituationTest {
   @Test
   public void differentColors_areNotEqual() {
     var first = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
         .add(BlackRook, D1)
         .build());
     var second = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)
@@ -521,14 +521,14 @@ public class SituationTest {
   @Test
   public void differentPositions_areNotEqual() {
     var first = new Situation(
-      White,
+      WHITE,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, D1)
         .add(BlackRook, B3)
         .build());
     var second = new Situation(
-      Black,
+      BLACK,
       Board.builder()
         .add(WhiteKing, B1)
         .add(BlackKing, B3)

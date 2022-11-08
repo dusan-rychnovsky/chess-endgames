@@ -2,7 +2,6 @@ package cz.dusanrychnovsky.chessendgames;
 
 import static cz.dusanrychnovsky.chessendgames.Column.*;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
-import static cz.dusanrychnovsky.chessendgames.StringExtensions.capitalize;
 
 public enum Position {
   A1(CA, R1), A2(CA, R2), A3(CA, R3), A4(CA, R4), A5(CA, R5), A6(CA, R6), A7(CA, R7), A8(CA, R8),
@@ -23,7 +22,7 @@ public enum Position {
   }
 
   public static Position parse(String value) {
-    return valueOf(capitalize(value));
+    return valueOf(value.toUpperCase());
   }
 
   public static Position get(Column column, Row row) {

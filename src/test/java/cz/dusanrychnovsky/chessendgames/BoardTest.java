@@ -20,8 +20,8 @@ public class BoardTest {
   @Test
   public void entry_parse_extractsColorPieceAndPosition() {
     var entry = Board.Entry.parse("white king d3");
-    assertEquals(White, entry.piece().color());
-    assertEquals(King, entry.piece().type());
+    assertEquals(WHITE, entry.piece().color());
+    assertEquals(KING, entry.piece().type());
     assertEquals(D3, entry.position());
   }
 
@@ -104,7 +104,7 @@ public class BoardTest {
       .add(BlackRook, E6)
       .build();
 
-    var pieces = board.pieces(Black);
+    var pieces = board.pieces(BLACK);
 
     assertEquals(2, pieces.size());
     assertEquals(BlackKing, pieces.get(F5));
@@ -123,13 +123,13 @@ public class BoardTest {
       .add(BlackRook, E6)
       .build();
 
-    var pos = board.kingPos(Black);
+    var pos = board.kingPos(BLACK);
     assertEquals(F5, pos.get());
   }
 
   @Test
   public void kingPos_kingNotPresent_returnsEmptyOptional() {
     var board = Board.builder().build();
-    assertEquals(Optional.empty(), board.kingPos(White));
+    assertEquals(Optional.empty(), board.kingPos(WHITE));
   }
 }

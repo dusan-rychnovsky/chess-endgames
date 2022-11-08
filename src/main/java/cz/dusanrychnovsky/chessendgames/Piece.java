@@ -10,10 +10,10 @@ import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 @Accessors(fluent = true)
 public class Piece {
 
-  public static final Piece WhiteKing = new Piece(White, King);
-  public static final Piece WhiteRook = new Piece(White, Rook);
-  public static final Piece BlackKing = new Piece(Black, King);
-  public static final Piece BlackRook = new Piece(Black, Rook);
+  public static final Piece WhiteKing = new Piece(WHITE, KING);
+  public static final Piece WhiteRook = new Piece(WHITE, ROOK);
+  public static final Piece BlackKing = new Piece(BLACK, KING);
+  public static final Piece BlackRook = new Piece(BLACK, ROOK);
 
   Color color;
   PieceType type;

@@ -69,7 +69,7 @@ public class DeserializerTest {
 
   @Test
   public void fromProto_convertsColor() {
-    assertEquals(Color.White, deserializer.fromProto(Movesdb.Color.White));
+    assertEquals(Color.WHITE, deserializer.fromProto(Movesdb.Color.White));
   }
 
   // ==========================================================================
@@ -78,7 +78,7 @@ public class DeserializerTest {
 
   @Test
   public void fromProto_convertsPieceType() {
-    assertEquals(PieceType.King, deserializer.fromProto(Movesdb.PieceType.King));
+    assertEquals(PieceType.KING, deserializer.fromProto(Movesdb.PieceType.King));
   }
 
   // ==========================================================================
@@ -103,7 +103,7 @@ public class DeserializerTest {
   @Test
   public void toProto_convertsSituation() {
     var result = deserializer.fromProto(
-      Color.White,
+      Color.WHITE,
       Movesdb.Situation.newBuilder()
         .addValues(
           Movesdb.Situation.Pair.newBuilder()
@@ -130,7 +130,7 @@ public class DeserializerTest {
         )
         .build()
     );
-    assertEquals(Color.White, result.color());
+    assertEquals(Color.WHITE, result.color());
     var pieces = result.board().pieces();
     assertEquals(2, pieces.size());
     assertEquals(Piece.WhiteKing, pieces.get(Position.A6));
@@ -144,7 +144,7 @@ public class DeserializerTest {
   @Test
   public void toProto_convertsDatabase_singleEntry() {
     var result = deserializer.fromProto(
-      Color.White,
+      Color.WHITE,
       Movesdb.Database.newBuilder()
         .addValues(
           Movesdb.Database.Pair.newBuilder()
@@ -191,7 +191,7 @@ public class DeserializerTest {
       new Move(Position.A6, Position.A7),
       moves.get(
         new Situation(
-          Color.White,
+          Color.WHITE,
           Board.builder()
             .add(Piece.WhiteKing, Position.A6)
             .add(Piece.BlackRook, Position.H1)

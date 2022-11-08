@@ -22,7 +22,7 @@ public class StdInPlayerTest {
     var player = new StdInPlayer(in, out);
     var result = player.getMove(
       new Situation(
-        Color.White,
+        Color.WHITE,
         Board.builder()
           .add(WhiteKing, B1)
           .add(WhiteRook, A1)
@@ -33,7 +33,7 @@ public class StdInPlayerTest {
 
     assertEquals(new Move(B1, B2), result);
     assertEquals(
-      "Enter White move:\n",
+      "Enter WHITE move:\n",
       writer.toString()
     );
   }
@@ -47,7 +47,7 @@ public class StdInPlayerTest {
     var player = new StdInPlayer(in, out);
     var result = player.getMove(
       new Situation(
-        Color.White,
+        Color.WHITE,
         Board.builder()
           .add(WhiteKing, B1)
           .add(WhiteRook, A1)
@@ -58,9 +58,9 @@ public class StdInPlayerTest {
 
     assertEquals(new Move(B1, B2), result);
     assertEquals(
-      "Enter White move:\n" +
+      "Enter WHITE move:\n" +
         "Move is not valid.\n" +
-        "Enter White move:\n",
+        "Enter WHITE move:\n",
       writer.toString()
     );
   }

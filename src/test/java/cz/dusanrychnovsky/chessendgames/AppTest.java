@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Map;
 
-import static cz.dusanrychnovsky.chessendgames.PlayerType.StdIn;
+import static cz.dusanrychnovsky.chessendgames.PlayerType.STDIN;
 
 public class AppTest {
 
@@ -47,7 +47,7 @@ public class AppTest {
 
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
-    var playerDb = Map.<PlayerType, Player>of(StdIn, new StdInPlayer(in, out));
+    var playerDb = Map.<PlayerType, Player>of(STDIN, new StdInPlayer(in, out));
 
     App.run(in, out, playerDb);
 
@@ -77,7 +77,7 @@ public class AppTest {
       "Enter next piece:\n" +
       "\n" +
       "Enter next piece:\n" +
-      "Black\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . R . . .\n" +
@@ -88,8 +88,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -100,8 +100,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -112,8 +112,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -124,8 +124,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -136,8 +136,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -148,8 +148,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -160,8 +160,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -172,8 +172,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -184,8 +184,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -196,8 +196,8 @@ public class AppTest {
       "1 | . . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -208,8 +208,8 @@ public class AppTest {
       "1 | . . K . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -220,8 +220,8 @@ public class AppTest {
       "1 | . . K . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -232,8 +232,8 @@ public class AppTest {
       "1 | . . . K . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -244,8 +244,8 @@ public class AppTest {
       "1 | . . . K . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -256,8 +256,8 @@ public class AppTest {
       "1 | . . K . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -268,8 +268,8 @@ public class AppTest {
       "1 | . . K . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -280,8 +280,8 @@ public class AppTest {
       "1 | . K . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -292,8 +292,8 @@ public class AppTest {
       "1 | . K . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -304,8 +304,8 @@ public class AppTest {
       "1 | K . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -316,8 +316,8 @@ public class AppTest {
       "1 | K . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -328,8 +328,8 @@ public class AppTest {
       "1 | . K . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -340,8 +340,8 @@ public class AppTest {
       "1 | . K . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter White move:\n" +
-      "Black\n" +
+      "Enter WHITE move:\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -352,8 +352,8 @@ public class AppTest {
       "1 | K . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -364,7 +364,7 @@ public class AppTest {
       "1 | K . R . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Mate. Black wins.\n",
+      "Mate. BLACK wins.\n",
       writer.toString()
     );
   }
@@ -385,7 +385,7 @@ public class AppTest {
 
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
-    var playerDb = Map.<PlayerType, Player>of(StdIn, new StdInPlayer(in, out));
+    var playerDb = Map.<PlayerType, Player>of(STDIN, new StdInPlayer(in, out));
 
     App.run(in, out, playerDb);
 
@@ -415,7 +415,7 @@ public class AppTest {
       "Enter next piece:\n" +
       "\n" +
       "Enter next piece:\n" +
-      "Black\n" +
+      "BLACK\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -426,10 +426,10 @@ public class AppTest {
       "1 | K . . . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Enter Black move:\n" +
+      "Enter BLACK move:\n" +
       "Move is not valid.\n" +
-      "Enter Black move:\n" +
-      "White\n" +
+      "Enter BLACK move:\n" +
+      "WHITE\n" +
       "8 | . . . . . . . .\n" +
       "7 | . . . . . . . .\n" +
       "6 | . . . . . . . .\n" +
@@ -440,7 +440,7 @@ public class AppTest {
       "1 | K . R . . . . .\n" +
       "--|----------------\n" +
       "  | A B C D E F G H\n" +
-      "Mate. Black wins.\n",
+      "Mate. BLACK wins.\n",
       writer.toString()
     );
   }

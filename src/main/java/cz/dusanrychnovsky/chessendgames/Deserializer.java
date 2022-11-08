@@ -43,16 +43,16 @@ public class Deserializer {
 
   public PieceType fromProto(Movesdb.PieceType type) {
     return switch (type) {
-      case King -> King;
-      case Rook -> Rook;
+      case King -> KING;
+      case Rook -> ROOK;
       default -> throw new IllegalArgumentException(("Unknown piece type: " + type));
     };
   }
 
   public Color fromProto(Movesdb.Color color) {
     return switch (color) {
-      case White -> White;
-      case Black -> Black;
+      case White -> WHITE;
+      case Black -> BLACK;
       default -> throw new IllegalArgumentException("Unknown color: " + color);
     };
   }

@@ -17,20 +17,20 @@ public class PieceTypeTest {
 
   @Test
   public void parse_supportsLowerCase() {
-    assertEquals(King, PieceType.parse("king"));
-    assertEquals(Rook, PieceType.parse("rook"));
+    assertEquals(KING, PieceType.parse("king"));
+    assertEquals(ROOK, PieceType.parse("rook"));
   }
 
   @Test
   public void parse_supportsUpperCase() {
-    assertEquals(King, PieceType.parse("KING"));
-    assertEquals(Rook, PieceType.parse("ROOK"));
+    assertEquals(KING, PieceType.parse("KING"));
+    assertEquals(ROOK, PieceType.parse("ROOK"));
   }
 
   @Test
   public void parse_supportsCamelCase() {
-    assertEquals(King, PieceType.parse("King"));
-    assertEquals(Rook, PieceType.parse("Rook"));
+    assertEquals(KING, PieceType.parse("King"));
+    assertEquals(ROOK, PieceType.parse("Rook"));
   }
 
   // ==========================================================================
@@ -38,7 +38,7 @@ public class PieceTypeTest {
   // ==========================================================================
 
   @Test
-  public void rook_moves_returnsRowAndColumn() {
+  public void ROOK_moves_returnsRowAndColumn() {
     assertSetEquals(
       Set.of(
         new Move(D3, D1),
@@ -55,7 +55,7 @@ public class PieceTypeTest {
         new Move(D3, F3),
         new Move(D3, G3),
         new Move(D3, H3)),
-      Rook.moves(D3));
+      ROOK.moves(D3));
   }
 
   // ==========================================================================
@@ -63,7 +63,7 @@ public class PieceTypeTest {
   // ==========================================================================
 
   @Test
-  public void king_moves_returnsAdjacent() {
+  public void KING_moves_returnsAdjacent() {
     assertSetEquals(
       Set.of(
         new Move(D3, E2),
@@ -74,7 +74,7 @@ public class PieceTypeTest {
         new Move(D3, C2),
         new Move(D3, C3),
         new Move(D3, C4)),
-      King.moves(D3)
+      KING.moves(D3)
     );
   }
 

@@ -1,6 +1,5 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.single;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
@@ -101,7 +100,7 @@ public class Situation {
     var opponentsKingPos = board.kingPos(color.opposite());
     if (opponentsKingPos.isPresent()) {
       var move = new Move(kingPos.get(), opponentsKingPos.get());
-      if (PieceType.King.moves(kingPos.get()).contains(move)) {
+      if (PieceType.KING.moves(kingPos.get()).contains(move)) {
         return true;
       }
     }
@@ -125,7 +124,7 @@ public class Situation {
   private boolean kingCanMove() {
     var kingPos = board.kingPos(color);
     if (kingPos.isPresent()) {
-      for (var move : PieceType.King.moves(kingPos.get())) {
+      for (var move : PieceType.KING.moves(kingPos.get())) {
         if (isValid(move)) {
           return true;
         }

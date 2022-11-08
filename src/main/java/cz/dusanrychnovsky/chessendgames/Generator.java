@@ -42,7 +42,7 @@ public class Generator {
     var size = size(situations);
     System.out.println("Total situations: " + size);
 
-    var color = Color.White;
+    var color = Color.WHITE;
     var acc = new HashMap<Situation, Record>();
 
     var round = 0;

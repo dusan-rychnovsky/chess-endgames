@@ -1,20 +1,18 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.StringExtensions.capitalize;
-
 public enum Color {
-  White, Black;
+  WHITE, BLACK;
 
   public static Color parse(String color) {
-    return valueOf(capitalize(color));
+    return valueOf(color.toUpperCase());
   }
 
   public Color opposite() {
-    if (this == White) {
-      return Black;
+    if (this == WHITE) {
+      return BLACK;
     }
     else {
-      return White;
+      return WHITE;
     }
   }
 }
