@@ -1,17 +1,18 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.database;
 
+import cz.dusanrychnovsky.chessendgames.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static java.util.List.of;
 import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SerializerTest {
+public class ProtoSerializerTest {
 
-  private final static Serializer serializer = new Serializer();
+  private final static ProtoSerializer serializer = new ProtoSerializer();
 
   // ==========================================================================
   // to proto - row

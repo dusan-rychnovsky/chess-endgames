@@ -1,8 +1,9 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.database;
 
+import cz.dusanrychnovsky.chessendgames.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 
-public class Serializer {
+public class ProtoSerializer {
 
   public Movesdb.Database toProto(Database database) {
     var builder = Movesdb.Database.newBuilder();

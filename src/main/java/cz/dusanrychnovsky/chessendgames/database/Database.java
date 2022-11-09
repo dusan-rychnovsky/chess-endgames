@@ -1,5 +1,11 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.database;
 
+import cz.dusanrychnovsky.chessendgames.Color;
+import cz.dusanrychnovsky.chessendgames.Move;
+import cz.dusanrychnovsky.chessendgames.Situation;
+import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +18,20 @@ public class Database {
 
   public Database(Map<Situation, Move> moves) {
     this.moves = moves;
+  }
+
+  public static Database load(String resourcePath) {
+    try {
+      var deserializer = new ProtoDeserializer();
+      var resource = TextSerializer.class.getResourceAsStream(resourcePath);
+      return deserializer.fromProto(
+        Color.WHITE,
+        Movesdb.Database.parseFrom(resource)
+      );
+    }
+    catch (IOException ex) {
+      throw new RuntimeException("Can't load movesdb", ex);
+    }
   }
 
   public Map<Situation, Move> moves() {

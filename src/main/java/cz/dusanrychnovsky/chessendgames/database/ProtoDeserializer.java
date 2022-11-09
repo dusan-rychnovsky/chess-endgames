@@ -1,5 +1,6 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.database;
 
+import cz.dusanrychnovsky.chessendgames.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
@@ -7,7 +8,7 @@ import static cz.dusanrychnovsky.chessendgames.Column.*;
 import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 
-public class Deserializer {
+public class ProtoDeserializer {
 
   public Database fromProto(Color color, Movesdb.Database database) {
     var builder = new Database.Builder();

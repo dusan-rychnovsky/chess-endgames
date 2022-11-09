@@ -1,5 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import cz.dusanrychnovsky.chessendgames.database.DbPlayer;
+
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.PlayerType.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
@@ -15,7 +17,7 @@ public class App
       var writer = writer(System.out);
       var playerDb = Map.of(
         STDIN, new StdInPlayer(reader, writer),
-        DB, new DbPlayer("movesdb")
+        DB, new DbPlayer("/movesdb")
       );
       run(reader, writer, playerDb);
     }

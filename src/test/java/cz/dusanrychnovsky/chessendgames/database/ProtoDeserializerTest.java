@@ -1,13 +1,15 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.database;
 
+import cz.dusanrychnovsky.chessendgames.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class DeserializerTest {
+public class ProtoDeserializerTest {
 
-  private static final Deserializer deserializer = new Deserializer();
+  private static final ProtoDeserializer deserializer = new ProtoDeserializer();
 
   // ==========================================================================
   // from proto - row

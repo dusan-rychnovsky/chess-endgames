@@ -1,5 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import cz.dusanrychnovsky.chessendgames.database.Database;
+import cz.dusanrychnovsky.chessendgames.database.ProtoSerializer;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 import lombok.Value;
 
@@ -63,7 +65,7 @@ public class Generator {
       }
     }
 
-    var serializer = new Serializer();
+    var serializer = new ProtoSerializer();
     var db = new Database(mapValues(
       filter(
         filter(acc, entry -> entry.getValue().move != null),
