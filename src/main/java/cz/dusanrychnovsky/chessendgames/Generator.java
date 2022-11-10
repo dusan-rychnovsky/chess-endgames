@@ -3,7 +3,6 @@ package cz.dusanrychnovsky.chessendgames;
 import cz.dusanrychnovsky.chessendgames.database.Database;
 import cz.dusanrychnovsky.chessendgames.database.ProtoSerializer;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
-import lombok.Value;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -173,9 +172,6 @@ public class Generator {
     return result;
   }
 
-  @Value
-  private static class Record {
-    int numMoves;
-    Move move;
+  private record Record (int numMoves, Move move) {
   }
 }

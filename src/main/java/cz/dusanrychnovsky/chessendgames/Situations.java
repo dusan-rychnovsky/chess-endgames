@@ -2,9 +2,6 @@ package cz.dusanrychnovsky.chessendgames;
 
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 
-import lombok.Value;
-import lombok.experimental.Accessors;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -60,10 +57,6 @@ public class Situations {
     return Optional.of(situation);
   }
 
-  @Value
-  @Accessors(fluent = true)
-  private static class PositionPieceEntry {
-    Position position;
-    Piece piece;
+  private record PositionPieceEntry (Position position, Piece piece) {
   }
 }

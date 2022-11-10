@@ -3,18 +3,10 @@ package cz.dusanrychnovsky.chessendgames;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
-import lombok.Value;
-import lombok.experimental.Accessors;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Value
-@Accessors(fluent = true)
-public class Situation {
-
-  Color color;
-  Board board;
+public record Situation (Color color, Board board) {
 
   public Status status() {
     if (isStalemate()) {

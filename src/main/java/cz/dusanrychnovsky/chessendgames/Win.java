@@ -1,10 +1,6 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import lombok.Value;
-
-@Value
-public class Win implements Status {
-  Color color;
+public record Win (Color color) implements Status {
 
   @Override
   public String print() {

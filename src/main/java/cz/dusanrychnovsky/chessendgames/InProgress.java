@@ -1,9 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import lombok.Value;
+public record InProgress () implements Status {
 
-@Value
-public class InProgress implements Status {
   @Override
   public String print() {
     return "In progress.";

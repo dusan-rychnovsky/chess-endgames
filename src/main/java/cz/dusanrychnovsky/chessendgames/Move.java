@@ -1,14 +1,6 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import lombok.Value;
-import lombok.experimental.Accessors;
-
-@Value
-@Accessors(fluent = true)
-public class Move {
-
-  Position from;
-  Position to;
+public record Move (Position from, Position to) {
 
   public static Move parse(String value) {
     var tokens = value.split(" ");

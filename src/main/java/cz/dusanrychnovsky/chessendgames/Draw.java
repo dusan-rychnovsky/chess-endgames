@@ -1,9 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import lombok.Value;
+public record Draw () implements Status {
 
-@Value
-public class Draw implements Status {
   @Override
   public String print() {
     return "Draw.";
