@@ -1,19 +1,26 @@
-package cz.dusanrychnovsky.chessendgames;
+package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.database.Database;
-import cz.dusanrychnovsky.chessendgames.database.ProtoSerializer;
-import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
+import cz.dusanrychnovsky.chessendgames.Color;
+import cz.dusanrychnovsky.chessendgames.Move;
+import cz.dusanrychnovsky.chessendgames.Situation;
+import cz.dusanrychnovsky.chessendgames.Situations;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static cz.dusanrychnovsky.chessendgames.Color.WHITE;
 import static cz.dusanrychnovsky.chessendgames.IterableExtensions.map;
 import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
+import static cz.dusanrychnovsky.chessendgames.TimeExtensions.printDuration;
 
 public class Generator {
+
+  private static final Logger logger = LogManager.getLogger(Generator.class);
 
   private static final int INFINITE = Integer.MAX_VALUE;
 
@@ -24,61 +31,71 @@ public class Generator {
       System.exit(-1);
     }
 
-    System.out.println("Going to generate DB.");
+    logger.info("Going to generate DB.");
 
     var generator = new Generator();
-    var db = generator.generate();
+    var db = generator.generateDatabase();
+    logger.debug("db size: " + db.moves().size());
 
-    System.out.println("DB size: " + db.getValuesCount());
+    var serializer = new ProtoSerializer();
+    var proto = serializer.toProto(db);
 
     var os = new FileOutputStream(args[0]);
-    db.writeTo(os);
+    proto.writeTo(os);
 
-    System.out.println("DONE");
+    logger.info("DONE");
   }
 
-  public Movesdb.Database generate() {
+  public Database generateDatabase() {
 
-    var situations = Situations.all();
-    var size = size(situations);
-    System.out.println("Total situations: " + size);
+    var startTime = System.nanoTime();
 
-    var color = Color.WHITE;
+    var allSituations = Situations.all();
+    var totalSize = size(allSituations);
+    logger.debug("total situations: " + totalSize);
+
+    var color = WHITE;
     var acc = new HashMap<Situation, Record>();
 
-    var round = 0;
+    var iterationNo = 0;
     var totalResolved = 0;
     while (true) {
-      System.out.println("Round no.: " + (++round));
+      logger.info("Iteration no.: " + (++iterationNo));
 
-      var numResolved = walkThrough(color, situations, acc);
+      var numResolved = runIteration(color, allSituations, acc);
       totalResolved += numResolved;
 
-      System.out.println("Resolved: " + numResolved);
-      System.out.println("Total resolved: " + totalResolved);
-      System.out.println("Acc size: " + acc.size());
-      System.out.println("Remaining: " + size(situations));
+      logger.debug("resolved: " + numResolved);
+      logger.debug("total resolved: " + totalResolved);
+      logger.debug("remaining: " + (totalSize - totalResolved));
 
       if (numResolved == 0) {
         break;
       }
     }
 
-    var serializer = new ProtoSerializer();
-    var db = new Database(mapValues(
-      filter(
-        filter(acc, entry -> entry.getValue().move != null),
-        entry -> entry.getKey().color() == color),
-      value -> value.move));
-    return serializer.toProto(db);
+    var result = new Database(
+      mapValues(
+        filter(
+          filter(acc, entry -> entry.getValue().move != null),
+          entry -> entry.getKey().color() == color),
+        value -> value.move
+      )
+    );
+
+    var finishTime = System.nanoTime();
+    var elapsedTime = (finishTime - startTime);
+    logger.debug("elapsed time : " + printDuration(elapsedTime));
+
+    return result;
   }
 
-  private int walkThrough(Color color, Iterable<Situation> situations, HashMap<Situation, Record> acc) {
+  private int runIteration(Color color, Iterable<Situation> situations, HashMap<Situation, Record> acc) {
     var numResolved = 0;
     var it = situations.iterator();
     while (it.hasNext()) {
       var situation = it.next();
-      if (resolve(color, situation, acc)) {
+      if (tryResolveSituation(color, situation, acc)) {
         it.remove();
         numResolved++;
       }
@@ -86,7 +103,7 @@ public class Generator {
     return numResolved;
   }
 
-  private boolean resolve(Color color, Situation situation, HashMap<Situation, Record> acc) {
+  private boolean tryResolveSituation(Color color, Situation situation, HashMap<Situation, Record> acc) {
 
     var currColor = situation.color();
     var status = situation.status();
@@ -99,21 +116,24 @@ public class Generator {
       return true;
     }
 
-    var situations = situation.next();
-    var ranks = map(situations.entrySet(), entry ->
-      get(acc, entry.getValue())
-        .map(rec -> new Record(rec.numMoves, entry.getKey())));
+    var nextSituations = situation.next();
+    var nextRanks = map(
+      nextSituations.entrySet(),
+      entry ->
+        get(acc, entry.getValue())
+          .map(rec -> new Record(rec.numMoves, entry.getKey()))
+    );
 
-    var record = Optional.<Record>empty();
+    var result = Optional.<Record>empty();
     if (situation.color() == color) {
-      record = selectMin(ranks);
+      result = selectMin(nextRanks);
     }
     else {
-      record = selectMax(ranks);
+      result = selectMax(nextRanks);
     }
 
-    if (record.isPresent()) {
-      acc.put(situation, new Record(inc(record.get().numMoves), record.get().move));
+    if (result.isPresent()) {
+      acc.put(situation, new Record(inc(result.get().numMoves), result.get().move));
       return true;
     }
     else {
