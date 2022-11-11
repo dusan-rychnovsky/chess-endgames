@@ -23,7 +23,7 @@ public class SituationTest {
       .add(BlackKing, F3)
       .add(BlackRook, G3)
       .build());
-    var situations = situation.next();
+    var situations = situation.nextMoves();
     assertEquals(13, situations.size());
     var moves = Arrays.asList(
       new Move(G3, G1),
@@ -40,7 +40,7 @@ public class SituationTest {
       new Move(F3, F2),
       new Move(F3, G2));
     for (var move : moves) {
-      assertEquals(situation.move(move), situations.get(move));
+      assertEquals(situation.apply(move), situations.get(move));
     }
   }
 
@@ -52,8 +52,8 @@ public class SituationTest {
   public void move_swapsColor() {
     var board = Board.builder().add(BlackKing, D3).build();
     var move = new Move(D3, E5);
-    assertEquals(BLACK, new Situation(WHITE, board).move(move).color());
-    assertEquals(WHITE, new Situation(BLACK, board).move(move).color());
+    assertEquals(BLACK, new Situation(WHITE, board).apply(move).color());
+    assertEquals(WHITE, new Situation(BLACK, board).apply(move).color());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -66,7 +66,7 @@ public class SituationTest {
         .add(BlackRook, E6)
         .build());
 
-    situation.move(new Move(D4, D3));
+    situation.apply(new Move(D4, D3));
   }
 
   @Test
@@ -80,7 +80,7 @@ public class SituationTest {
         .add(BlackRook, E6)
         .build());
 
-    situation = situation.move(move);
+    situation = situation.apply(move);
 
     assertEquals(
       Board.builder()
@@ -103,7 +103,7 @@ public class SituationTest {
         .add(BlackRook, E6)
         .build());
 
-    situation = situation.move(move);
+    situation = situation.apply(move);
 
     assertEquals(
       Board.builder()
@@ -444,7 +444,7 @@ public class SituationTest {
         .add(BlackRook, D4)
         .build());
 
-    assertEquals(InProgress, situation.status());
+    assertEquals(IN_PROGRESS, situation.status());
   }
 
   @Test
@@ -457,7 +457,7 @@ public class SituationTest {
         .add(BlackRook, B3)
         .build());
 
-    assertEquals(Draw, situation.status());
+    assertEquals(DRAW, situation.status());
   }
 
   @Test
@@ -470,7 +470,7 @@ public class SituationTest {
         .add(BlackRook, D1)
         .build());
 
-    assertEquals(win(BLACK), situation.status());
+    assertEquals(WIN(BLACK), situation.status());
   }
 
   // ==========================================================================

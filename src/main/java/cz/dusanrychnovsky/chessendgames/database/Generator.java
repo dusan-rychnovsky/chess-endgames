@@ -116,7 +116,7 @@ public class Generator {
       return true;
     }
 
-    var nextSituations = situation.next();
+    var nextSituations = situation.nextMoves();
     var nextRanks = map(
       nextSituations.entrySet(),
       entry ->

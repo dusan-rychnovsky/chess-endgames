@@ -55,7 +55,7 @@ public class PieceTypeTest {
         new Move(D3, F3),
         new Move(D3, G3),
         new Move(D3, H3)),
-      ROOK.moves(D3));
+      ROOK.movesFrom(D3));
   }
 
   // ==========================================================================
@@ -74,7 +74,7 @@ public class PieceTypeTest {
         new Move(D3, C2),
         new Move(D3, C3),
         new Move(D3, C4)),
-      KING.moves(D3)
+      KING.movesFrom(D3)
     );
   }
 

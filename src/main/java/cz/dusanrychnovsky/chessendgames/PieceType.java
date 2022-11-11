@@ -10,7 +10,7 @@ public enum PieceType {
 
   KING {
     @Override
-    public Set<Move> moves(Position from) {
+    public Set<Move> movesFrom(Position from) {
       return stream(Position.values())
         .filter(pos ->
           from.column().distanceTo(pos.column()) <= 1 &&
@@ -24,7 +24,7 @@ public enum PieceType {
   ROOK {
 
     @Override
-    public Set<Move> moves(Position from) {
+    public Set<Move> movesFrom(Position from) {
       return concat(column(from), row(from))
         .filter(pos -> pos != from)
         .map(pos -> new Move(from, pos))
@@ -44,5 +44,5 @@ public enum PieceType {
     return valueOf(value.toUpperCase());
   }
 
-  public abstract Set<Move> moves(Position from);
+  public abstract Set<Move> movesFrom(Position from);
 }

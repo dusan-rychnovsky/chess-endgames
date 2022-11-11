@@ -88,11 +88,11 @@ public class App
       out.flush();
 
       var status = situation.status();
-      while (status.equals(InProgress)) {
+      while (status.equals(IN_PROGRESS)) {
         color = situation.color();
 
         var move = players.get(color).getMove(situation);
-        situation = situation.move(move);
+        situation = situation.apply(move);
         status = situation.status();
 
         out.write(situation.print());

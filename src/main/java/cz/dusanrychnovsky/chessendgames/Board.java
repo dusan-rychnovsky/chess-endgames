@@ -38,7 +38,7 @@ public class Board {
     return new Builder();
   }
 
-  public Optional<Piece> atPosition(Position position) {
+  public Optional<Piece> pieceAt(Position position) {
     return Optional.ofNullable(this.pieces.get(position));
   }
 
@@ -51,7 +51,7 @@ public class Board {
         var position = Position.get(column, row);
         result.append(
           " " +
-            atPosition(position)
+            pieceAt(position)
               .map(piece -> print(piece))
               .orElse(".")
         );
@@ -77,6 +77,13 @@ public class Board {
         throw new IllegalArgumentException("Duplicate position assignment. Position: " + position + ".");
       }
       this.pieces.put(position, piece);
+      return this;
+    }
+
+    public Builder addAll(Map<Position, Piece> pieces) {
+      for (var entry : pieces.entrySet()) {
+        add(entry.getValue(), entry.getKey());
+      }
       return this;
     }
 

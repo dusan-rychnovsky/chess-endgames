@@ -2,10 +2,10 @@ package cz.dusanrychnovsky.chessendgames;
 
 public interface Status {
 
-  Status InProgress = new InProgress();
-  Status Draw = new Draw();
+  Status IN_PROGRESS = new InProgress();
+  Status DRAW = new Draw();
 
-  static Status win(Color color) {
+  static Status WIN(Color color) {
     return new Win(color);
   }
 
