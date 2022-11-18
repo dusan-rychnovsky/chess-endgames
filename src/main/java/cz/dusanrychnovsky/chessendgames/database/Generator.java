@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static cz.dusanrychnovsky.chessendgames.Color.WHITE;
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
 import static cz.dusanrychnovsky.chessendgames.TimeExtensions.printDuration;
 
@@ -51,7 +50,7 @@ public class Generator {
     var startTime = System.nanoTime();
 
     var allSituations = Situations.all();
-    var totalSize = size(allSituations);
+    var totalSize = allSituations.size();
     logger.debug("total situations: " + totalSize);
 
     var color = WHITE;

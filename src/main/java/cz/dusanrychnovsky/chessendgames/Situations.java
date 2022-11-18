@@ -5,12 +5,13 @@ import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Optional.empty;
 
 public class Situations {
 
-  public static Iterable<Situation> all() {
+  public static Set<Situation> all() {
     var result = new HashSet<Situation>();
     for (var color : Color.values()) {
       for (var blackKingEntry : entries(BlackKing)) {
