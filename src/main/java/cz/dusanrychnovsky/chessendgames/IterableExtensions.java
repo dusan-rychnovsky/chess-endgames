@@ -40,17 +40,9 @@ public class IterableExtensions {
       "[" +
       join(
         ",",
-        stream(values)
+        StreamSupport.stream(values.spliterator(), false)
           .map(Object::toString)
           .collect(toList())) +
       "]";
-  }
-
-  public static <T, R> Iterable<R> map(Iterable<T> values, Function<? super T, ? extends R> mapper) {
-    return stream(values).map(mapper).collect(toList());
-  }
-
-  private static <T> Stream<T> stream(Iterable<T> values) {
-    return StreamSupport.stream(values.spliterator(), false);
   }
 }

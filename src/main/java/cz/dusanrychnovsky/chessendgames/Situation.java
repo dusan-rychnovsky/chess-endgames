@@ -1,12 +1,12 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.map;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
 import static cz.dusanrychnovsky.chessendgames.PieceType.KING;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public record Situation (Color color, Board board) {
 
@@ -22,31 +22,26 @@ public record Situation (Color color, Board board) {
 
   public Map<Move, Situation> nextMoves() {
     var result = new HashMap<Move, Situation>();
-    for (var piece : currentPieces()) {
-      var pieceType = piece.type();
-      for (var move : pieceType.movesFrom(piece.position)) {
+    board.pieces(color).forEach(piece -> {
+      for (var move : piece.type().movesFrom(piece.position())) {
         if (isValid(move)) {
           result.put(move, apply(move));
         }
       }
-    }
+    });
     return result;
   }
 
-  private Iterable<PiecePosition> currentPieces() {
-    return map(board().pieces(color).entrySet(), entry -> new PiecePosition(entry.getValue().type(), entry.getKey()));
-  }
-
   public Situation apply(Move move) {
-    var piece = board.pieceAt(move.from())
+    var currPiece = board.pieceAt(move.from())
       .orElseThrow(() -> new IllegalArgumentException("No piece at position: " + move.from()));
-
-    var otherPieces = filterByKey(board.pieces(), pos -> pos != move.from() && pos != move.to());
+    var otherPieces = board.pieces()
+      .filter(piece -> piece.position() != move.from() && piece.position() != move.to());
     return new Situation(
       color.opposite(),
       Board.builder()
         .addAll(otherPieces)
-        .add(piece, move.to())
+        .add(currPiece, move.to())
         .build()
     );
   }
@@ -106,11 +101,9 @@ public record Situation (Color color, Board board) {
     if (kingPos.isPresent()) {
       var opponentsPieces = board.pieces(color.opposite());
       var opponentsView = new Situation(color.opposite(), board);
-      for (var pos : opponentsPieces.keySet()) {
-        if (opponentsView.isValid(new Move(pos, kingPos.get()))) {
-          return true;
-        }
-      }
+      return opponentsPieces.anyMatch(
+        piece -> opponentsView.isValid(new Move(piece.position(), kingPos.get()))
+      );
     }
     return false;
   }
@@ -145,8 +138,5 @@ public record Situation (Color color, Board board) {
       }
     }
     return false;
-  }
-
-  private record PiecePosition (PieceType type, Position position) {
   }
 }

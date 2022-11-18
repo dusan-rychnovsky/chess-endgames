@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
@@ -11,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class BoardTest {
 
@@ -55,10 +57,10 @@ public class BoardTest {
   public void addAll_positionsAllGivenPiecesOnBoard() {
     var board = Board.builder()
       .addAll(
-        Map.of(
-          D3, WhiteKing,
-          F5, BlackKing,
-          E6, BlackRook
+        Stream.of(
+          new PiecePosition(WHITE, KING, D3),
+          new PiecePosition(BLACK, KING, F5),
+          new PiecePosition(BLACK, ROOK, E6)
         )
       )
       .build();
@@ -74,8 +76,8 @@ public class BoardTest {
     Board.builder()
       .add(BlackKing, D3)
       .addAll(
-        Map.of(
-          D3, WhiteKing
+        Stream.of(
+          new PiecePosition(WHITE, KING, D3)
         )
       );
   }
@@ -134,11 +136,11 @@ public class BoardTest {
       .add(BlackRook, E6)
       .build();
 
-    var pieces = board.pieces(BLACK);
+    var pieces = board.pieces(BLACK).toList();
 
     assertEquals(2, pieces.size());
-    assertEquals(BlackKing, pieces.get(F5));
-    assertEquals(BlackRook, pieces.get(E6));
+    assertTrue(pieces.contains(new PiecePosition(BLACK, KING, F5)));
+    assertTrue(pieces.contains(new PiecePosition(BLACK, ROOK, E6)));
   }
 
   // ==========================================================================

@@ -11,9 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static cz.dusanrychnovsky.chessendgames.Color.WHITE;
-import static cz.dusanrychnovsky.chessendgames.IterableExtensions.map;
 import static cz.dusanrychnovsky.chessendgames.IterableExtensions.size;
 import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
 import static cz.dusanrychnovsky.chessendgames.TimeExtensions.printDuration;
@@ -117,12 +117,11 @@ public class Generator {
     }
 
     var nextSituations = situation.nextMoves();
-    var nextRanks = map(
-      nextSituations.entrySet(),
-      entry ->
+    var nextRanks = nextSituations.entrySet().stream()
+      .map(entry ->
         get(acc, entry.getValue())
           .map(rec -> new Record(rec.numMoves, entry.getKey()))
-    );
+      );
 
     var result = Optional.<Record>empty();
     if (situation.color() == color) {
@@ -154,30 +153,29 @@ public class Generator {
    * Strategy for the attacking player - select moves to minimize the number
    * of rounds required to win the match.
    */
-  private Optional<Record> selectMin(Iterable<Optional<Record>> records) {
+  private Optional<Record> selectMin(Stream<Optional<Record>> records) {
     // if there already is a neighbour situation with a finite distance,
     // it's safe to ignore any remaining unmarked neighbours - they can't
     // have a lower distance (the algorithm progresses through iterations
     // of increasing distance)
-    var result = Optional.<Record>empty();
-    for (var record : records) {
+    return records.reduce(Optional.empty(), (acc, record) -> {
       if (record.isPresent()) {
         var numMoves = record.get().numMoves;
-        if (result.isEmpty() || numMoves < result.get().numMoves) {
-          result = record;
+        if (acc.isEmpty() || numMoves < acc.get().numMoves) {
+          return record;
         }
       }
-    }
-    return result;
+      return acc;
+    });
   }
 
   /*
    * Strategy for the defending player - select moves to maximize the number
    * of rounds required to end the match.
    */
-  private Optional<Record> selectMax(Iterable<Optional<Record>> records) {
+  private Optional<Record> selectMax(Stream<Optional<Record>> records) {
     var result = Optional.<Record>empty();
-    for (var record : records) {
+    for (var record : records.toList()) {
       if (record.isPresent()) {
         var numMoves = record.get().numMoves;
         if (result.isEmpty() || numMoves > result.get().numMoves) {

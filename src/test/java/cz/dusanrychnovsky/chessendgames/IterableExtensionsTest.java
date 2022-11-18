@@ -87,18 +87,4 @@ public class IterableExtensionsTest {
   public void contains_nonExistingElement_returnsFalse() {
     assertFalse(contains(asList(1, 2, 3), 4));
   }
-
-  // ==========================================================================
-  // map
-  // ==========================================================================
-
-  @Test
-  public void map_emptyIterable_returnsEmptyIterable() {
-    assertEquals(0, size(map(emptyList(), item -> item)));
-  }
-
-  @Test
-  public void map_ReturnsNewIterableWithMapFunctionAppliedPerElement() {
-    assertEquals(asList(2, 4, 6, 8), map(asList(1, 2, 3, 4), item -> 2 * item));
-  }
 }

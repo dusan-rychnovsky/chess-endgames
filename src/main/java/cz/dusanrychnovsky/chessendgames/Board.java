@@ -8,6 +8,7 @@ import static cz.dusanrychnovsky.chessendgames.Column.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Board {
 
@@ -17,12 +18,16 @@ public class Board {
     this.pieces = pieces;
   }
 
-  public Map<Position, Piece> pieces() {
-    return pieces;
+  public Stream<PiecePosition> pieces() {
+    return pieces.entrySet().stream()
+      .map(entry -> new PiecePosition(
+        entry.getValue().color(),
+        entry.getValue().type(),
+        entry.getKey()));
   }
 
-  public Map<Position, Piece> pieces(Color color) {
-    return filter(pieces, entry -> entry.getValue().color() == color);
+  public Stream<PiecePosition> pieces(Color color) {
+    return pieces().filter(piece -> piece.color() == color);
   }
 
   public Optional<Position> kingPos(Color color) {
@@ -80,10 +85,8 @@ public class Board {
       return this;
     }
 
-    public Builder addAll(Map<Position, Piece> pieces) {
-      for (var entry : pieces.entrySet()) {
-        add(entry.getValue(), entry.getKey());
-      }
+    public Builder addAll(Stream<PiecePosition> pieces) {
+      pieces.forEach(item -> add(item.piece(), item.position()));
       return this;
     }
 

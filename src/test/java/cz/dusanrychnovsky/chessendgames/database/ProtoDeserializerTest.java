@@ -2,10 +2,13 @@ package cz.dusanrychnovsky.chessendgames.database;
 
 import cz.dusanrychnovsky.chessendgames.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
-import org.junit.Assert;
 import org.junit.Test;
 
+import static cz.dusanrychnovsky.chessendgames.Color.*;
+import static cz.dusanrychnovsky.chessendgames.PieceType.*;
+import static cz.dusanrychnovsky.chessendgames.Position.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ProtoDeserializerTest {
 
@@ -71,7 +74,7 @@ public class ProtoDeserializerTest {
 
   @Test
   public void fromProto_convertsColor() {
-    assertEquals(Color.WHITE, deserializer.fromProto(Movesdb.Color.White));
+    assertEquals(WHITE, deserializer.fromProto(Movesdb.Color.White));
   }
 
   // ==========================================================================
@@ -80,7 +83,7 @@ public class ProtoDeserializerTest {
 
   @Test
   public void fromProto_convertsPieceType() {
-    assertEquals(PieceType.KING, deserializer.fromProto(Movesdb.PieceType.King));
+    assertEquals(KING, deserializer.fromProto(Movesdb.PieceType.King));
   }
 
   // ==========================================================================
@@ -105,7 +108,7 @@ public class ProtoDeserializerTest {
   @Test
   public void toProto_convertsSituation() {
     var result = deserializer.fromProto(
-      Color.WHITE,
+      WHITE,
       Movesdb.Situation.newBuilder()
         .addValues(
           Movesdb.Situation.Pair.newBuilder()
@@ -132,11 +135,11 @@ public class ProtoDeserializerTest {
         )
         .build()
     );
-    assertEquals(Color.WHITE, result.color());
-    var pieces = result.board().pieces();
+    assertEquals(WHITE, result.color());
+    var pieces = result.board().pieces().toList();
     assertEquals(2, pieces.size());
-    assertEquals(Piece.WhiteKing, pieces.get(Position.A6));
-    assertEquals(Piece.BlackRook, pieces.get(Position.H1));
+    assertTrue(pieces.contains(new PiecePosition(WHITE, KING, A6)));
+    assertTrue(pieces.contains(new PiecePosition(BLACK, ROOK, H1)));
   }
 
   // ==========================================================================
@@ -146,7 +149,7 @@ public class ProtoDeserializerTest {
   @Test
   public void toProto_convertsDatabase_singleEntry() {
     var result = deserializer.fromProto(
-      Color.WHITE,
+      WHITE,
       Movesdb.Database.newBuilder()
         .addValues(
           Movesdb.Database.Pair.newBuilder()
@@ -190,12 +193,12 @@ public class ProtoDeserializerTest {
     var moves = result.moves();
     assertEquals(1, moves.size());
     assertEquals(
-      new Move(Position.A6, Position.A7),
+      new Move(A6, Position.A7),
       moves.get(
         new Situation(
-          Color.WHITE,
+          WHITE,
           Board.builder()
-            .add(Piece.WhiteKing, Position.A6)
+            .add(Piece.WhiteKing, A6)
             .add(Piece.BlackRook, Position.H1)
             .build())
           ));

@@ -25,12 +25,12 @@ public class ProtoSerializer {
 
   public Movesdb.Situation toProto(Situation situation) {
     var builder = Movesdb.Situation.newBuilder();
-    for (var entry : situation.board().pieces().entrySet()) {
+    situation.board().pieces().forEach(item -> {
       builder.addValues(
         Movesdb.Situation.Pair.newBuilder()
-          .setPosition(toProto(entry.getKey()))
-          .setPiece(toProto(entry.getValue())));
-    }
+          .setPosition(toProto(item.position()))
+          .setPiece(toProto(item.piece())));
+    });
     return builder.build();
   }
 
