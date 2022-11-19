@@ -1,12 +1,10 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.filterByKey;
 import static cz.dusanrychnovsky.chessendgames.PieceType.KING;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public record Situation (Color color, Board board) {
 
@@ -15,7 +13,7 @@ public record Situation (Color color, Board board) {
       return DRAW;
     }
     if (isMate()) {
-      return WIN(color.opposite());
+      return win(color.opposite());
     }
     return IN_PROGRESS;
   }
@@ -67,10 +65,8 @@ public record Situation (Color color, Board board) {
 
   private boolean isMoveAcrossOtherPieces(Move move) {
     for (var pos : Range.from(move.from(), move.to())) {
-      if (pos != move.from() && pos != move.to()) {
-        if (board.pieceAt(pos).isPresent()) {
-          return true;
-        }
+      if (pos != move.from() && pos != move.to() && board.pieceAt(pos).isPresent()) {
+        return true;
       }
     }
     return false;

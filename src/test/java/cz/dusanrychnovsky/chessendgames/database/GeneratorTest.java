@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class GeneratorTest {
 
-  private static final Generator generator = new Generator();
+  private static final Generator GENERATOR = new Generator();
 
   // ==========================================================================
   // Generate database
@@ -15,7 +15,7 @@ public class GeneratorTest {
 
   @Ignore
   @Test
-  public void generate_generatesDbOfCertainSize() {
-    assertEquals(175_160, generator.generateDatabase().moves().size());
+  public void generateShouldGenerateDbOfCertainSize() {
+    assertEquals(175_160, GENERATOR.generateDatabase().moves().size());
   }
 }

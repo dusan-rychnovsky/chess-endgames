@@ -15,7 +15,7 @@ public class ColumnTest {
   // ==========================================================================
 
   @Test
-  public void parse_supportsLowerCase() {
+  public void parseShouldSupportLowerCase() {
     assertEquals(CA, Column.parse("a"));
     assertEquals(CB, Column.parse("b"));
     assertEquals(CC, Column.parse("c"));
@@ -27,7 +27,7 @@ public class ColumnTest {
   }
 
   @Test
-  public void parse_supportsUpperCase() {
+  public void parseShouldSupportUpperCase() {
     assertEquals(CA, Column.parse("A"));
     assertEquals(CB, Column.parse("B"));
     assertEquals(CC, Column.parse("C"));
@@ -71,7 +71,7 @@ public class ColumnTest {
   // ==========================================================================
 
   @Test
-  public void toString_printsLetter() {
+  public void toStringShouldPrintLetter() {
     assertEquals("A", CA.toString());
     assertEquals("C", CC.toString());
     assertEquals("H", CH.toString());
@@ -82,18 +82,18 @@ public class ColumnTest {
   // ==========================================================================
 
   @Test
-  public void distance_isZeroForSameColumn() {
+  public void distanceShouldBeZeroForSameColumn() {
     assertEquals(0, CB.distanceTo(CB));
   }
 
   @Test
-  public void distance_isOneForAdjacentColumns() {
+  public void distanceShouldBeOneForAdjacentColumns() {
     assertEquals(1, CB.distanceTo(CC));
     assertEquals(1, CC.distanceTo(CB));
   }
 
   @Test
-  public void distance_isSevenForOppositeBorders() {
+  public void distanceShouldBeSevenForOppositeBorders() {
     assertEquals(7, CA.distanceTo(CH));
     assertEquals(7, CH.distanceTo(CA));
   }

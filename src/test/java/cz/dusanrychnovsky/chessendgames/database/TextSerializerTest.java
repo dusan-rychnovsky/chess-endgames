@@ -12,31 +12,31 @@ import static org.junit.Assert.assertTrue;
 
 public class TextSerializerTest {
 
-  private static final TextSerializer serializer = new TextSerializer();
+  private static final TextSerializer SERIALIZER = new TextSerializer();
 
   @Test
-  public void asString_serializesDbToString() {
+  public void asStringShouldSerializeDbToString() {
     var db = new Database(Map.of(
       new Situation(
         WHITE,
         Board.builder()
-          .add(WhiteKing, C3)
-          .add(WhiteRook, C4)
-          .add(BlackKing, H1)
+          .add(WHITE_KING, C3)
+          .add(WHITE_ROOK, C4)
+          .add(BLACK_KING, H1)
           .build()
       ),
       new Move(C3, D3),
       new Situation(
         BLACK,
         Board.builder()
-          .add(WhiteKing, A1)
-          .add(BlackKing, H8)
+          .add(WHITE_KING, A1)
+          .add(BLACK_KING, H8)
           .build()
       ),
       new Move(H8, H7)
     ));
 
-    var result = serializer.asString(db);
+    var result = SERIALIZER.asString(db);
     assertTrue(
       result.contains(
         "Situation:\n" +

@@ -59,7 +59,7 @@ public class RowTest {
   // ==========================================================================
 
   @Test
-  public void toString_printsLetter() {
+  public void toStringShouldPrintLetter() {
     assertEquals("1", R1.toString());
     assertEquals("3", R3.toString());
     assertEquals("8", R8.toString());
@@ -70,18 +70,18 @@ public class RowTest {
   // ==========================================================================
 
   @Test
-  public void distance_isZeroForSameRow() {
+  public void distanceShouldBeZeroForSameRow() {
     assertEquals(0, R2.distanceTo(R2));
   }
 
   @Test
-  public void distance_isOneForAdjacentRows() {
+  public void distanceShouldBeOneForAdjacentRows() {
     assertEquals(1, R2.distanceTo(R3));
     assertEquals(1, R3.distanceTo(R2));
   }
 
   @Test
-  public void distance_isSevenForOppositeBorders() {
+  public void distanceShouldBeSevenForOppositeBorders() {
     assertEquals(7, R1.distanceTo(R8));
     assertEquals(7, R8.distanceTo(R1));
   }

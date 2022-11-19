@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class TimeExtensionsTest {
 
   @Test
-  public void printDuration_printsTimeInHumanReadableForm() {
+  public void printDurationShouldPrintTimeInHumanReadableForm() {
     assertEquals("5 min, 49 sec, 853 ms", printDuration(349853147100L));
   }
 }

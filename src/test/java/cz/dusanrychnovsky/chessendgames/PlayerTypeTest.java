@@ -12,19 +12,19 @@ public class PlayerTypeTest {
   // ==========================================================================
 
   @Test
-  public void parse_supportsLowerCase() {
+  public void parseShouldSupportLowerCase() {
     assertEquals(STDIN, parse("stdin"));
     assertEquals(DB, parse("db"));
   }
 
   @Test
-  public void parse_supportsUpperCase() {
+  public void parseShouldSupportUpperCase() {
     assertEquals(STDIN, parse("STDIN"));
     assertEquals(DB, parse("DB"));
   }
 
   @Test
-  public void parse_supportsCamelCase() {
+  public void parseShouldSupportCamelCase() {
     assertEquals(STDIN, parse("StdIn"));
     assertEquals(DB, parse("Db"));
   }

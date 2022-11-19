@@ -46,7 +46,7 @@ public class ProtoDeserializer {
     return switch (type) {
       case King -> KING;
       case Rook -> ROOK;
-      default -> throw new IllegalArgumentException(("Unknown piece type: " + type));
+      default -> throw new IllegalArgumentException("Unknown piece type: " + type);
     };
   }
 

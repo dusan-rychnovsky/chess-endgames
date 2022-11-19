@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class StdInPlayerTest {
 
   @Test
-  public void getMove_requestsValidMove() {
+  public void getMoveShouldRequestValidMove() {
     var in = new BufferedReader(new StringReader("B1 B2\n"));
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
@@ -24,9 +24,9 @@ public class StdInPlayerTest {
       new Situation(
         Color.WHITE,
         Board.builder()
-          .add(WhiteKing, B1)
-          .add(WhiteRook, A1)
-          .add(BlackKing, D1)
+          .add(WHITE_KING, B1)
+          .add(WHITE_ROOK, A1)
+          .add(BLACK_KING, D1)
           .build()
       )
     );
@@ -39,7 +39,7 @@ public class StdInPlayerTest {
   }
 
   @Test
-  public void getMove_givenInvalidMove_requestsAgain() {
+  public void getMoveShouldRequestAgainWhenGivenInvalidMove() {
     var in = new BufferedReader(new StringReader("B1 A1\nB1 B2\n"));
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
@@ -49,18 +49,20 @@ public class StdInPlayerTest {
       new Situation(
         Color.WHITE,
         Board.builder()
-          .add(WhiteKing, B1)
-          .add(WhiteRook, A1)
-          .add(BlackKing, D1)
+          .add(WHITE_KING, B1)
+          .add(WHITE_ROOK, A1)
+          .add(BLACK_KING, D1)
           .build()
       )
     );
 
     assertEquals(new Move(B1, B2), result);
     assertEquals(
-      "Enter WHITE move:\n" +
-        "Move is not valid.\n" +
-        "Enter WHITE move:\n",
+      """
+        Enter WHITE move:
+        Move is not valid.
+        Enter WHITE move:
+        """,
       writer.toString()
     );
   }

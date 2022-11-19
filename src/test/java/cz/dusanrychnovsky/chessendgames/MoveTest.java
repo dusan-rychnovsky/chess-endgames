@@ -13,17 +13,17 @@ public class MoveTest {
   // ==========================================================================
 
   @Test
-  public void parse_supportsLowerCase() {
+  public void parseShouldSupportLowerCase() {
     assertEquals(new Move(D3, E5), Move.parse("d3 e5"));
   }
 
   @Test
-  public void parse_supportsUpperCase() {
+  public void parseShouldSupportUpperCase() {
     assertEquals(new Move(D3, E5), Move.parse("D3 E5"));
   }
 
   @Test
-  public void parse_supportsMixedCase() {
+  public void parseShouldSupportMixedCase() {
     assertEquals(new Move(D3, E5), Move.parse("d3 E5"));
     assertEquals(new Move(D3, E5), Move.parse("D3 e5"));
   }
@@ -33,19 +33,19 @@ public class MoveTest {
   // ==========================================================================
 
   @Test
-  public void sameMoves_areEqual() {
+  public void sameMovesShouldBeEqual() {
     assertEquals(new Move(D3, E5), new Move(D3, E5));
     assertEquals(new Move(D3, E5).hashCode(), new Move(D3, E5).hashCode());
   }
 
   @Test
-  public void differentFrom_areNotEqual() {
+  public void movesWithDifferentFromShouldNotNotEqual() {
     assertNotEquals(new Move(D3, E5), new Move(D2, E5));
     assertNotEquals(new Move(D3, E5).hashCode(), new Move(D2, E5).hashCode());
   }
 
   @Test
-  public void differentTo_areNotEqual() {
+  public void movesWithDifferentToShouldNotBeEqual() {
     assertNotEquals(new Move(D3, E5), new Move(D3, E4));
     assertNotEquals(new Move(D3, E5).hashCode(), new Move(D3, E4).hashCode());
   }

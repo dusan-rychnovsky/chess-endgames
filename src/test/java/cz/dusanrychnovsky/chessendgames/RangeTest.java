@@ -17,7 +17,7 @@ public class RangeTest {
   // ==========================================================================
 
   @Test
-  public void iterator_cols() {
+  public void colsIterator() {
     var range = Range.from(CB, CF);
     var it = range.iterator();
     assertEquals(CB, it.next());
@@ -29,7 +29,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_cols_fullRange() {
+  public void colsIteratorSupportsFullRange() {
     var range = Range.from(CA, CH);
     var it = range.iterator();
     assertEquals(CA, it.next());
@@ -44,7 +44,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_cols_inverseRange() {
+  public void colsIteratorSupportsInverseRange() {
     var range = Range.from(CG, CC);
     var it = range.iterator();
     assertEquals(CG, it.next());
@@ -56,7 +56,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_cols_inverseFullRange() {
+  public void colsIteratorSupportsInverseFullRange() {
     var range = Range.from(CH, CA);
     var it = range.iterator();
     assertEquals(CH, it.next());
@@ -71,7 +71,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_cols_unitRange() {
+  public void colsIteratorSupportsUnitRange() {
     var range = Range.from(CD, CD);
     var it = range.iterator();
     assertEquals(CD, it.next());
@@ -83,7 +83,7 @@ public class RangeTest {
   // ==========================================================================
 
   @Test
-  public void iterator_rows() {
+  public void rowsIterator() {
     var range = Range.from(R2, R5);
     var it = range.iterator();
     assertEquals(R2, it.next());
@@ -94,7 +94,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_rows_fullRange() {
+  public void rowsIteratorSupportsFullRange() {
     var range = Range.from(R1, R8);
     var it = range.iterator();
     assertEquals(R1, it.next());
@@ -109,7 +109,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_rows_inverseRange() {
+  public void rowsIteratorSupportsInverseRange() {
     var range = Range.from(R5, R3);
     var it = range.iterator();
     assertEquals(R5, it.next());
@@ -119,7 +119,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_rows_inverseFullRange() {
+  public void rowsIteratorSupportsInverseFullRange() {
     var range = Range.from(R8, R1);
     var it = range.iterator();
     assertEquals(R8, it.next());
@@ -134,7 +134,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_rows_unitRange() {
+  public void rowsIteratorSupportsUnitRange() {
     var range = Range.from(R3, R3);
     var it = range.iterator();
     assertEquals(R3, it.next());
@@ -146,7 +146,7 @@ public class RangeTest {
   // ==========================================================================
 
   @Test
-  public void iterator_pos_leftToRight() {
+  public void posIteratorSupportsLeftToRight() {
     var range = Range.from(C3, F3);
     var it = range.iterator();
     assertEquals(C3, it.next());
@@ -157,7 +157,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_leftToRight_fullRange() {
+  public void posIteratorSupportsLeftToRightFullRange() {
     var range = Range.from(A3, H3);
     var it = range.iterator();
     assertEquals(A3, it.next());
@@ -172,7 +172,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_rightToLeft() {
+  public void posIteratorSupportsRightToLeft() {
     var range = Range.from(F5, D5);
     var it = range.iterator();
     assertEquals(F5, it.next());
@@ -182,7 +182,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_rightToLeft_fullRange() {
+  public void posIteratorSupportsRightToLeftFullRange() {
     var range = Range.from(H5, A5);
     var it = range.iterator();
     assertEquals(H5, it.next());
@@ -197,7 +197,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_horizontal_unitRange() {
+  public void posIteratorSupportsHorizontalUnitRange() {
     var range = Range.from(B6, B6);
     var it = range.iterator();
     assertEquals(B6, it.next());
@@ -209,7 +209,7 @@ public class RangeTest {
   // ==========================================================================
 
   @Test
-  public void iterator_pos_topToBottom() {
+  public void posIteratorSupportsTopToBottom() {
     var range = Range.from(C6, C3);
     var it = range.iterator();
     assertEquals(C6, it.next());
@@ -220,7 +220,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_topToBottom_fullRange() {
+  public void posIteratorSupportsTopToBottomFullRange() {
     var range = Range.from(C8, C1);
     var it = range.iterator();
     assertEquals(C8, it.next());
@@ -235,7 +235,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_bottomToTop() {
+  public void posIteratorSupportsBottomToTop() {
     var range = Range.from(D2, D4);
     var it = range.iterator();
     assertEquals(D2, it.next());
@@ -245,7 +245,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_bottomToTop_fullRange() {
+  public void posIteratorSupportsBottomToTopFullRange() {
     var range = Range.from(E1, E8);
     var it = range.iterator();
     assertEquals(E1, it.next());
@@ -264,7 +264,7 @@ public class RangeTest {
   // ==========================================================================
 
   @Test
-  public void iterator_pos_topLeftToBotRight() {
+  public void posIteratorSupportsTopLeftToBotRight() {
     var range = Range.from(B5, D3);
     var it = range.iterator();
     assertEquals(B5, it.next());
@@ -274,7 +274,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_topLeftToBotRight_fullDiagonal() {
+  public void posIteratorSupportsTopLeftToBotRightFullDiagonal() {
     var range = Range.from(A8, H1);
     var it = range.iterator();
     assertEquals(A8, it.next());
@@ -289,7 +289,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_topLeftToBotRight_leftCorner() {
+  public void posIteratorSupportsTopLeftToBotRightLeftCorner() {
     var range = Range.from(A1, A1);
     var it = range.iterator();
     assertEquals(A1, it.next());
@@ -297,7 +297,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_topLeftToBotRight_rightCorner() {
+  public void posIteratorSupportsTopLeftToBotRightRightCorner() {
     var range = Range.from(H8, H8);
     var it = range.iterator();
     assertEquals(H8, it.next());
@@ -305,7 +305,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_botRightToTopLeft() {
+  public void posIteratorSupportsBotRightToTopLeft() {
     var range = Range.from(D3, B5);
     var it = range.iterator();
     assertEquals(D3, it.next());
@@ -315,7 +315,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_botRightToTopLeft_fullDiagonal() {
+  public void posIteratorSupportsBotRightToTopLeftFullDiagonal() {
     var range = Range.from(H1, A8);
     var it = range.iterator();
     assertEquals(H1, it.next());
@@ -330,7 +330,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_botLeftToTopRight() {
+  public void posIteratorSupportsBotLeftToTopRight() {
     var range = Range.from(B5, D7);
     var it = range.iterator();
     assertEquals(B5, it.next());
@@ -340,7 +340,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_botLeftToTopRight_fullDiagonal() {
+  public void posIteratorSupportsBotLeftToTopRightFullDiagonal() {
     var range = Range.from(A1, H8);
     var it = range.iterator();
     assertEquals(A1, it.next());
@@ -355,7 +355,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_botLeftToTopRight_leftCorner() {
+  public void posIteratorSupportsBotLeftToTopRightLeftCorner() {
     var range = Range.from(A8, A8);
     var it = range.iterator();
     assertEquals(A8, it.next());
@@ -363,7 +363,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_botLeftToTopRight_rightCorner() {
+  public void posIteratorSupportsBotLeftToTopRightRightCorner() {
     var range = Range.from(H1, H1);
     var it = range.iterator();
     assertEquals(H1, it.next());
@@ -371,7 +371,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_topRightToBotLeft() {
+  public void posIteratorSupportsTopRightToBotLeft() {
     var range = Range.from(F7, D5);
     var it = range.iterator();
     assertEquals(F7, it.next());
@@ -381,7 +381,7 @@ public class RangeTest {
   }
 
   @Test
-  public void iterator_pos_topRightToBotLeft_fullDiagonal() {
+  public void posIteratorSupportsTopRightToBotLeftFullDiagonal() {
     var range = Range.from(H8, A1);
     var it = range.iterator();
     assertEquals(H8, it.next());
@@ -400,7 +400,7 @@ public class RangeTest {
   // ==========================================================================
 
   @Test(expected=IllegalArgumentException.class)
-  public void iterator_pos_illegal() {
+  public void posIteratorIllegalRange() {
     Range.from(C3, D5);
   }
 }

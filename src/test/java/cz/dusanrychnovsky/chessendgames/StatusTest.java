@@ -12,17 +12,17 @@ public class StatusTest {
   // ==========================================================================
 
   @Test
-  public void isFinal_win_returnsTrue() {
-    assertTrue(WIN(WHITE).isFinal());
+  public void winShouldBeFinal() {
+    assertTrue(win(WHITE).isFinal());
   }
 
   @Test
-  public void isFinal_draw_returnsTrue() {
+  public void drawShouldBeFinal() {
     assertTrue(DRAW.isFinal());
   }
 
   @Test
-  public void isFinal_inProgress_returnsFalse() {
+  public void inProgressShouldNotBeFinal() {
     assertFalse(IN_PROGRESS.isFinal());
   }
 
@@ -31,23 +31,22 @@ public class StatusTest {
   // ==========================================================================
 
   @Test
-  public void isWin_win_returnsTrue() {
-    assertTrue(WIN(WHITE).isWin(WHITE));
+  public void winShouldBeWin() {
+    assertTrue(win(WHITE).isWin(WHITE));
   }
 
   @Test
-  public void isWin_winOfOpponent_returnsFalse() {
-    assertFalse(WIN(BLACK).isWin(WHITE));
+  public void winShouldNotBeWinOfOpponent() {
+    assertFalse(win(BLACK).isWin(WHITE));
   }
 
   @Test
-  public void isWin_draw_returnsFalse() {
+  public void winShouldNotBeDraw() {
     assertFalse(DRAW.isWin(WHITE));
   }
 
   @Test
-  public void isWin_inProgress_returnsFalse() {
+  public void winShouldNotBeInProgress() {
     assertFalse(IN_PROGRESS.isWin(WHITE));
   }
-
 }

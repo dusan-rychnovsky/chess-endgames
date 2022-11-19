@@ -12,15 +12,15 @@ import static org.junit.Assert.assertTrue;
 
 public class ProtoDeserializerTest {
 
-  private static final ProtoDeserializer deserializer = new ProtoDeserializer();
+  private static final ProtoDeserializer DESERIALIZER = new ProtoDeserializer();
 
   // ==========================================================================
   // from proto - row
   // ==========================================================================
 
   @Test
-  public void fromProto_convertsRow() {
-    assertEquals(Row.R3, deserializer.fromProto(Movesdb.Row.R3));
+  public void fromProtoShouldConvertRow() {
+    assertEquals(Row.R3, DESERIALIZER.fromProto(Movesdb.Row.R3));
   }
 
   // ==========================================================================
@@ -28,8 +28,8 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void fromProto_convertsColumn() {
-    assertEquals(Column.CE, deserializer.fromProto(Movesdb.Column.CE));
+  public void fromProtoShouldConvertColumn() {
+    assertEquals(Column.CE, DESERIALIZER.fromProto(Movesdb.Column.CE));
   }
 
   // ==========================================================================
@@ -37,10 +37,10 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsPosition() {
+  public void toProtoShouldConvertPosition() {
     assertEquals(
       Position.H3,
-      deserializer.fromProto(
+      DESERIALIZER.fromProto(
         Movesdb.Position.newBuilder()
           .setColumn(Movesdb.Column.CH)
           .setRow(Movesdb.Row.R3)
@@ -52,10 +52,10 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsMove() {
+  public void toProtoShouldConvertMove() {
     assertEquals(
       new Move(Position.H3, Position.H1),
-      deserializer.fromProto(
+      DESERIALIZER.fromProto(
         Movesdb.Move.newBuilder()
           .setFrom(
             Movesdb.Position.newBuilder()
@@ -73,8 +73,8 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void fromProto_convertsColor() {
-    assertEquals(WHITE, deserializer.fromProto(Movesdb.Color.White));
+  public void fromProtoShouldConvertColor() {
+    assertEquals(WHITE, DESERIALIZER.fromProto(Movesdb.Color.White));
   }
 
   // ==========================================================================
@@ -82,8 +82,8 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void fromProto_convertsPieceType() {
-    assertEquals(KING, deserializer.fromProto(Movesdb.PieceType.King));
+  public void fromProtoShouldConvertPieceType() {
+    assertEquals(KING, DESERIALIZER.fromProto(Movesdb.PieceType.King));
   }
 
   // ==========================================================================
@@ -91,10 +91,10 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsPiece() {
+  public void toProtoShouldConvertPiece() {
     assertEquals(
-      Piece.BlackRook,
-      deserializer.fromProto(
+      Piece.BLACK_ROOK,
+      DESERIALIZER.fromProto(
         Movesdb.Piece.newBuilder()
           .setColor(Movesdb.Color.Black)
           .setType(Movesdb.PieceType.Rook)
@@ -106,8 +106,8 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsSituation() {
-    var result = deserializer.fromProto(
+  public void toProtoShouldConvertSituation() {
+    var result = DESERIALIZER.fromProto(
       WHITE,
       Movesdb.Situation.newBuilder()
         .addValues(
@@ -147,8 +147,8 @@ public class ProtoDeserializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsDatabase_singleEntry() {
-    var result = deserializer.fromProto(
+  public void toProtoShouldConvertDatabaseWithSingleEntry() {
+    var result = DESERIALIZER.fromProto(
       WHITE,
       Movesdb.Database.newBuilder()
         .addValues(
@@ -198,8 +198,8 @@ public class ProtoDeserializerTest {
         new Situation(
           WHITE,
           Board.builder()
-            .add(Piece.WhiteKing, A6)
-            .add(Piece.BlackRook, Position.H1)
+            .add(Piece.WHITE_KING, A6)
+            .add(Piece.BLACK_ROOK, Position.H1)
             .build())
           ));
   }

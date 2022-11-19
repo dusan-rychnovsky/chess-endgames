@@ -19,7 +19,7 @@ import static cz.dusanrychnovsky.chessendgames.TimeExtensions.printDuration;
 
 public class Generator {
 
-  private static final Logger logger = LogManager.getLogger(Generator.class);
+  private static final Logger LOGGER = LogManager.getLogger(Generator.class);
 
   private static final int INFINITE = Integer.MAX_VALUE;
 
@@ -30,11 +30,11 @@ public class Generator {
       System.exit(-1);
     }
 
-    logger.info("Going to generate DB.");
+    LOGGER.info("Going to generate DB.");
 
     var generator = new Generator();
     var db = generator.generateDatabase();
-    logger.debug("db size: " + db.moves().size());
+    LOGGER.debug("db size: " + db.moves().size());
 
     var serializer = new ProtoSerializer();
     var proto = serializer.toProto(db);
@@ -42,7 +42,7 @@ public class Generator {
     var os = new FileOutputStream(args[0]);
     proto.writeTo(os);
 
-    logger.info("DONE");
+    LOGGER.info("DONE");
   }
 
   public Database generateDatabase() {
@@ -51,7 +51,7 @@ public class Generator {
 
     var allSituations = Situations.all();
     var totalSize = allSituations.size();
-    logger.debug("total situations: " + totalSize);
+    LOGGER.debug("total situations: " + totalSize);
 
     var color = WHITE;
     var acc = new HashMap<Situation, Record>();
@@ -59,14 +59,14 @@ public class Generator {
     var iterationNo = 0;
     var totalResolved = 0;
     while (true) {
-      logger.info("Iteration no.: " + (++iterationNo));
+      LOGGER.info("Iteration no.: " + (++iterationNo));
 
       var numResolved = runIteration(color, allSituations, acc);
       totalResolved += numResolved;
 
-      logger.debug("resolved: " + numResolved);
-      logger.debug("total resolved: " + totalResolved);
-      logger.debug("remaining: " + (totalSize - totalResolved));
+      LOGGER.debug("resolved: " + numResolved);
+      LOGGER.debug("total resolved: " + totalResolved);
+      LOGGER.debug("remaining: " + (totalSize - totalResolved));
 
       if (numResolved == 0) {
         break;
@@ -83,8 +83,8 @@ public class Generator {
     );
 
     var finishTime = System.nanoTime();
-    var elapsedTime = (finishTime - startTime);
-    logger.debug("elapsed time : " + printDuration(elapsedTime));
+    var elapsedTime = finishTime - startTime;
+    LOGGER.debug("elapsed time : " + printDuration(elapsedTime));
 
     return result;
   }

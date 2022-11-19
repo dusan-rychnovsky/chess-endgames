@@ -2,7 +2,6 @@ package cz.dusanrychnovsky.chessendgames.database;
 
 import cz.dusanrychnovsky.chessendgames.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static java.util.Map.entry;
@@ -12,15 +11,15 @@ import static org.junit.Assert.assertTrue;
 
 public class ProtoSerializerTest {
 
-  private final static ProtoSerializer serializer = new ProtoSerializer();
+  private final static ProtoSerializer SERIALIZER = new ProtoSerializer();
 
   // ==========================================================================
   // to proto - row
   // ==========================================================================
 
   @Test
-  public void toProto_convertsRow() {
-    assertEquals(Movesdb.Row.R3, serializer.toProto(Row.R3));
+  public void toProtoShouldConvertRow() {
+    assertEquals(Movesdb.Row.R3, SERIALIZER.toProto(Row.R3));
   }
 
   // ==========================================================================
@@ -28,8 +27,8 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsColumn() {
-    assertEquals(Movesdb.Column.CE, serializer.toProto(Column.CE));
+  public void toProtoShouldConvertColumn() {
+    assertEquals(Movesdb.Column.CE, SERIALIZER.toProto(Column.CE));
   }
 
   // ==========================================================================
@@ -37,13 +36,13 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsPosition() {
+  public void toProtoShouldConvertPosition() {
     assertEquals(
       Movesdb.Position.newBuilder()
         .setColumn(Movesdb.Column.CH)
         .setRow(Movesdb.Row.R3)
         .build(),
-      serializer.toProto(
+      SERIALIZER.toProto(
         Position.H3
       ));
   }
@@ -53,7 +52,7 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsMove() {
+  public void toProtoShouldConvertMove() {
     assertEquals(
       Movesdb.Move.newBuilder()
         .setFrom(
@@ -65,7 +64,7 @@ public class ProtoSerializerTest {
             .setColumn(Movesdb.Column.CH)
             .setRow(Movesdb.Row.R1))
         .build(),
-      serializer.toProto(
+      SERIALIZER.toProto(
         new Move(Position.H3, Position.H1
       )));
   }
@@ -75,8 +74,8 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsColor() {
-    assertEquals(Movesdb.Color.White, serializer.toProto(Color.WHITE));
+  public void toProtoShouldConvertColor() {
+    assertEquals(Movesdb.Color.White, SERIALIZER.toProto(Color.WHITE));
   }
 
   // ==========================================================================
@@ -84,8 +83,8 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsPieceType() {
-    assertEquals(Movesdb.PieceType.King, serializer.toProto(PieceType.KING));
+  public void toProtoShouldConvertPieceType() {
+    assertEquals(Movesdb.PieceType.King, SERIALIZER.toProto(PieceType.KING));
   }
 
   // ==========================================================================
@@ -93,13 +92,13 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsPiece() {
+  public void toProtoShouldConvertPiece() {
     assertEquals(
       Movesdb.Piece.newBuilder()
         .setColor(Movesdb.Color.Black)
         .setType(Movesdb.PieceType.Rook)
         .build(),
-      serializer.toProto(Piece.BlackRook));
+      SERIALIZER.toProto(Piece.BLACK_ROOK));
   }
 
   // ==========================================================================
@@ -107,13 +106,13 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsSituation() {
-    var result = serializer.toProto(
+  public void toProtoShouldConvertSituation() {
+    var result = SERIALIZER.toProto(
       new Situation(
         Color.WHITE,
         Board.builder()
-          .add(Piece.WhiteKing, Position.A6)
-          .add(Piece.BlackRook, Position.H1)
+          .add(Piece.WHITE_KING, Position.A6)
+          .add(Piece.BLACK_ROOK, Position.H1)
           .build()));
     var values = result.getValuesList();
     assertEquals(2, values.size());
@@ -148,16 +147,16 @@ public class ProtoSerializerTest {
   // ==========================================================================
 
   @Test
-  public void toProto_convertsDatabase_singleEntry() {
-    var result = serializer.toProto(
+  public void toProtoShouldConvertDatabaseWithSingleEntry() {
+    var result = SERIALIZER.toProto(
       new Database(
         ofEntries(
           entry(
             new Situation(
               Color.WHITE,
               Board.builder()
-                .add(Piece.WhiteKing, Position.A6)
-                .add(Piece.BlackRook, Position.H1)
+                .add(Piece.WHITE_KING, Position.A6)
+                .add(Piece.BLACK_ROOK, Position.H1)
                 .build()),
             new Move(Position.A6, Position.A7)))));
     var dbValues = result.getValuesList();

@@ -16,19 +16,19 @@ public class PieceTypeTest {
   // ==========================================================================
 
   @Test
-  public void parse_supportsLowerCase() {
+  public void parseShouldSupportLowerCase() {
     assertEquals(KING, PieceType.parse("king"));
     assertEquals(ROOK, PieceType.parse("rook"));
   }
 
   @Test
-  public void parse_supportsUpperCase() {
+  public void parseShouldSupportUpperCase() {
     assertEquals(KING, PieceType.parse("KING"));
     assertEquals(ROOK, PieceType.parse("ROOK"));
   }
 
   @Test
-  public void parse_supportsCamelCase() {
+  public void parseShouldSupportCamelCase() {
     assertEquals(KING, PieceType.parse("King"));
     assertEquals(ROOK, PieceType.parse("Rook"));
   }
@@ -38,7 +38,7 @@ public class PieceTypeTest {
   // ==========================================================================
 
   @Test
-  public void ROOK_moves_returnsRowAndColumn() {
+  public void rookMovesShouldReturnRowAndColumn() {
     assertSetEquals(
       Set.of(
         new Move(D3, D1),
@@ -63,7 +63,7 @@ public class PieceTypeTest {
   // ==========================================================================
 
   @Test
-  public void KING_moves_returnsAdjacent() {
+  public void kingMovesShouldReturnAdjacentFields() {
     assertSetEquals(
       Set.of(
         new Move(D3, E2),

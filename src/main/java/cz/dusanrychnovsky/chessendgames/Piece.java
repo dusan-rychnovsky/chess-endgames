@@ -5,8 +5,8 @@ import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 
 public record Piece (Color color, PieceType type) {
 
-  public static final Piece WhiteKing = new Piece(WHITE, KING);
-  public static final Piece WhiteRook = new Piece(WHITE, ROOK);
-  public static final Piece BlackKing = new Piece(BLACK, KING);
-  public static final Piece BlackRook = new Piece(BLACK, ROOK);
+  public static final Piece WHITE_KING = new Piece(WHITE, KING);
+  public static final Piece WHITE_ROOK = new Piece(WHITE, ROOK);
+  public static final Piece BLACK_KING = new Piece(BLACK, KING);
+  public static final Piece BLACK_ROOK = new Piece(BLACK, ROOK);
 }

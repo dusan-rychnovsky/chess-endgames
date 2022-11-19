@@ -14,12 +14,12 @@ public class PositionTest {
   // ==========================================================================
 
   @Test
-  public void parse_supportsLowerCase() {
+  public void parseShouldSupportLowerCase() {
     assertEquals(D3, Position.parse("d3"));
   }
 
   @Test
-  public void parse_supportsUpperCase() {
+  public void parseShouldSupportUpperCase() {
     assertEquals(D3, Position.parse("D3"));
   }
 

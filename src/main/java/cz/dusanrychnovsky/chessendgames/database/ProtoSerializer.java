@@ -53,7 +53,7 @@ public class ProtoSerializer {
     return switch (type) {
       case KING -> Movesdb.PieceType.King;
       case ROOK -> Movesdb.PieceType.Rook;
-      default -> throw new IllegalArgumentException(("Unknown piece type: " + type));
+      default -> throw new IllegalArgumentException("Unknown piece type: " + type);
     };
   }
   public Movesdb.Position toProto(Position position) {

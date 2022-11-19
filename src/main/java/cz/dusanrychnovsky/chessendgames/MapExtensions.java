@@ -6,8 +6,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static java.util.stream.Collectors.toList;
-
 public class MapExtensions {
 
   public static <K, V> Map<K, V> filterByKey(Map<K, V> map, Predicate<K> predicate) {

@@ -15,59 +15,59 @@ public class SituationsTest {
   // All
   // ==========================================================================
 
-  private static Set<Situation> ALL_SITUATIONS = Situations.all();
+  private static final Set<Situation> ALL_SITUATIONS = Situations.all();
 
   @Test
-  public void all_generatesAllValidSituations() {
+  public void allShouldGenerateAllValidSituations() {
     assertEquals(406_336, ALL_SITUATIONS.size());
   }
 
   @Test
-  public void all_containsASampleValidSituation_twoFigures() {
+  public void allShouldContainASampleValidSituationWithTwoFigures() {
     assertTrue(ALL_SITUATIONS.contains(
       new Situation(WHITE, Board.builder()
-        .add(WhiteKing, C3)
-        .add(BlackKing, E5)
+        .add(WHITE_KING, C3)
+        .add(BLACK_KING, E5)
         .build()))
     );
   }
 
   @Test
-  public void all_containsASampleValidSituation_threeFigures() {
+  public void allShouldContainASampleValidSituationWithThreeFigures() {
     assertTrue(ALL_SITUATIONS.contains(
       new Situation(WHITE, Board.builder()
-        .add(WhiteKing, C3)
-        .add(WhiteRook, F1)
-        .add(BlackKing, E5)
+        .add(WHITE_KING, C3)
+        .add(WHITE_ROOK, F1)
+        .add(BLACK_KING, E5)
         .build()))
     );
   }
 
   @Test
-  public void all_doesNotContainInvalidSituation_twoWhiteKings() {
+  public void allShouldNotContainInvalidSituationWithTwoWhiteKings() {
     assertFalse(ALL_SITUATIONS.contains(
       new Situation(WHITE, Board.builder()
-        .add(WhiteKing, C3)
-        .add(WhiteKing, E5)
+        .add(WHITE_KING, C3)
+        .add(WHITE_KING, E5)
         .build()))
     );
   }
 
   @Test
-  public void all_doesNotContainInvalidSituation_aSingleKing() {
+  public void allShouldNotContainInvalidSituationWithSingleKing() {
     assertFalse(ALL_SITUATIONS.contains(
       new Situation(WHITE, Board.builder()
-        .add(WhiteKing, C3)
+        .add(WHITE_KING, C3)
         .build()))
     );
   }
 
   @Test
-  public void all_doesNotContainInvalidSituation_adjacentKings() {
+  public void allSHouldNotNotContainInvalidSituationWithAdjacentKings() {
     assertFalse(ALL_SITUATIONS.contains(
       new Situation(WHITE, Board.builder()
-        .add(WhiteKing, C3)
-        .add(BlackKing, D3)
+        .add(WHITE_KING, C3)
+        .add(BLACK_KING, D3)
         .build()))
     );
   }

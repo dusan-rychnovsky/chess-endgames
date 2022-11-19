@@ -5,7 +5,7 @@ public interface Status {
   Status IN_PROGRESS = new InProgress();
   Status DRAW = new Draw();
 
-  static Status WIN(Color color) {
+  static Status win(Color color) {
     return new Win(color);
   }
 

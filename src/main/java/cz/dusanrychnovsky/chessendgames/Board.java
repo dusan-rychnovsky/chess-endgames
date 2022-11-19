@@ -1,6 +1,5 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.filter;
 import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
@@ -57,7 +56,7 @@ public class Board {
         result.append(
           " " +
             pieceAt(position)
-              .map(piece -> print(piece))
+              .map(this::print)
               .orElse(".")
         );
       }
@@ -95,16 +94,20 @@ public class Board {
     }
   }
 
-  public static class Entry {
-
-    private final Piece piece;
-    private final Position position;
-
-    public Entry(Piece piece, Position position) {
-      this.piece = piece;
-      this.position = position;
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof Board other) {
+      return pieces.equals(other.pieces);
     }
+    return false;
+  }
 
+  @Override
+  public int hashCode() {
+    return pieces.hashCode();
+  }
+
+  public record Entry(Piece piece, Position position) {
     public static Entry parse(String value) {
       var tokens = value.split(" ");
       return new Entry(
@@ -114,28 +117,5 @@ public class Board {
         Position.parse(tokens[2])
       );
     }
-
-    public Piece piece() {
-      return this.piece;
-    }
-
-    public Position position() {
-      return this.position;
-    }
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (!(obj instanceof Board)) {
-      return false;
-    }
-
-    Board other = (Board) obj;
-    return pieces.equals(other.pieces);
-  }
-
-  @Override
-  public int hashCode() {
-    return pieces.hashCode();
   }
 }

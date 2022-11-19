@@ -12,19 +12,19 @@ public class ColorTest {
   // ==========================================================================
 
   @Test
-  public void parse_supportsLowerCase() {
+  public void parseShouldSupportLowerCase() {
     assertEquals(WHITE, parse("white"));
     assertEquals(BLACK, parse("black"));
   }
 
   @Test
-  public void parse_supportsUpperCase() {
+  public void parseShouldSupportUpperCase() {
     assertEquals(WHITE, parse("WHITE"));
     assertEquals(BLACK, parse("BLACK"));
   }
 
   @Test
-  public void parse_supportsCamelCase() {
+  public void parseShouldSupportCamelCase() {
     assertEquals(WHITE, parse("White"));
     assertEquals(BLACK, parse("Black"));
   }

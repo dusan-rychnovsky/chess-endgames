@@ -16,7 +16,7 @@ public class MapExtensionsTest {
   // ==========================================================================
 
   @Test
-  public void filterByKey_returnsSubMap() {
+  public void filterByKeyShouldReturnSubMap() {
     assertEquals(
       of(1, "a", 3, "c"),
       filterByKey(
@@ -25,7 +25,7 @@ public class MapExtensionsTest {
   }
 
   @Test
-  public void filterByKey_emptyMap_returnsEmptySubmap() {
+  public void filterByKeyShouldReturnEmptyMapWhenGivenEmptyMap() {
     assertEquals(of(), filterByKey(of(), key -> true));
   }
 
@@ -34,7 +34,7 @@ public class MapExtensionsTest {
   // ==========================================================================
 
   @Test
-  public void filter_returnsSubMap() {
+  public void filterShouldReturnSubMap() {
     assertEquals(
       of(1, "a", 3, "c"),
       filter(
@@ -47,7 +47,7 @@ public class MapExtensionsTest {
   // ==========================================================================
 
   @Test
-  public void get_keyDefined_ReturnsOptionalOfValue() {
+  public void getShouldReturnValueWhenKeyDefined() {
     assertEquals(
       Optional.of("a"),
       get(of(1, "a", 3, "c"),1)
@@ -55,7 +55,7 @@ public class MapExtensionsTest {
   }
 
   @Test
-  public void get_keyUndefined_ReturnsEmptyOptional() {
+  public void getShouldReturnEmptyResultWhenKeyUndefined() {
     assertEquals(
       Optional.empty(),
       get(of(1, "a", 3, "c"),2)
@@ -67,12 +67,12 @@ public class MapExtensionsTest {
   // ==========================================================================
 
   @Test
-  public void mapValues_emptyMap_returnsEmptyMap() {
+  public void mapValuesShouldReturnEmptyMapWhenGivenEmptyMap() {
     assertEquals(emptyMap(), mapValues(emptyMap(), value -> value));
   }
 
   @Test
-  public void get_returnsNewMapWithMapFunctionAppliedPerValue() {
+  public void mapValuesShouldReturnNewMapWithMapFunctionAppliedPerValue() {
     assertEquals(
       of("a", 2, "b", 4, "c", 6),
       mapValues(of("a", 1, "b", 2, "c", 3),value -> value * 2)

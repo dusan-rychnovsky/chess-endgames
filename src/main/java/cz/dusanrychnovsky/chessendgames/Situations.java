@@ -14,11 +14,11 @@ public class Situations {
   public static Set<Situation> all() {
     var result = new HashSet<Situation>();
     for (var color : Color.values()) {
-      for (var blackKingEntry : entries(BlackKing)) {
-        for (var whiteKingEntry : entries(WhiteKing)) {
+      for (var blackKingEntry : entries(BLACK_KING)) {
+        for (var whiteKingEntry : entries(WHITE_KING)) {
           situation(color, whiteKingEntry, blackKingEntry)
             .ifPresent(result::add);
-          for (var whiteRookEntry : entries(WhiteRook)) {
+          for (var whiteRookEntry : entries(WHITE_ROOK)) {
             situation(color, whiteKingEntry, whiteRookEntry, blackKingEntry)
               .ifPresent(result::add);
           }
