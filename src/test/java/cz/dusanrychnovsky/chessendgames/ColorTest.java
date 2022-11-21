@@ -8,28 +8,6 @@ import static org.junit.Assert.assertEquals;
 public class ColorTest {
 
   // ==========================================================================
-  // Parsing
-  // ==========================================================================
-
-  @Test
-  public void parseShouldSupportLowerCase() {
-    assertEquals(WHITE, parse("white"));
-    assertEquals(BLACK, parse("black"));
-  }
-
-  @Test
-  public void parseShouldSupportUpperCase() {
-    assertEquals(WHITE, parse("WHITE"));
-    assertEquals(BLACK, parse("BLACK"));
-  }
-
-  @Test
-  public void parseShouldSupportCamelCase() {
-    assertEquals(WHITE, parse("White"));
-    assertEquals(BLACK, parse("Black"));
-  }
-
-  // ==========================================================================
   // Opposite
   // ==========================================================================
 

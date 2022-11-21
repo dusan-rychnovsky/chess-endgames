@@ -3,6 +3,7 @@ package cz.dusanrychnovsky.chessendgames;
 import cz.dusanrychnovsky.chessendgames.database.DbPlayer;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
+import static cz.dusanrychnovsky.chessendgames.EnumExtensions.parseEnum;
 import static cz.dusanrychnovsky.chessendgames.PlayerType.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 
@@ -45,19 +46,19 @@ public class App
       out.flush();
 
       var line = in.readLine();
-      players.put(WHITE, playerDb.get(PlayerType.parse(line)));
+      players.put(WHITE, playerDb.get(parseEnum(line, PlayerType.class)));
 
       out.write("\nBlack player:\n");
       out.flush();
 
       line = in.readLine();
-      players.put(BLACK, playerDb.get(PlayerType.parse(line)));
+      players.put(BLACK, playerDb.get(parseEnum(line, PlayerType.class)));
 
       out.write("\nEnter current player's color (White/Black):\n");
       out.flush();
 
       line = in.readLine();
-      var color = Color.parse(line);
+      var color = parseEnum(line, Color.class);
 
       out.write("\nNow enter positions of all pieces on the board.\n");
       out.write(". One piece per line.\n");
@@ -74,7 +75,7 @@ public class App
           break;
         }
 
-        var entry = Board.Entry.parse(line);
+        var entry = Board.Entry.parseEntry(line);
         builder.add(entry.piece(), entry.position());
 
         out.write("\nEnter next piece:\n");

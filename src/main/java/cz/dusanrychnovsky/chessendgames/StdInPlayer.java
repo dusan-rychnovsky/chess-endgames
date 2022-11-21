@@ -2,6 +2,8 @@ package cz.dusanrychnovsky.chessendgames;
 
 import java.io.*;
 
+import static cz.dusanrychnovsky.chessendgames.Move.parseMove;
+
 public class StdInPlayer implements Player {
 
   private final BufferedReader reader;
@@ -20,7 +22,7 @@ public class StdInPlayer implements Player {
         writer.flush();
 
         var line = reader.readLine();
-        var move = Move.parse(line);
+        var move = parseMove(line);
 
         if (situation.isValid(move)) {
           return move;

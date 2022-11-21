@@ -21,10 +21,6 @@ public enum Position {
     this.row = row;
   }
 
-  public static Position parse(String value) {
-    return valueOf(value.toUpperCase());
-  }
-
   public static Position get(Column column, Row row) {
     return valueOf(column.toString() + row.toString());
   }

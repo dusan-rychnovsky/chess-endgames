@@ -1,5 +1,6 @@
 package cz.dusanrychnovsky.chessendgames;
 
+import static cz.dusanrychnovsky.chessendgames.EnumExtensions.parseEnum;
 import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
@@ -108,13 +109,14 @@ public class Board {
   }
 
   public record Entry(Piece piece, Position position) {
-    public static Entry parse(String value) {
+    public static Entry parseEntry(String value) {
       var tokens = value.split(" ");
       return new Entry(
         new Piece(
-          Color.parse(tokens[0]),
-          PieceType.parse(tokens[1])),
-        Position.parse(tokens[2])
+          parseEnum(tokens[0], Color.class),
+          parseEnum(tokens[1], PieceType.class)
+        ),
+        parseEnum(tokens[2], Position.class)
       );
     }
   }

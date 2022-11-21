@@ -40,9 +40,5 @@ public enum PieceType {
     }
   };
 
-  public static PieceType parse(String value) {
-    return valueOf(value.toUpperCase());
-  }
-
   public abstract Set<Move> movesFrom(Position from);
 }

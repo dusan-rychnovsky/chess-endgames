@@ -10,20 +10,6 @@ import static cz.dusanrychnovsky.chessendgames.Row.*;
 public class PositionTest {
 
   // ==========================================================================
-  // Parsing
-  // ==========================================================================
-
-  @Test
-  public void parseShouldSupportLowerCase() {
-    assertEquals(D3, Position.parse("d3"));
-  }
-
-  @Test
-  public void parseShouldSupportUpperCase() {
-    assertEquals(D3, Position.parse("D3"));
-  }
-
-  // ==========================================================================
   // Destructuring
   // ==========================================================================
 

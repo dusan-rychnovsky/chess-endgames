@@ -1,6 +1,8 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
+
+import static cz.dusanrychnovsky.chessendgames.Move.parseMove;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -14,18 +16,18 @@ public class MoveTest {
 
   @Test
   public void parseShouldSupportLowerCase() {
-    assertEquals(new Move(D3, E5), Move.parse("d3 e5"));
+    assertEquals(new Move(D3, E5), parseMove("d3 e5"));
   }
 
   @Test
   public void parseShouldSupportUpperCase() {
-    assertEquals(new Move(D3, E5), Move.parse("D3 E5"));
+    assertEquals(new Move(D3, E5), parseMove("D3 E5"));
   }
 
   @Test
   public void parseShouldSupportMixedCase() {
-    assertEquals(new Move(D3, E5), Move.parse("d3 E5"));
-    assertEquals(new Move(D3, E5), Move.parse("D3 e5"));
+    assertEquals(new Move(D3, E5), parseMove("d3 E5"));
+    assertEquals(new Move(D3, E5), parseMove("D3 e5"));
   }
 
   // ==========================================================================

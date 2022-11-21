@@ -12,28 +12,6 @@ import java.util.Set;
 public class PieceTypeTest {
 
   // ==========================================================================
-  // Parsing
-  // ==========================================================================
-
-  @Test
-  public void parseShouldSupportLowerCase() {
-    assertEquals(KING, PieceType.parse("king"));
-    assertEquals(ROOK, PieceType.parse("rook"));
-  }
-
-  @Test
-  public void parseShouldSupportUpperCase() {
-    assertEquals(KING, PieceType.parse("KING"));
-    assertEquals(ROOK, PieceType.parse("ROOK"));
-  }
-
-  @Test
-  public void parseShouldSupportCamelCase() {
-    assertEquals(KING, PieceType.parse("King"));
-    assertEquals(ROOK, PieceType.parse("Rook"));
-  }
-
-  // ==========================================================================
   // Rook Moving
   // ==========================================================================
 
