@@ -2,7 +2,6 @@ package cz.dusanrychnovsky.chessendgames;
 
 import java.util.Iterator;
 import java.util.Optional;
-import static java.util.Optional.of;
 
 public class Range<T extends Comparable<T>> implements Iterable<T> {
 
@@ -10,7 +9,7 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
   private final T from;
   private final T to;
 
-  public static <T extends Comparable<T> & Navigable> Range<T> from(T from, T to) {
+  public static <T extends Comparable<T> & Navigable<T>> Range<T> from(T from, T to) {
     return new Range<>(from, to, Axis.get(from, to));
   }
 
@@ -28,7 +27,7 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
   public Iterator<T> iterator() {
     return new Iterator<>() {
 
-      private Optional<T> curr = of(from);
+      private T curr = from;
       private boolean hasNext = true;
 
       @Override
@@ -38,18 +37,19 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
 
       @Override
       public T next() {
-        var result = curr.get();
-        curr = axis.next(result);
+        var result = curr;
+        curr = axis.next(result).orElse(null);
         hasNext = !result.equals(to);
         return result;
       }
     };
   }
 
+  @FunctionalInterface
   private interface Axis<T> {
     Optional<T> next(T from);
 
-    static <T extends Comparable<T> & Navigable> Axis<T> get(T from, T to) {
+    static <T extends Comparable<T> & Navigable<T>> Axis<T> get(T from, T to) {
       if (from.compareTo(to) <= 0) {
         // left to right
         return Navigable::next;
@@ -61,8 +61,8 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
     }
 
     static Axis<Position> get(Position from, Position to) {
-      // horizontal
       if (from.row() == to.row()) {
+        // horizontal
         if (from.column().compareTo(to.column()) <= 0) {
           // left to right
           return pos ->
@@ -76,8 +76,8 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
               .map(col -> Position.get(col, pos.row()));
         }
       }
-      // vertical
       if (from.column() == to.column()) {
+        // vertical
         if (from.row().compareTo(to.row()) <= 0) {
           // bottom to top
           return pos ->
@@ -91,8 +91,8 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
               .map(row -> Position.get(pos.column(), row));
         }
       }
-      // diagonal
       if (from.column().distanceTo(to.column()) == from.row().distanceTo(to.row())) {
+        // diagonal
         if (from.column().compareTo(to.column()) <= 0) {
           if (from.row().compareTo(to.row()) <= 0) {
             // bottom left to top right
