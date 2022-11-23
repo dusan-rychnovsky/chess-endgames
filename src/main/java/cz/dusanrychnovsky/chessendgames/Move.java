@@ -8,4 +8,8 @@ public record Move (Position from, Position to) {
     var tokens = value.split(" ");
     return new Move(parseEnum(tokens[0], Position.class), parseEnum(tokens[1], Position.class));
   }
+
+  public String print() {
+    return from + " " + to;
+  }
 }

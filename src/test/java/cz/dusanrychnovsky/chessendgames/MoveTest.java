@@ -51,4 +51,13 @@ public class MoveTest {
     assertNotEquals(new Move(D3, E5), new Move(D3, E4));
     assertNotEquals(new Move(D3, E5).hashCode(), new Move(D3, E4).hashCode());
   }
+
+  // ==========================================================================
+  // Print
+  // ==========================================================================
+
+  @Test
+  public void printShouldReturnHumanReadableStringEncoding() {
+    assertEquals("C3 C4", new Move(C3, C4).print());
+  }
 }
