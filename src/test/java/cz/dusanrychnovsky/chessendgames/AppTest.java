@@ -6,21 +6,17 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Map;
 
-import static cz.dusanrychnovsky.chessendgames.PlayerType.STDIN;
+import static cz.dusanrychnovsky.chessendgames.Color.*;
 
 public class AppTest {
 
   @Test
-  public void runShouldExecuteScenarioWithConsoleInOut() throws IOException {
+  public void runShouldExecuteScenarioWithConsoleInOut() {
     var in = new BufferedReader(new StringReader(
       """
-        StdIn
-        StdIn
-        black
-        white king d3
-        black king f5
-        black rook e6
-
+        f5
+        e6
+        d3
         e6 e4
         d3 c3
         f5 e5
@@ -49,38 +45,21 @@ public class AppTest {
 
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
-    var playerDb = Map.<PlayerType, Player>of(STDIN, new StdInPlayer(in, out));
+    var ui = new CommandLineInterface(in, out);
+    var player = new UIPlayer(ui);
+    var players = Map.<Color, Player>of(WHITE, player, BLACK, player);
 
-    App.run(in, out, playerDb);
+    App.run(ui, players, WHITE);
 
     Assert.assertEquals(
       """
         CHESS END GAMES v. 0.1
 
-        Choose players.
-        [a] StdIn - command line interface
-        [b] Db - computer algorithm
-
-        White player:
-
-        Black player:
-
-        Enter current player's color (White/Black):
-
-        Now enter positions of all pieces on the board.
-        . One piece per line.
-        . Format: "[Color] [Type] [Position]".
-        . Example: "White King A1".
-        . Finish with an empty line.
-
-        Enter first piece:
-
-        Enter next piece:
-
-        Enter next piece:
-
-        Enter next piece:
-        BLACK
+        Enter positions of all pieces on the board.
+        WHITE KING:
+        WHITE ROOK:
+        BLACK KING:
+        WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . R . . .
@@ -91,8 +70,8 @@ public class AppTest {
         1 | . . . . . . . .
         --|----------------
           | A B C D E F G H
-        Enter BLACK move:
-        WHITE
+        Enter WHITE move:
+        BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -103,24 +82,12 @@ public class AppTest {
         1 | . . . . . . . .
         --|----------------
           | A B C D E F G H
-        Enter WHITE move:
-        BLACK
-        8 | . . . . . . . .
-        7 | . . . . . . . .
-        6 | . . . . . . . .
-        5 | . . . . . K . .
-        4 | . . . . R . . .
-        3 | . . K . . . . .
-        2 | . . . . . . . .
-        1 | . . . . . . . .
-        --|----------------
-          | A B C D E F G H
         Enter BLACK move:
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
-        5 | . . . . K . . .
+        5 | . . . . . K . .
         4 | . . . . R . . .
         3 | . . K . . . . .
         2 | . . . . . . . .
@@ -134,7 +101,7 @@ public class AppTest {
         6 | . . . . . . . .
         5 | . . . . K . . .
         4 | . . . . R . . .
-        3 | . . . K . . . .
+        3 | . . K . . . . .
         2 | . . . . . . . .
         1 | . . . . . . . .
         --|----------------
@@ -144,7 +111,7 @@ public class AppTest {
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
-        5 | . . . K . . . .
+        5 | . . . . K . . .
         4 | . . . . R . . .
         3 | . . . K . . . .
         2 | . . . . . . . .
@@ -158,8 +125,8 @@ public class AppTest {
         6 | . . . . . . . .
         5 | . . . K . . . .
         4 | . . . . R . . .
-        3 | . . . . . . . .
-        2 | . . . K . . . .
+        3 | . . . K . . . .
+        2 | . . . . . . . .
         1 | . . . . . . . .
         --|----------------
           | A B C D E F G H
@@ -168,8 +135,8 @@ public class AppTest {
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
-        5 | . . . . . . . .
-        4 | . . . K R . . .
+        5 | . . . K . . . .
+        4 | . . . . R . . .
         3 | . . . . . . . .
         2 | . . . K . . . .
         1 | . . . . . . . .
@@ -183,12 +150,24 @@ public class AppTest {
         5 | . . . . . . . .
         4 | . . . K R . . .
         3 | . . . . . . . .
-        2 | . . K . . . . .
+        2 | . . . K . . . .
         1 | . . . . . . . .
         --|----------------
           | A B C D E F G H
         Enter BLACK move:
         WHITE
+        8 | . . . . . . . .
+        7 | . . . . . . . .
+        6 | . . . . . . . .
+        5 | . . . . . . . .
+        4 | . . . K R . . .
+        3 | . . . . . . . .
+        2 | . . K . . . . .
+        1 | . . . . . . . .
+        --|----------------
+          | A B C D E F G H
+        Enter WHITE move:
+        BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -199,8 +178,8 @@ public class AppTest {
         1 | . . . . . . . .
         --|----------------
           | A B C D E F G H
-        Enter WHITE move:
-        BLACK
+        Enter BLACK move:
+        WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -211,8 +190,8 @@ public class AppTest {
         1 | . . K . . . . .
         --|----------------
           | A B C D E F G H
-        Enter BLACK move:
-        WHITE
+        Enter WHITE move:
+        BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -223,26 +202,14 @@ public class AppTest {
         1 | . . K . . . . .
         --|----------------
           | A B C D E F G H
-        Enter WHITE move:
-        BLACK
-        8 | . . . . . . . .
-        7 | . . . . . . . .
-        6 | . . . . . . . .
-        5 | . . . . . . . .
-        4 | . . . K . . . .
-        3 | . . . . . . . .
-        2 | . . . . R . . .
-        1 | . . . K . . . .
-        --|----------------
-          | A B C D E F G H
         Enter BLACK move:
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
         5 | . . . . . . . .
-        4 | . . . . . . . .
-        3 | . . . K . . . .
+        4 | . . . K . . . .
+        3 | . . . . . . . .
         2 | . . . . R . . .
         1 | . . . K . . . .
         --|----------------
@@ -256,7 +223,7 @@ public class AppTest {
         4 | . . . . . . . .
         3 | . . . K . . . .
         2 | . . . . R . . .
-        1 | . . K . . . . .
+        1 | . . . K . . . .
         --|----------------
           | A B C D E F G H
         Enter BLACK move:
@@ -267,7 +234,7 @@ public class AppTest {
         5 | . . . . . . . .
         4 | . . . . . . . .
         3 | . . . K . . . .
-        2 | . . . R . . . .
+        2 | . . . . R . . .
         1 | . . K . . . . .
         --|----------------
           | A B C D E F G H
@@ -280,6 +247,30 @@ public class AppTest {
         4 | . . . . . . . .
         3 | . . . K . . . .
         2 | . . . R . . . .
+        1 | . . K . . . . .
+        --|----------------
+          | A B C D E F G H
+        Enter BLACK move:
+        WHITE
+        8 | . . . . . . . .
+        7 | . . . . . . . .
+        6 | . . . . . . . .
+        5 | . . . . . . . .
+        4 | . . . . . . . .
+        3 | . . . K . . . .
+        2 | . . . R . . . .
+        1 | . K . . . . . .
+        --|----------------
+          | A B C D E F G H
+        Enter WHITE move:
+        BLACK
+        8 | . . . . . . . .
+        7 | . . . . . . . .
+        6 | . . . . . . . .
+        5 | . . . . . . . .
+        4 | . . . . . . . .
+        3 | . . . K . . . .
+        2 | . . R . . . . .
         1 | . K . . . . . .
         --|----------------
           | A B C D E F G H
@@ -292,7 +283,7 @@ public class AppTest {
         4 | . . . . . . . .
         3 | . . . K . . . .
         2 | . . R . . . . .
-        1 | . K . . . . . .
+        1 | K . . . . . . .
         --|----------------
           | A B C D E F G H
         Enter WHITE move:
@@ -302,7 +293,7 @@ public class AppTest {
         6 | . . . . . . . .
         5 | . . . . . . . .
         4 | . . . . . . . .
-        3 | . . . K . . . .
+        3 | . . K . . . . .
         2 | . . R . . . . .
         1 | K . . . . . . .
         --|----------------
@@ -316,7 +307,7 @@ public class AppTest {
         4 | . . . . . . . .
         3 | . . K . . . . .
         2 | . . R . . . . .
-        1 | K . . . . . . .
+        1 | . K . . . . . .
         --|----------------
           | A B C D E F G H
         Enter WHITE move:
@@ -326,7 +317,7 @@ public class AppTest {
         6 | . . . . . . . .
         5 | . . . . . . . .
         4 | . . . . . . . .
-        3 | . . K . . . . .
+        3 | . K . . . . . .
         2 | . . R . . . . .
         1 | . K . . . . . .
         --|----------------
@@ -340,23 +331,11 @@ public class AppTest {
         4 | . . . . . . . .
         3 | . K . . . . . .
         2 | . . R . . . . .
-        1 | . K . . . . . .
+        1 | K . . . . . . .
         --|----------------
           | A B C D E F G H
         Enter WHITE move:
         BLACK
-        8 | . . . . . . . .
-        7 | . . . . . . . .
-        6 | . . . . . . . .
-        5 | . . . . . . . .
-        4 | . . . . . . . .
-        3 | . K . . . . . .
-        2 | . . R . . . . .
-        1 | K . . . . . . .
-        --|----------------
-          | A B C D E F G H
-        Enter BLACK move:
-        WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -367,23 +346,19 @@ public class AppTest {
         1 | K . R . . . . .
         --|----------------
           | A B C D E F G H
-        Mate. BLACK wins.
+        Mate. WHITE wins.
         """,
       writer.toString()
     );
   }
 
   @Test
-  public void runShouldHandleInvalidMoves() throws IOException {
+  public void runShouldHandleInvalidMoves() {
     var in = new BufferedReader(new StringReader(
       """
-        StdIn
-        StdIn
-        black
-        white king a1
-        black king b3
-        black rook c3
-
+        b3
+        c3
+        a1
         c3 b3
         c3 c1
         """
@@ -391,38 +366,21 @@ public class AppTest {
 
     var writer = new StringWriter();
     var out = new BufferedWriter(writer);
-    var playerDb = Map.<PlayerType, Player>of(STDIN, new StdInPlayer(in, out));
+    var ui = new CommandLineInterface(in, out);
+    var player = new UIPlayer(ui);
+    var players = Map.<Color, Player>of(WHITE, player, BLACK, player);
 
-    App.run(in, out, playerDb);
+    App.run(ui, players, WHITE);
 
     Assert.assertEquals(
       """
         CHESS END GAMES v. 0.1
 
-        Choose players.
-        [a] StdIn - command line interface
-        [b] Db - computer algorithm
-
-        White player:
-
-        Black player:
-
-        Enter current player's color (White/Black):
-
-        Now enter positions of all pieces on the board.
-        . One piece per line.
-        . Format: "[Color] [Type] [Position]".
-        . Example: "White King A1".
-        . Finish with an empty line.
-
-        Enter first piece:
-
-        Enter next piece:
-
-        Enter next piece:
-
-        Enter next piece:
-        BLACK
+        Enter positions of all pieces on the board.
+        WHITE KING:
+        WHITE ROOK:
+        BLACK KING:
+        WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -433,10 +391,10 @@ public class AppTest {
         1 | K . . . . . . .
         --|----------------
           | A B C D E F G H
-        Enter BLACK move:
+        Enter WHITE move:
         Move is not valid.
-        Enter BLACK move:
-        WHITE
+        Enter WHITE move:
+        BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
         6 | . . . . . . . .
@@ -447,7 +405,7 @@ public class AppTest {
         1 | K . R . . . . .
         --|----------------
           | A B C D E F G H
-        Mate. BLACK wins.
+        Mate. WHITE wins.
         """,
       writer.toString()
     );

@@ -1,6 +1,5 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import static cz.dusanrychnovsky.chessendgames.EnumExtensions.parseEnum;
 import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.Row.*;
 import static cz.dusanrychnovsky.chessendgames.Column.*;
@@ -106,18 +105,5 @@ public class Board {
   @Override
   public int hashCode() {
     return pieces.hashCode();
-  }
-
-  public record Entry(Piece piece, Position position) {
-    public static Entry parseEntry(String value) {
-      var tokens = value.split(" ");
-      return new Entry(
-        new Piece(
-          parseEnum(tokens[0], Color.class),
-          parseEnum(tokens[1], PieceType.class)
-        ),
-        parseEnum(tokens[2], Position.class)
-      );
-    }
   }
 }

@@ -17,18 +17,6 @@ import java.util.stream.Stream;
 public class BoardTest {
 
   // ==========================================================================
-  // Entry Parsing
-  // ==========================================================================
-
-  @Test
-  public void entryParseShouldExtractColorPieceAndPosition() {
-    var entry = Board.Entry.parseEntry("white king d3");
-    assertEquals(WHITE, entry.piece().color());
-    assertEquals(KING, entry.piece().type());
-    assertEquals(D3, entry.position());
-  }
-
-  // ==========================================================================
   // Building
   // ==========================================================================
 

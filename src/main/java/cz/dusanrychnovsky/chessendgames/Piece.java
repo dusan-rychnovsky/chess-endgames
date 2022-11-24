@@ -9,4 +9,8 @@ public record Piece (Color color, PieceType type) {
   public static final Piece WHITE_ROOK = new Piece(WHITE, ROOK);
   public static final Piece BLACK_KING = new Piece(BLACK, KING);
   public static final Piece BLACK_ROOK = new Piece(BLACK, ROOK);
+
+  public String print() {
+    return color + " " + type;
+  }
 }

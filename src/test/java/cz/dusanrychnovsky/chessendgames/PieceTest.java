@@ -1,6 +1,8 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
+
+import static cz.dusanrychnovsky.chessendgames.Piece.WHITE_KING;
 import static org.junit.Assert.assertEquals;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
@@ -8,6 +10,15 @@ import static cz.dusanrychnovsky.chessendgames.PieceType.*;
 import static org.junit.Assert.assertNotEquals;
 
 public class PieceTest {
+
+  // ==========================================================================
+  // Print
+  // ==========================================================================
+
+  @Test
+  public void printShouldSerializePieceInHumanReadableForm() {
+    assertEquals("WHITE KING", WHITE_KING.print());
+  }
 
   // ==========================================================================
   // Equality
