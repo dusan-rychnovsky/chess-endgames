@@ -33,6 +33,7 @@ public class CommandLineInterface implements UserInterface {
       var pos = parseEnum(line, Position.class);
       builder.add(piece, pos);
     }
+    print("\n");
     return builder.build();
   }
 
@@ -45,6 +46,7 @@ public class CommandLineInterface implements UserInterface {
       var move = parseMove(line);
 
       if (situation.isValid(move)) {
+        print("\n");
         return move;
       }
 
@@ -54,7 +56,7 @@ public class CommandLineInterface implements UserInterface {
 
   @Override
   public void printSituation(Situation situation) {
-    print(situation.print());
+    print(situation.print() + "\n");
   }
 
   @Override

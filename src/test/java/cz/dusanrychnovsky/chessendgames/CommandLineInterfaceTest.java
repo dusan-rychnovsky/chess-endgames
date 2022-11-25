@@ -71,7 +71,7 @@ public class CommandLineInterfaceTest {
     );
     ui.printSituation(situation);
 
-    assertEquals(situation.print(), writer.toString());
+    assertEquals(situation.print() + "\n", writer.toString());
   }
 
   // ==========================================================================
@@ -98,7 +98,7 @@ public class CommandLineInterfaceTest {
 
     assertEquals(new Move(B1, B2), result);
     assertEquals(
-      "Enter WHITE move:\n",
+      "Enter WHITE move:\n\n",
       writer.toString()
     );
   }
@@ -127,6 +127,7 @@ public class CommandLineInterfaceTest {
         Enter WHITE move:
         Move is not valid.
         Enter WHITE move:
+        
         """,
       writer.toString()
     );
@@ -164,6 +165,7 @@ public class CommandLineInterfaceTest {
       WHITE KING:
       WHITE ROOK:
       BLACK KING:
+      
       """,
       writer.toString()
     );
