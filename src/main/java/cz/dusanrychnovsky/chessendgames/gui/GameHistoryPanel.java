@@ -1,7 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.Move;
-import cz.dusanrychnovsky.chessendgames.Status;
 import cz.dusanrychnovsky.chessendgames.Color;
 
 import javax.swing.*;
@@ -40,7 +39,7 @@ public class GameHistoryPanel extends JPanel {
     body.setText(body.getText() + color + " " + move.print() + "\n");
   }
 
-  public void showResult(Status result) {
-    body.setText(body.getText() + result.print());
+  public void showResult(String result) {
+    body.setText(body.getText() + result);
   }
 }

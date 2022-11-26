@@ -1,25 +1,49 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
-import cz.dusanrychnovsky.chessendgames.Piece;
+import cz.dusanrychnovsky.chessendgames.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 
 public class ChessBoardPanel extends JPanel {
 
+  private static final int LEFT_OFFSET = 25;
+  private static final int BOTTOM_OFFSET = 25;
+  private static final int BOARD_WIDTH = 825;
+  private static final int BOARD_HEIGHT = 825;
+  private static final int SQUARE_WIDTH = 100;
+  private static final int SQUARE_HEIGHT = 100;
+
   private final ImageIcon boardImg;
   private final ImageIcon lightBorderImg;
+  private Position lightBorderPos;
   private final ImageIcon darkBorderImg;
+  private final Set<Position> darkBorderPos = new HashSet<>();
   private final Map<Piece, ImageIcon> pieceImgs;
+
+  private Board board;
+
+  private volatile CompletableFuture<Position> future = new CompletableFuture<>();
 
   public ChessBoardPanel(ImageIcon boardImg, ImageIcon lightBorderImg, ImageIcon darkBorderImg, Map<Piece, ImageIcon> pieceImgs) {
     this.boardImg = boardImg;
     this.lightBorderImg = lightBorderImg;
     this.darkBorderImg = darkBorderImg;
     this.pieceImgs = pieceImgs;
+
+    addMouseListener(new MouseMovedClickedListener());
+    addMouseMotionListener(new MouseMovedClickedListener());
   }
 
   public static ChessBoardPanel setUp() {
@@ -34,12 +58,47 @@ public class ChessBoardPanel extends JPanel {
         BLACK_KING, loadImage("black-king.png")
       )
     );
-    result.setPreferredSize(new Dimension(boardImg.getIconWidth(), boardImg.getIconHeight()));
+    result.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     return result;
   }
 
   private static ImageIcon loadImage(String fileName) {
     return new ImageIcon(ChessBoardPanel.class.getResource("/img/" + fileName));
+  }
+
+  public void setLightBorder(Position pos) {
+    lightBorderPos = pos;
+    repaint();
+  }
+
+  public void clearLightBorder() {
+    lightBorderPos = null;
+    repaint();
+  }
+
+  public void addDarkBorder(Position pos) {
+    darkBorderPos.add(pos);
+    repaint();
+  }
+
+  public void clearDarkBorders() {
+    darkBorderPos.clear();
+    repaint();
+  }
+
+  public Position queryPosition() {
+    future = new CompletableFuture<>();
+    try {
+      return future.get();
+    }
+    catch (InterruptedException | ExecutionException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
+
+  public void showSituation(Board board) {
+    clearDarkBorders();
+    this.board = board;
   }
 
   @Override
@@ -49,13 +108,135 @@ public class ChessBoardPanel extends JPanel {
     Graphics2D graphics2d = (Graphics2D) graphics;
     paintBoard(graphics2d);
 
-    // TODO: remove when images are properly used
-    lightBorderImg.getImage();
-    darkBorderImg.getImage();
-    pieceImgs.size();
+    if (board != null) {
+      paintSituation(graphics2d, board);
+    }
+
+    if (lightBorderPos != null) {
+      paintBorder(graphics2d, lightBorderImg, lightBorderPos);
+    }
+
+    for (var pos : darkBorderPos) {
+      paintBorder(graphics2d, darkBorderImg, pos);
+    }
+  }
+
+  private void paintSituation(Graphics2D graphics, Board board) {
+    board.pieces()
+      .forEach(piece -> paintPiece(graphics, piece));
+  }
+
+  private void paintPiece(Graphics2D graphics, PiecePosition piece) {
+    var point = Point.fromPosition(piece.position());
+    graphics.drawImage(
+      pieceImgs.get(piece.piece()).getImage(),
+      point.px,
+      point.py,
+      null
+    );
+  }
+
+  private void paintBorder(Graphics2D graphics, ImageIcon icon, Position pos) {
+    var point = Point.fromPosition(pos);
+    graphics.drawImage(
+      icon.getImage(),
+      point.px - 2,
+      point.py - 2,
+      null
+    );
   }
 
   private void paintBoard(Graphics2D graphics2d) {
     graphics2d.drawImage(boardImg.getImage(), 0, 0, null);
+  }
+
+  private class MouseMovedClickedListener implements MouseMotionListener, MouseListener {
+
+    @Override
+    public void mouseClicked(MouseEvent event) {
+      Optional<Position> pos = new Point(event.getPoint()).toPosition();
+      pos.ifPresent(
+        position -> future.complete(position)
+      );
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent event) {
+      var pos = new Point(event.getPoint()).toPosition();
+      if (pos.isPresent()) {
+        setLightBorder(pos.get());
+      }
+      else {
+        clearLightBorder();
+      }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) { }
+
+    @Override
+    public void mouseReleased(MouseEvent e) { }
+
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
+    @Override
+    public void mouseDragged(MouseEvent e) { }
+  }
+
+  private record Point(int px, int py) {
+
+    public Point(java.awt.Point point) {
+      this(point.x, point.y);
+    }
+
+    public static Point fromPosition(Position pos) {
+      return new Point(getPX(pos), getPY(pos));
+    }
+
+    public Optional<Position> toPosition() {
+      Optional<Column> column = getColumn(px);
+      Optional<Row> row = getRow(py);
+      if (column.isPresent() && row.isPresent()) {
+        return Optional.of(
+          Position.get(column.get(), row.get())
+        );
+      }
+      else {
+        return Optional.empty();
+      }
+    }
+
+    private static int getPX(Position pos) {
+      return LEFT_OFFSET + pos.column().ord() * SQUARE_WIDTH;
+    }
+
+    private static int getPY(Position pos) {
+      return (7 - pos.row().ord()) * SQUARE_HEIGHT;
+    }
+
+    private static Optional<Column> getColumn(int px) {
+      if (px < LEFT_OFFSET) {
+        return Optional.empty();
+      }
+
+      px -= LEFT_OFFSET;
+      return Optional.of(
+        Column.values()[px / SQUARE_WIDTH]
+      );
+    }
+
+    private static Optional<Row> getRow(int py) {
+      if (py >= BOARD_HEIGHT - BOTTOM_OFFSET) {
+        return Optional.empty();
+      }
+
+      return Optional.of(
+        Row.values()[7 - py / SQUARE_HEIGHT]
+      );
+    }
   }
 }
