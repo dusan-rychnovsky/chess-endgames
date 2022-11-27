@@ -1,10 +1,14 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class SwingInterface implements UserInterface {
+
+  private static final Logger LOGGER = LogManager.getLogger(SwingInterface.class);
 
   private final MainWindow mainWindow;
 
@@ -19,9 +23,12 @@ public class SwingInterface implements UserInterface {
 
   @Override
   public Board queryInitialSituation(List<Piece> pieces) {
+    LOGGER.info("Going to query initial situation with pieces: " + pieces);
     var builder = Board.builder();
     for (var piece : pieces) {
+      LOGGER.debug("Going to query position for: " + piece);
       var pos = mainWindow.queryPosition(piece);
+      LOGGER.info("Putting " + piece + " at " + pos);
       builder.add(piece, pos);
       mainWindow.showSituation(builder.build());
     }

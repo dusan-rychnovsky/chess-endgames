@@ -1,6 +1,8 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +19,8 @@ import java.util.concurrent.ExecutionException;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 
 public class ChessBoardPanel extends JPanel {
+
+  private static final Logger LOGGER = LogManager.getLogger(ChessBoardPanel.class);
 
   private static final int LEFT_OFFSET = 25;
   private static final int BOTTOM_OFFSET = 25;
@@ -87,9 +91,13 @@ public class ChessBoardPanel extends JPanel {
   }
 
   public Position queryPosition() {
+    LOGGER.debug("Resetting future.");
     future = new CompletableFuture<>();
     try {
-      return future.get();
+      LOGGER.debug("Going to wait for future.");
+      var result = future.get();
+      LOGGER.debug("Future completed. Got: " + result);
+      return result;
     }
     catch (InterruptedException | ExecutionException ex) {
       throw new RuntimeException(ex);
@@ -154,10 +162,16 @@ public class ChessBoardPanel extends JPanel {
 
     @Override
     public void mouseClicked(MouseEvent event) {
+      LOGGER.debug("Mouse clicked. Point: " + event.getPoint());
       Optional<Position> pos = new Point(event.getPoint()).toPosition();
+      LOGGER.debug("Position: " + pos);
       pos.ifPresent(
-        position -> future.complete(position)
+        position -> {
+          LOGGER.debug("Completing future.");
+          future.complete(position);
+        }
       );
+      LOGGER.debug("Mouse clicked handled.");
     }
 
     @Override
