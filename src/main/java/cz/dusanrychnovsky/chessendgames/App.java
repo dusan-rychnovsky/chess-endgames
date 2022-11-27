@@ -18,7 +18,7 @@ public class App {
     var reader = new BufferedReader(new InputStreamReader(System.in));
     var writer = new BufferedWriter(new OutputStreamWriter(System.out));
     var ui = new CommandLineInterface(reader, writer);
-    //var ui = new SwingInterface();
+    // var ui = new SwingInterface();
     var players = Map.of(
       WHITE, new DbPlayer("/movesdb"),
       BLACK, new UIPlayer(ui)

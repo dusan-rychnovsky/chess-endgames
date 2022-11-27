@@ -3,6 +3,7 @@ package cz.dusanrychnovsky.chessendgames.gui;
 import javax.swing.*;
 import java.awt.*;
 
+import static cz.dusanrychnovsky.chessendgames.gui.SwingExtensions.runOnUiThread;
 import static javax.swing.SwingConstants.CENTER;
 
 public class StatusPanel extends JPanel {
@@ -22,6 +23,8 @@ public class StatusPanel extends JPanel {
   }
 
   public void setStatusMessage(String message) {
-    label.setText("   " + message);
+    runOnUiThread(() ->
+      label.setText("   " + message)
+    );
   }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import static cz.dusanrychnovsky.chessendgames.gui.SwingExtensions.runOnUiThread;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
 
@@ -36,10 +37,14 @@ public class GameHistoryPanel extends JPanel {
   }
 
   public void showMove(Color color, Move move) {
-    body.setText(body.getText() + color + " " + move.print() + "\n");
+    runOnUiThread(() ->
+      body.setText(body.getText() + color + " " + move.print() + "\n")
+    );
   }
 
   public void showResult(String result) {
-    body.setText(body.getText() + result);
+    runOnUiThread(() ->
+      body.setText(body.getText() + result)
+    );
   }
 }

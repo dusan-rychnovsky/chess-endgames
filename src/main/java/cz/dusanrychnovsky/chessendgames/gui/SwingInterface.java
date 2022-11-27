@@ -27,7 +27,8 @@ public class SwingInterface implements UserInterface {
     var builder = Board.builder();
     for (var piece : pieces) {
       LOGGER.debug("Going to query position for: " + piece);
-      var pos = mainWindow.queryPosition(piece);
+      mainWindow.setStatus("Place " + piece.print() + ".");
+      var pos = mainWindow.queryPosition();
       LOGGER.info("Putting " + piece + " at " + pos);
       builder.add(piece, pos);
       mainWindow.showSituation(builder.build());
@@ -37,7 +38,10 @@ public class SwingInterface implements UserInterface {
 
   @Override
   public Move queryMove(Situation situation) {
-    return mainWindow.queryMove(situation);
+    mainWindow.setStatus("Enter " + situation.color() + " move.");
+    var fromPos = mainWindow.queryPosition();
+    var toPos = mainWindow.queryPosition();
+    return new Move(fromPos, toPos);
   }
 
   @Override
