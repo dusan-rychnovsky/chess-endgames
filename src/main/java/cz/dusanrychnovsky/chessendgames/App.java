@@ -1,10 +1,12 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.database.DbPlayer;
+import cz.dusanrychnovsky.chessendgames.gui.SwingInterface;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
+import static java.util.Arrays.asList;
 
 import java.io.*;
 import java.util.List;
@@ -15,15 +17,22 @@ public class App {
   private static final List<Piece> PIECES = List.of(WHITE_KING, WHITE_ROOK, BLACK_KING);
 
   public static void main(String[] args) {
-    var reader = new BufferedReader(new InputStreamReader(System.in));
-    var writer = new BufferedWriter(new OutputStreamWriter(System.out));
-    var ui = new CommandLineInterface(reader, writer);
-    // var ui = new SwingInterface();
+    var ui = selectUserInterface(args);
     var players = Map.of(
       WHITE, new DbPlayer("/movesdb"),
       BLACK, new UIPlayer(ui)
     );
     run(ui, players, WHITE);
+  }
+
+  private static UserInterface selectUserInterface(String[] args) {
+    if (asList(args).contains("-CLI")) {
+      return new CommandLineInterface(
+        new BufferedReader(new InputStreamReader(System.in)),
+        new BufferedWriter(new OutputStreamWriter(System.out))
+      );
+    }
+    return new SwingInterface();
   }
 
   public static void run(UserInterface ui, Map<Color, Player> players, Color color) {
