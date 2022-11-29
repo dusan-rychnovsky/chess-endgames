@@ -33,12 +33,25 @@ public class SwingInterface implements UserInterface {
       builder.add(piece, pos);
       mainWindow.showSituation(builder.build());
     }
-    return builder.build();
+    var result = builder.build();
+    mainWindow.clearDarkBorders();
+    return result;
   }
 
   @Override
   public Move queryMove(Situation situation) {
-    mainWindow.setStatus("Enter " + situation.color() + " move.");
+    var color = situation.color();
+    mainWindow.setStatus("Enter " + color + " move.");
+    var move = getMove();
+    while (!situation.isValid(move)) {
+      mainWindow.clearDarkBorders();
+      mainWindow.setStatus("Move " + move.print() + " isn't valid. Enter " + color + " move.");
+      move = getMove();
+    }
+    return move;
+  }
+
+  private Move getMove() {
     var fromPos = mainWindow.queryPosition();
     var toPos = mainWindow.queryPosition();
     return new Move(fromPos, toPos);

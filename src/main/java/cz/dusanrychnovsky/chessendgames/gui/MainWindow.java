@@ -75,4 +75,8 @@ public class MainWindow {
   public void showResult(String result) {
     gameHistoryPanel.showResult(result);
   }
+
+  public void clearDarkBorders() {
+    chessBoardPanel.clearDarkBorders();
+  }
 }

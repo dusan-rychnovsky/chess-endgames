@@ -105,7 +105,6 @@ public class ChessBoardPanel extends JPanel {
   }
 
   public void showSituation(Board board) {
-    clearDarkBorders();
     this.board = board;
   }
 
