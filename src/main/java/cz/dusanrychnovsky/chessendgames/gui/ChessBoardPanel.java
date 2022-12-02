@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.gui.SwingExtensions.runOnUiThread;
 
 public class ChessBoardPanel extends JPanel {
 
@@ -70,24 +71,28 @@ public class ChessBoardPanel extends JPanel {
     return new ImageIcon(ChessBoardPanel.class.getResource("/img/" + fileName));
   }
 
-  public void setLightBorder(Position pos) {
+  private void setLightBorder(Position pos) {
     lightBorderPos = pos;
     repaint();
   }
 
-  public void clearLightBorder() {
+  private void clearLightBorder() {
     lightBorderPos = null;
     repaint();
   }
 
   public void addDarkBorder(Position pos) {
-    darkBorderPos.add(pos);
-    repaint();
+    runOnUiThread(() -> {
+      darkBorderPos.add(pos);
+      repaint();
+    });
   }
 
   public void clearDarkBorders() {
-    darkBorderPos.clear();
-    repaint();
+    runOnUiThread(() -> {
+      darkBorderPos.clear();
+      repaint();
+    });
   }
 
   public Position queryPosition() {
@@ -106,6 +111,7 @@ public class ChessBoardPanel extends JPanel {
 
   public void showSituation(Board board) {
     this.board = board;
+    repaint();
   }
 
   @Override

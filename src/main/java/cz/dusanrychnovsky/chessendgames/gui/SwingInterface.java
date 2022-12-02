@@ -44,7 +44,6 @@ public class SwingInterface implements UserInterface {
     mainWindow.setStatus("Enter " + color + " move.");
     var move = getMove();
     while (!situation.isValid(move)) {
-      mainWindow.clearDarkBorders();
       mainWindow.setStatus("Move " + move.print() + " isn't valid. Enter " + color + " move.");
       move = getMove();
     }
@@ -54,6 +53,7 @@ public class SwingInterface implements UserInterface {
   private Move getMove() {
     var fromPos = mainWindow.queryPosition();
     var toPos = mainWindow.queryPosition();
+    mainWindow.clearDarkBorders();
     return new Move(fromPos, toPos);
   }
 
