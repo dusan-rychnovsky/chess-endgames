@@ -19,7 +19,7 @@ public class CommandLineInterface implements UserInterface {
   }
 
   @Override
-  public void printTitle(String title) {
+  public void showTitle(String title) {
     print(title + "\n\n");
   }
 
@@ -55,12 +55,12 @@ public class CommandLineInterface implements UserInterface {
   }
 
   @Override
-  public void printSituation(Situation situation) {
+  public void showSituation(Situation situation) {
     print(situation.print() + "\n");
   }
 
   @Override
-  public void printResult(String result) {
+  public void showResult(String result) {
     print(result + "\n");
   }
 

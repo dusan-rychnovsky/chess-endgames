@@ -27,7 +27,7 @@ public class CommandLineInterfaceTest {
 
     var ui = new CommandLineInterface(in, out);
     var title = "CHESS END GAMES v. 0.1";
-    ui.printTitle(title);
+    ui.showTitle(title);
 
     assertEquals(title + "\n\n", writer.toString());
   }
@@ -44,7 +44,7 @@ public class CommandLineInterfaceTest {
 
     var ui = new CommandLineInterface(in, out);
     var result = "Mate. BLACK wins.";
-    ui.printResult(result);
+    ui.showResult(result);
 
     assertEquals(result + "\n", writer.toString());
   }
@@ -69,7 +69,7 @@ public class CommandLineInterfaceTest {
         .add(WHITE_ROOK, A1)
         .build()
     );
-    ui.printSituation(situation);
+    ui.showSituation(situation);
 
     assertEquals(situation.print() + "\n", writer.toString());
   }

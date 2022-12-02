@@ -17,7 +17,7 @@ public class SwingInterface implements UserInterface {
   }
 
   @Override
-  public void printTitle(String title) {
+  public void showTitle(String title) {
     mainWindow.showTitle(title);
   }
 
@@ -58,12 +58,12 @@ public class SwingInterface implements UserInterface {
   }
 
   @Override
-  public void printSituation(Situation situation) {
+  public void showSituation(Situation situation) {
     mainWindow.showSituation(situation.board());
   }
 
   @Override
-  public void printResult(String result) {
+  public void showResult(String result) {
     mainWindow.showResult(result);
   }
 }

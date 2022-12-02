@@ -36,15 +36,15 @@ public class App {
   }
 
   public static void run(UserInterface ui, Map<Color, Player> players, Color color) {
-    ui.printTitle("CHESS END GAMES v. 0.1");
+    ui.showTitle("CHESS END GAMES v. 0.1");
     var situation = new Situation(color, ui.queryInitialSituation(PIECES));
     var result = gameLoop(situation, ui, players);
-    ui.printResult(result.print());
+    ui.showResult(result.print());
   }
 
   private static Status gameLoop(Situation situation, UserInterface ui, Map<Color, Player> players) {
 
-    ui.printSituation(situation);
+    ui.showSituation(situation);
 
     var status = situation.status();
     while (status.equals(IN_PROGRESS)) {
@@ -54,7 +54,7 @@ public class App {
       situation = situation.apply(move);
       status = situation.status();
 
-      ui.printSituation(situation);
+      ui.showSituation(situation);
     }
 
     return status;
