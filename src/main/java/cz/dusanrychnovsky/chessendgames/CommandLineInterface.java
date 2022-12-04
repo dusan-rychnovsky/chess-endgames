@@ -60,6 +60,11 @@ public class CommandLineInterface implements UserInterface {
   }
 
   @Override
+  public void showMove(Color color, Move move) {
+    print(color + " move: " + move.print() + "\n\n");
+  }
+
+  @Override
   public void showResult(String result) {
     print(result + "\n");
   }

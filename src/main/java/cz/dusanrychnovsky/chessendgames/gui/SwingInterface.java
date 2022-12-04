@@ -63,6 +63,11 @@ public class SwingInterface implements UserInterface {
   }
 
   @Override
+  public void showMove(Color color, Move move) {
+    mainWindow.showMove(color, move);
+  }
+
+  @Override
   public void showResult(String result) {
     mainWindow.showResult(result);
   }

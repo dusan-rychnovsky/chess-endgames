@@ -51,10 +51,12 @@ public class App {
       var color = situation.color();
 
       var move = players.get(color).getMove(situation);
-      situation = situation.apply(move);
-      status = situation.status();
+      ui.showMove(color, move);
 
+      situation = situation.apply(move);
       ui.showSituation(situation);
+
+      status = situation.status();
     }
 
     return status;

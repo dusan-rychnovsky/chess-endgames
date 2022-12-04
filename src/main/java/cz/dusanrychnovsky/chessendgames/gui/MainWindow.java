@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.Color;
 
 import javax.swing.*;
 
@@ -78,5 +79,9 @@ public class MainWindow {
 
   public void clearDarkBorders() {
     chessBoardPanel.clearDarkBorders();
+  }
+
+  public void showMove(Color color, Move move) {
+    gameHistoryPanel.showMove(color, move);
   }
 }

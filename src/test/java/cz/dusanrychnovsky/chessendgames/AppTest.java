@@ -59,7 +59,7 @@ public class AppTest {
         WHITE KING:
         WHITE ROOK:
         BLACK KING:
-        
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -73,6 +73,8 @@ public class AppTest {
           | A B C D E F G H
           
         Enter WHITE move:
+                
+        WHITE move: E6 E4
         
         BLACK
         8 | . . . . . . . .
@@ -88,6 +90,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: D3 C3
+        
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -102,6 +106,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: F5 E5
+        
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -116,6 +122,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: C3 D3
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -130,6 +138,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: E5 D5
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -144,6 +154,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: D3 D2
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -158,6 +170,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: D5 D4
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -172,6 +186,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: D2 C2
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -186,6 +202,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: E4 E3
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -200,6 +218,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: C2 C1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -214,6 +234,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: E3 E2
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -228,6 +250,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: C1 D1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -242,6 +266,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: D4 D3
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -256,6 +282,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: D1 C1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -270,6 +298,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: E2 D2
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -284,6 +314,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: C1 B1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -298,6 +330,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: D2 C2
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -312,6 +346,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: B1 A1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -326,6 +362,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: D3 C3
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -340,6 +378,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: A1 B1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -354,6 +394,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: C3 B3
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -368,6 +410,8 @@ public class AppTest {
           
         Enter BLACK move:
         
+        BLACK move: B1 A1
+                
         WHITE
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -382,6 +426,8 @@ public class AppTest {
           
         Enter WHITE move:
         
+        WHITE move: C2 C1
+                
         BLACK
         8 | . . . . . . . .
         7 | . . . . . . . .
@@ -444,6 +490,8 @@ public class AppTest {
         Enter WHITE move:
         Move is not valid.
         Enter WHITE move:
+        
+        WHITE move: C3 C1
         
         BLACK
         8 | . . . . . . . .

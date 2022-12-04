@@ -12,5 +12,7 @@ public interface UserInterface {
 
   void showSituation(Situation situation);
 
+  void showMove(Color color, Move move);
+
   void showResult(String result);
 }
