@@ -9,10 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -30,22 +27,22 @@ public class ChessBoardPanel extends JPanel {
   private static final int SQUARE_WIDTH = 100;
   private static final int SQUARE_HEIGHT = 100;
 
-  private final ImageIcon boardImg;
-  private final ImageIcon lightBorderImg;
+  private final Image boardImg;
+  private final Image lightBorderImg;
   private Position lightBorderPos;
-  private final ImageIcon darkBorderImg;
+  private final Image darkBorderImg;
   private final Set<Position> darkBorderPos = new HashSet<>();
-  private final Map<Piece, ImageIcon> pieceImgs;
+  private final Map<Piece, Image> pieceImgs;
 
   private Board board;
 
   private volatile CompletableFuture<Position> future = new CompletableFuture<>();
 
-  public ChessBoardPanel(ImageIcon boardImg, ImageIcon lightBorderImg, ImageIcon darkBorderImg, Map<Piece, ImageIcon> pieceImgs) {
+  public ChessBoardPanel(Image boardImg, Image lightBorderImg, Image darkBorderImg, Map<Piece, Image> pieceImgs) {
     this.boardImg = boardImg;
     this.lightBorderImg = lightBorderImg;
     this.darkBorderImg = darkBorderImg;
-    this.pieceImgs = pieceImgs;
+    this.pieceImgs = new HashMap<>(pieceImgs);
 
     addMouseListener(new MouseMovedClickedListener());
     addMouseMotionListener(new MouseMovedClickedListener());
@@ -67,8 +64,8 @@ public class ChessBoardPanel extends JPanel {
     return result;
   }
 
-  private static ImageIcon loadImage(String fileName) {
-    return new ImageIcon(ChessBoardPanel.class.getResource("/img/" + fileName));
+  private static Image loadImage(String fileName) {
+    return new ImageIcon(ChessBoardPanel.class.getResource("/img/" + fileName)).getImage();
   }
 
   private void setLightBorder(Position pos) {
@@ -142,17 +139,17 @@ public class ChessBoardPanel extends JPanel {
   private void paintPiece(Graphics2D graphics, PiecePosition piece) {
     var point = Point.fromPosition(piece.position());
     graphics.drawImage(
-      pieceImgs.get(piece.piece()).getImage(),
+      pieceImgs.get(piece.piece()),
       point.px,
       point.py,
       null
     );
   }
 
-  private void paintBorder(Graphics2D graphics, ImageIcon icon, Position pos) {
+  private void paintBorder(Graphics2D graphics, Image img, Position pos) {
     var point = Point.fromPosition(pos);
     graphics.drawImage(
-      icon.getImage(),
+      img,
       point.px - 2,
       point.py - 2,
       null
@@ -160,7 +157,7 @@ public class ChessBoardPanel extends JPanel {
   }
 
   private void paintBoard(Graphics2D graphics2d) {
-    graphics2d.drawImage(boardImg.getImage(), 0, 0, null);
+    graphics2d.drawImage(boardImg, 0, 0, null);
   }
 
   private class MouseMovedClickedListener implements MouseMotionListener, MouseListener {

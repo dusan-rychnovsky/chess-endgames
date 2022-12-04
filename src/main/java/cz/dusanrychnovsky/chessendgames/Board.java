@@ -14,7 +14,7 @@ public class Board {
   private final Map<Position, Piece> pieces;
 
   public Board(Map<Position, Piece> pieces) {
-    this.pieces = pieces;
+    this.pieces = new HashMap<>(pieces);
   }
 
   public Stream<PiecePosition> pieces() {

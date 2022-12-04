@@ -39,8 +39,9 @@ public class Generator {
     var serializer = new ProtoSerializer();
     var proto = serializer.toProto(db);
 
-    var os = new FileOutputStream(args[0]);
-    proto.writeTo(os);
+    try (var os = new FileOutputStream(args[0])) {
+      proto.writeTo(os);
+    }
 
     LOGGER.info("DONE");
   }

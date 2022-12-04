@@ -8,7 +8,6 @@ import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Status.*;
 import static java.util.Arrays.asList;
 
-import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +26,7 @@ public class App {
 
   private static UserInterface selectUserInterface(String[] args) {
     if (asList(args).contains("-CLI")) {
-      return new CommandLineInterface(
-        new BufferedReader(new InputStreamReader(System.in)),
-        new BufferedWriter(new OutputStreamWriter(System.out))
-      );
+      return new CommandLineInterface(System.in, System.out);
     }
     return new SwingInterface();
   }

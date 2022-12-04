@@ -7,12 +7,13 @@ import java.io.*;
 import java.util.Map;
 
 import static cz.dusanrychnovsky.chessendgames.Color.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class AppTest {
 
   @Test
   public void runShouldExecuteScenarioWithConsoleInOut() {
-    var in = new BufferedReader(new StringReader(
+    var in = new ByteArrayInputStream(
       """
         f5
         e6
@@ -40,11 +41,10 @@ public class AppTest {
         c3 b3
         b1 a1
         c2 c1
-        """
-    ));
+        """.getBytes(UTF_8)
+    );
 
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var out = new ByteArrayOutputStream();
     var ui = new CommandLineInterface(in, out);
     var player = new UIPlayer(ui);
     var players = Map.<Color, Player>of(WHITE, player, BLACK, player);
@@ -442,24 +442,23 @@ public class AppTest {
           
         Mate. WHITE wins.
         """,
-      writer.toString()
+      out.toString(UTF_8)
     );
   }
 
   @Test
   public void runShouldHandleInvalidMoves() {
-    var in = new BufferedReader(new StringReader(
+    var in = new ByteArrayInputStream(
       """
         b3
         c3
         a1
         c3 b3
         c3 c1
-        """
-    ));
+        """.getBytes(UTF_8)
+    );
 
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var out = new ByteArrayOutputStream();
     var ui = new CommandLineInterface(in, out);
     var player = new UIPlayer(ui);
     var players = Map.<Color, Player>of(WHITE, player, BLACK, player);
@@ -507,7 +506,7 @@ public class AppTest {
           
         Mate. WHITE wins.
         """,
-      writer.toString()
+      out.toString(UTF_8)
     );
   }
 }

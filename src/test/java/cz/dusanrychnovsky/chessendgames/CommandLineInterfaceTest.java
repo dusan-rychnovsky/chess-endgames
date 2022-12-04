@@ -2,15 +2,13 @@ package cz.dusanrychnovsky.chessendgames;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.List;
 
 import static cz.dusanrychnovsky.chessendgames.Color.WHITE;
 import static cz.dusanrychnovsky.chessendgames.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.Position.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 
 public class CommandLineInterfaceTest {
@@ -21,15 +19,14 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void printTitleShouldPrintGivenTitle() {
-    var in = new BufferedReader(new StringReader(""));
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var in = new ByteArrayInputStream("".getBytes(UTF_8));
+    var out = new ByteArrayOutputStream();
 
     var ui = new CommandLineInterface(in, out);
     var title = "CHESS END GAMES v. 0.1";
     ui.showTitle(title);
 
-    assertEquals(title + "\n\n", writer.toString());
+    assertEquals(title + "\n\n", out.toString(UTF_8));
   }
 
   // ==========================================================================
@@ -38,15 +35,14 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void printResultShouldPrintGivenResult() {
-    var in = new BufferedReader(new StringReader(""));
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var in = new ByteArrayInputStream("".getBytes(UTF_8));
+    var out = new ByteArrayOutputStream();
 
     var ui = new CommandLineInterface(in, out);
     var result = "Mate. BLACK wins.";
     ui.showResult(result);
 
-    assertEquals(result + "\n", writer.toString());
+    assertEquals(result + "\n", out.toString(UTF_8));
   }
 
 
@@ -56,9 +52,8 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void printSituationShouldPrintGivenSituation() {
-    var in = new BufferedReader(new StringReader(""));
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var in = new ByteArrayInputStream("".getBytes(UTF_8));
+    var out = new ByteArrayOutputStream();
 
     var ui = new CommandLineInterface(in, out);
     var situation = new Situation(
@@ -71,7 +66,7 @@ public class CommandLineInterfaceTest {
     );
     ui.showSituation(situation);
 
-    assertEquals(situation.print() + "\n", writer.toString());
+    assertEquals(situation.print() + "\n", out.toString(UTF_8));
   }
 
   // ==========================================================================
@@ -80,9 +75,8 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void queryMoveShouldRequestValidMove() {
-    var in = new BufferedReader(new StringReader("B1 B2\n"));
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var in = new ByteArrayInputStream("B1 B2".getBytes(UTF_8));
+    var out = new ByteArrayOutputStream();
 
     var ui = new CommandLineInterface(in, out);
     var result = ui.queryMove(
@@ -99,15 +93,14 @@ public class CommandLineInterfaceTest {
     assertEquals(new Move(B1, B2), result);
     assertEquals(
       "Enter WHITE move:\n\n",
-      writer.toString()
+      out.toString(UTF_8)
     );
   }
 
   @Test
   public void queryMoveShouldRequestAgainWhenGivenInvalidMove() {
-    var in = new BufferedReader(new StringReader("B1 A1\nB1 B2\n"));
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+    var in = new ByteArrayInputStream("B1 A1\nB1 B2\n".getBytes(UTF_8));
+    var out = new ByteArrayOutputStream();
 
     var ui = new CommandLineInterface(in, out);
     var result = ui.queryMove(
@@ -129,7 +122,7 @@ public class CommandLineInterfaceTest {
         Enter WHITE move:
         
         """,
-      writer.toString()
+      out.toString(UTF_8)
     );
   }
 
@@ -139,14 +132,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void queryInitialSituationShouldQueryInitialPositionsOfAllPieces() {
-    var in = new BufferedReader(new StringReader(
-      """
+    var in = new ByteArrayInputStream("""
       A1
       A2
       C3
-      """));
-    var writer = new StringWriter();
-    var out = new BufferedWriter(writer);
+      """.getBytes(UTF_8)
+    );
+    var out = new ByteArrayOutputStream();
 
     var ui = new CommandLineInterface(in, out);
     var result = ui.queryInitialSituation(List.of(WHITE_KING, WHITE_ROOK, BLACK_KING));
@@ -167,7 +159,7 @@ public class CommandLineInterfaceTest {
       BLACK KING:
       
       """,
-      writer.toString()
+      out.toString(UTF_8)
     );
   }
 }

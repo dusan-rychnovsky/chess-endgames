@@ -17,7 +17,7 @@ public class Database {
   private final Map<Situation, Move> moves;
 
   public Database(Map<Situation, Move> moves) {
-    this.moves = moves;
+    this.moves = new HashMap<>(moves);
   }
 
   public static Database load(String resourcePath) {
@@ -35,7 +35,7 @@ public class Database {
   }
 
   public Map<Situation, Move> moves() {
-    return moves;
+    return new HashMap<>(moves);
   }
 
   public Optional<Move> lookUp(Situation situation) {

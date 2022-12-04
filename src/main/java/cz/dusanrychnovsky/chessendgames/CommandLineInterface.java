@@ -1,21 +1,20 @@
 package cz.dusanrychnovsky.chessendgames;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import static cz.dusanrychnovsky.chessendgames.EnumExtensions.parseEnum;
 import static cz.dusanrychnovsky.chessendgames.Move.parseMove;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class CommandLineInterface implements UserInterface {
 
   private final BufferedReader in;
   private final BufferedWriter out;
 
-  public CommandLineInterface(BufferedReader in, BufferedWriter out) {
-    this.in = in;
-    this.out = out;
+  public CommandLineInterface(InputStream in, OutputStream out) {
+    this.in = new BufferedReader(new InputStreamReader(in, UTF_8));
+    this.out = new BufferedWriter(new OutputStreamWriter(out, UTF_8));
   }
 
   @Override
