@@ -19,10 +19,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void printTitleShouldPrintGivenTitle() {
-    var in = new ByteArrayInputStream("".getBytes(UTF_8));
-    var out = new ByteArrayOutputStream();
 
-    var ui = new CommandLineInterface(in, out);
+    var out = new ByteArrayOutputStream();
+    var ui = new CommandLineInterface(
+      in(""),
+      out
+    );
+
     var title = "CHESS END GAMES v. 0.1";
     ui.showTitle(title);
 
@@ -35,10 +38,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void printResultShouldPrintGivenResult() {
-    var in = new ByteArrayInputStream("".getBytes(UTF_8));
-    var out = new ByteArrayOutputStream();
 
-    var ui = new CommandLineInterface(in, out);
+    var out = new ByteArrayOutputStream();
+    var ui = new CommandLineInterface(
+      in(""),
+      out
+    );
+
     var result = "Mate. BLACK wins.";
     ui.showResult(result);
 
@@ -52,10 +58,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void printSituationShouldPrintGivenSituation() {
-    var in = new ByteArrayInputStream("".getBytes(UTF_8));
-    var out = new ByteArrayOutputStream();
 
-    var ui = new CommandLineInterface(in, out);
+    var out = new ByteArrayOutputStream();
+    var ui = new CommandLineInterface(
+      in(""),
+      out
+    );
+
     var situation = new Situation(
       WHITE,
       Board.builder()
@@ -75,10 +84,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void queryMoveShouldRequestValidMove() {
-    var in = new ByteArrayInputStream("B1 B2".getBytes(UTF_8));
-    var out = new ByteArrayOutputStream();
 
-    var ui = new CommandLineInterface(in, out);
+    var out = new ByteArrayOutputStream();
+    var ui = new CommandLineInterface(
+      in("B1 B2"),
+      out
+    );
+
     var result = ui.queryMove(
       new Situation(
         WHITE,
@@ -99,10 +111,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void queryMoveShouldRequestAgainWhenGivenInvalidMove() {
-    var in = new ByteArrayInputStream("B1 A1\nB1 B2\n".getBytes(UTF_8));
-    var out = new ByteArrayOutputStream();
 
-    var ui = new CommandLineInterface(in, out);
+    var out = new ByteArrayOutputStream();
+    var ui = new CommandLineInterface(
+      in("B1 A1\nB1 B2\n"),
+      out
+    );
+
     var result = ui.queryMove(
       new Situation(
         WHITE,
@@ -132,15 +147,13 @@ public class CommandLineInterfaceTest {
 
   @Test
   public void queryInitialSituationShouldQueryInitialPositionsOfAllPieces() {
-    var in = new ByteArrayInputStream("""
-      A1
-      A2
-      C3
-      """.getBytes(UTF_8)
-    );
-    var out = new ByteArrayOutputStream();
 
-    var ui = new CommandLineInterface(in, out);
+    var out = new ByteArrayOutputStream();
+    var ui = new CommandLineInterface(
+      in("A1\nA2\nC3"),
+      out
+    );
+    
     var result = ui.queryInitialSituation(List.of(WHITE_KING, WHITE_ROOK, BLACK_KING));
 
     assertEquals(
@@ -161,5 +174,9 @@ public class CommandLineInterfaceTest {
       """,
       out.toString(UTF_8)
     );
+  }
+
+  private InputStream in(String text) {
+    return new ByteArrayInputStream(text.getBytes(UTF_8));
   }
 }
