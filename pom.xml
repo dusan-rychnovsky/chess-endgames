@@ -5,7 +5,7 @@
 
   <groupId>cz.dusanrychnovsky</groupId>
   <artifactId>chess-endgames</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
 
   <name>chess-endgames</name>
@@ -33,7 +33,7 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
-          <finalName>chess-endgames-release-${project.version}</finalName>
+          <finalName>chess-endgames-v${project.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
         </configuration>
         <executions>
