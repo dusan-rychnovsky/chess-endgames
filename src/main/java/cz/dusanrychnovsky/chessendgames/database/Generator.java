@@ -105,11 +105,10 @@ public class Generator {
 
   private boolean tryResolveSituation(Color color, Situation situation, HashMap<Situation, Record> acc) {
 
-    var currColor = situation.color();
     var status = situation.status();
     if (status.isFinal()) {
       var score = INFINITE;
-      if (status.isWin(currColor)) {
+      if (status.isWin(color)) {
         score = 0;
       }
       acc.put(situation, new Record(score, null));
@@ -161,7 +160,7 @@ public class Generator {
     return records.reduce(Optional.empty(), (acc, record) -> {
       if (record.isPresent()) {
         var numMoves = record.get().numMoves;
-        if (acc.isEmpty() || numMoves < acc.get().numMoves) {
+        if (numMoves != INFINITE && (acc.isEmpty() || numMoves < acc.get().numMoves)) {
           return record;
         }
       }
