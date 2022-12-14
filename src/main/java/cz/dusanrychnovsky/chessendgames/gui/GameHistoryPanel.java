@@ -23,7 +23,7 @@ public class GameHistoryPanel extends JPanel {
     setLayout(new BorderLayout());
 
     var header = new JLabel();
-    header.setBorder(new EmptyBorder(20, 20, 10, 0));
+    header.setBorder(new EmptyBorder(20, 20, 0, 0));
     header.setFont(header.getFont().deriveFont(14f));
     header.setText("HISTORY:");
     add(header, NORTH);
@@ -44,7 +44,7 @@ public class GameHistoryPanel extends JPanel {
 
   public void showResult(String result) {
     runOnUiThread(() ->
-      body.setText(body.getText() + result)
+      body.setText(body.getText() + "\n" + result)
     );
   }
 }
