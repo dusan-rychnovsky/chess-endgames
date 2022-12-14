@@ -1,8 +1,8 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.Color;
-import cz.dusanrychnovsky.chessendgames.Move;
-import cz.dusanrychnovsky.chessendgames.Situation;
+import cz.dusanrychnovsky.chessendgames.core.Color;
+import cz.dusanrychnovsky.chessendgames.core.Move;
+import cz.dusanrychnovsky.chessendgames.core.Situation;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.get;
+import static cz.dusanrychnovsky.chessendgames.util.MapExtensions.get;
 
 public class Database {
 

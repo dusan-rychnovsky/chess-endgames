@@ -1,6 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
-import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

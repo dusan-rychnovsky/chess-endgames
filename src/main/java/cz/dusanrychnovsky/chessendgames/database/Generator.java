@@ -1,9 +1,9 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.Color;
-import cz.dusanrychnovsky.chessendgames.Move;
-import cz.dusanrychnovsky.chessendgames.Situation;
-import cz.dusanrychnovsky.chessendgames.Situations;
+import cz.dusanrychnovsky.chessendgames.core.Color;
+import cz.dusanrychnovsky.chessendgames.core.Move;
+import cz.dusanrychnovsky.chessendgames.core.Situation;
+import cz.dusanrychnovsky.chessendgames.core.Situations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static cz.dusanrychnovsky.chessendgames.Color.WHITE;
-import static cz.dusanrychnovsky.chessendgames.MapExtensions.*;
-import static cz.dusanrychnovsky.chessendgames.TimeExtensions.printDuration;
+import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
+import static cz.dusanrychnovsky.chessendgames.util.MapExtensions.*;
+import static cz.dusanrychnovsky.chessendgames.util.TimeExtensions.printDuration;
 
 public class Generator {
 

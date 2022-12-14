@@ -1,11 +1,13 @@
 package cz.dusanrychnovsky.chessendgames;
 
 import cz.dusanrychnovsky.chessendgames.database.DbPlayer;
+import cz.dusanrychnovsky.chessendgames.cli.CommandLineInterface;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import cz.dusanrychnovsky.chessendgames.gui.SwingInterface;
 
-import static cz.dusanrychnovsky.chessendgames.Color.*;
-import static cz.dusanrychnovsky.chessendgames.Piece.*;
-import static cz.dusanrychnovsky.chessendgames.Status.*;
+import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.core.Status.*;
 import static java.util.Arrays.asList;
 
 import java.util.List;

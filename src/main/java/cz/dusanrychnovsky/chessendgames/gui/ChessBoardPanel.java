@@ -1,6 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
-import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static cz.dusanrychnovsky.chessendgames.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.gui.SwingExtensions.runOnUiThread;
 
 public class ChessBoardPanel extends JPanel {

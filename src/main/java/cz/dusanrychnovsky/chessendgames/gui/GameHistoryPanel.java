@@ -1,7 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
-import cz.dusanrychnovsky.chessendgames.Move;
-import cz.dusanrychnovsky.chessendgames.Color;
+import cz.dusanrychnovsky.chessendgames.core.Move;
+import cz.dusanrychnovsky.chessendgames.core.Color;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

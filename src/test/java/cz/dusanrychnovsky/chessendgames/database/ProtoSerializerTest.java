@@ -1,6 +1,6 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 import org.junit.Test;
 

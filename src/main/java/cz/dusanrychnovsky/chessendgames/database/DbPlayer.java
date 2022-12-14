@@ -1,8 +1,8 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.Move;
-import cz.dusanrychnovsky.chessendgames.Player;
-import cz.dusanrychnovsky.chessendgames.Situation;
+import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.core.Player;
+import cz.dusanrychnovsky.chessendgames.core.Situation;
 
 public class DbPlayer implements Player {
 

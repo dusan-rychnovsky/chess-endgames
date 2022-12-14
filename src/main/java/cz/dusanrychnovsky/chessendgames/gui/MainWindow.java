@@ -1,7 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
-import cz.dusanrychnovsky.chessendgames.*;
-import cz.dusanrychnovsky.chessendgames.Color;
+import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.core.Color;
 
 import javax.swing.*;
 

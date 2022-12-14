@@ -1,13 +1,13 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import org.junit.Test;
 
 import java.util.Map;
 
-import static cz.dusanrychnovsky.chessendgames.Color.*;
-import static cz.dusanrychnovsky.chessendgames.Piece.*;
-import static cz.dusanrychnovsky.chessendgames.Position.*;
+import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
+import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 import static org.junit.Assert.assertTrue;
 
 public class TextSerializerTest {
@@ -39,38 +39,42 @@ public class TextSerializerTest {
     var result = SERIALIZER.asString(db);
     assertTrue(
       result.contains(
-        "Situation:\n" +
-        "BLACK\n" +
-        "8 | . . . . . . . K\n" +
-        "7 | . . . . . . . .\n" +
-        "6 | . . . . . . . .\n" +
-        "5 | . . . . . . . .\n" +
-        "4 | . . . . . . . .\n" +
-        "3 | . . . . . . . .\n" +
-        "2 | . . . . . . . .\n" +
-        "1 | K . . . . . . .\n" +
-        "--|----------------\n" +
-        "  | A B C D E F G H\n" +
-        "Move: H8 H7\n" +
-        "\n"
+        """
+          Situation:
+          BLACK
+          8 | . . . . . . . K
+          7 | . . . . . . . .
+          6 | . . . . . . . .
+          5 | . . . . . . . .
+          4 | . . . . . . . .
+          3 | . . . . . . . .
+          2 | . . . . . . . .
+          1 | K . . . . . . .
+          --|----------------
+            | A B C D E F G H
+          Move: H8 H7
+
+          """
       )
     );
     assertTrue(
       result.contains(
-        "Situation:\n" +
-        "WHITE\n" +
-        "8 | . . . . . . . .\n" +
-        "7 | . . . . . . . .\n" +
-        "6 | . . . . . . . .\n" +
-        "5 | . . . . . . . .\n" +
-        "4 | . . R . . . . .\n" +
-        "3 | . . K . . . . .\n" +
-        "2 | . . . . . . . .\n" +
-        "1 | . . . . . . . K\n" +
-        "--|----------------\n" +
-        "  | A B C D E F G H\n" +
-        "Move: C3 D3\n" +
-        "\n"
+        """
+          Situation:
+          WHITE
+          8 | . . . . . . . .
+          7 | . . . . . . . .
+          6 | . . . . . . . .
+          5 | . . . . . . . .
+          4 | . . R . . . . .
+          3 | . . K . . . . .
+          2 | . . . . . . . .
+          1 | . . . . . . . K
+          --|----------------
+            | A B C D E F G H
+          Move: C3 D3
+
+          """
       )
     );
   }

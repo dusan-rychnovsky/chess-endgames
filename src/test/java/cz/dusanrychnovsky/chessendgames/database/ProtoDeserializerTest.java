@@ -1,12 +1,12 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 import org.junit.Test;
 
-import static cz.dusanrychnovsky.chessendgames.Color.*;
-import static cz.dusanrychnovsky.chessendgames.PieceType.*;
-import static cz.dusanrychnovsky.chessendgames.Position.*;
+import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
+import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

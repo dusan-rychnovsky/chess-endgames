@@ -1,12 +1,12 @@
 package cz.dusanrychnovsky.chessendgames.database;
 
-import cz.dusanrychnovsky.chessendgames.*;
+import cz.dusanrychnovsky.chessendgames.core.*;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
 
-import static cz.dusanrychnovsky.chessendgames.Color.*;
-import static cz.dusanrychnovsky.chessendgames.Column.*;
-import static cz.dusanrychnovsky.chessendgames.PieceType.*;
-import static cz.dusanrychnovsky.chessendgames.Row.*;
+import static cz.dusanrychnovsky.chessendgames.core.Color.*;
+import static cz.dusanrychnovsky.chessendgames.core.Column.*;
+import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
+import static cz.dusanrychnovsky.chessendgames.core.Row.*;
 
 public class ProtoDeserializer {
 

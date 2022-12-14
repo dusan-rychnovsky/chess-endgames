@@ -8,8 +8,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
 
-import static cz.dusanrychnovsky.chessendgames.Color.BLACK;
-import static cz.dusanrychnovsky.chessendgames.Color.WHITE;
+import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.cli.CommandLineInterface;
+
+import static cz.dusanrychnovsky.chessendgames.core.Color.BLACK;
+import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
