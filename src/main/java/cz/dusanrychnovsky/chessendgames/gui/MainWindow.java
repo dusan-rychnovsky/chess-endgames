@@ -42,7 +42,7 @@ public class MainWindow {
       window.add(chessBoardPanel, CENTER);
 
       statusPanel = new StatusPanel(chessBoardPanel.getWidth());
-      window.add(statusPanel, SOUTH);
+      window.add(statusPanel, NORTH);
 
       gameHistoryPanel = new GameHistoryPanel(chessBoardPanel.getHeight() + statusPanel.getHeight());
       window.add(gameHistoryPanel, EAST);
