@@ -9,6 +9,17 @@ Supports two UI modes:
 
 Computer moves are precomputed using [Minimax algorithm](https://en.wikipedia.org/wiki/Minimax).
 
+## Release
+
+New releases are created by pushing GIT tags with `vX` naming convention (where `X` is a new version number). E.g.
+
+```
+git tag v1.0
+git push origin v0.1
+```
+
+For more details, check the [Create Release](https://github.com/dusan-rychnovsky/chess-endgames/blob/master/.github/workflows/create-release.yml) Github Action definition.
+
 ## Commit validation
 
 [![Java CI](https://github.com/dusan-rychnovsky/chess-endgames/actions/workflows/verify-commit.yml/badge.svg?branch=master)](https://github.com/dusan-rychnovsky/chess-endgames/actions/workflows/verify-commit.yml)
