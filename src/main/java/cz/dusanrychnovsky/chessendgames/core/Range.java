@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class Range<T extends Comparable<T>> implements Iterable<T> {
@@ -37,6 +38,9 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
 
       @Override
       public T next() {
+        if (!hasNext) {
+          throw new NoSuchElementException();
+        }
         var result = curr;
         curr = axis.next(result).orElse(null);
         hasNext = !result.equals(to);

@@ -2,6 +2,8 @@ package cz.dusanrychnovsky.chessendgames.core;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -10,6 +12,15 @@ import static cz.dusanrychnovsky.chessendgames.core.Column.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
 
 public class RangeTest {
+
+  @Test(expected = NoSuchElementException.class)
+  public void whenIteratingBeyondRangeEnd_Throws() {
+    var range = Range.from(CB, CC);
+    var it = range.iterator();
+    assertEquals(CB, it.next());
+    assertEquals(CC, it.next());
+    it.next();
+  }
 
   // ==========================================================================
   // Iterating Columns
