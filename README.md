@@ -23,7 +23,13 @@ For more details, check the [Create Release](https://github.com/dusan-rychnovsky
 ## Commit validation
 
 [![Java CI](https://github.com/dusan-rychnovsky/chess-endgames/actions/workflows/verify-commit.yml/badge.svg?branch=master)](https://github.com/dusan-rychnovsky/chess-endgames/actions/workflows/verify-commit.yml)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=dusan-rychnovsky_chess-endgames&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=dusan-rychnovsky_chess-endgames)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=dusan-rychnovsky_chess-endgames&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=dusan-rychnovsky_chess-endgames)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=dusan-rychnovsky_chess-endgames&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=dusan-rychnovsky_chess-endgames)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=dusan-rychnovsky_chess-endgames&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=dusan-rychnovsky_chess-endgames)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=dusan-rychnovsky_chess-endgames&metric=bugs)](https://sonarcloud.io/summary/new_code?id=dusan-rychnovsky_chess-endgames)
 
 * [PMD](https://pmd.github.io/) Source code analyzer
 * [SpotBugs](https://spotbugs.github.io/) Find bugs in java programs
 * [JaCoCo](https://www.eclemma.org/jacoco/) Java code coverage library
+* [Sonar Cloud](https://sonarcloud.io/project/overview?id=dusan-rychnovsky_chess-endgames) Static code analysis as a service
