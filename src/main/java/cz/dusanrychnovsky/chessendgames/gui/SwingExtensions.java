@@ -9,7 +9,10 @@ public class SwingExtensions {
     try {
       SwingUtilities.invokeAndWait(action);
     }
-    catch (InterruptedException | InvocationTargetException ex) {
+    catch (InterruptedException ex) {
+      Thread.currentThread().interrupt();
+    }
+    catch (InvocationTargetException ex) {
       throw new RuntimeException(ex);
     }
   }

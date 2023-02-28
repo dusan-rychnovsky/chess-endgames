@@ -101,7 +101,11 @@ public class ChessBoardPanel extends JPanel {
       LOGGER.debug("Future completed. Got: " + result);
       return result;
     }
-    catch (InterruptedException | ExecutionException ex) {
+    catch (InterruptedException ex) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException(ex);
+    }
+    catch (ExecutionException ex) {
       throw new RuntimeException(ex);
     }
   }
