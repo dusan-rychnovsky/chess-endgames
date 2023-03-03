@@ -98,7 +98,7 @@ public class ChessBoardPanel extends JPanel {
     try {
       LOGGER.debug("Going to wait for future.");
       var result = future.get();
-      LOGGER.debug("Future completed. Got: " + result);
+      LOGGER.debug("Future completed. Got: {}", result);
       return result;
     }
     catch (InterruptedException ex) {
@@ -168,9 +168,9 @@ public class ChessBoardPanel extends JPanel {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-      LOGGER.debug("Mouse clicked. Point: " + event.getPoint());
+      LOGGER.debug("Mouse clicked. Point: {}", event.getPoint());
       Optional<Position> pos = new Point(event.getPoint()).toPosition();
-      LOGGER.debug("Position: " + pos);
+      LOGGER.debug("Position: {}", pos);
       pos.ifPresent(
         position -> {
           LOGGER.debug("Completing future.");

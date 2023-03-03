@@ -71,6 +71,7 @@
         <configuration>
           <failOnViolation>true</failOnViolation>
           <printFailingErrors>true</printFailingErrors>
+          <excludeFromFailureFile>pmd-excludes.properties</excludeFromFailureFile>
           <excludes>
             <exclude>cz/dusanrychnovsky/chessendgames/proto/*.*</exclude>
           </excludes>
@@ -131,7 +132,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.17.0</version>
+        <version>3.20.0</version>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
@@ -183,7 +184,7 @@
     <dependency>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-pmd-plugin</artifactId>
-      <version>3.19.0</version>
+      <version>3.20.0</version>
       <scope>provided</scope>
       <type>maven-plugin</type>
     </dependency>

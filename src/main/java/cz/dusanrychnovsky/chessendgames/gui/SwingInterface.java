@@ -23,13 +23,13 @@ public class SwingInterface implements UserInterface {
 
   @Override
   public Board queryInitialSituation(List<Piece> pieces) {
-    LOGGER.info("Going to query initial situation with pieces: " + pieces);
+    LOGGER.info("Going to query initial situation with pieces: {}", pieces);
     var builder = Board.builder();
     for (var piece : pieces) {
-      LOGGER.debug("Going to query position for: " + piece);
+      LOGGER.debug("Going to query position for: {}", piece);
       mainWindow.setStatus("Place " + piece.print() + ".");
       var pos = mainWindow.queryPosition();
-      LOGGER.info("Putting " + piece + " at " + pos);
+      LOGGER.info("Putting {} at {}", piece, pos);
       builder.add(piece, pos);
       mainWindow.showSituation(builder.build());
     }

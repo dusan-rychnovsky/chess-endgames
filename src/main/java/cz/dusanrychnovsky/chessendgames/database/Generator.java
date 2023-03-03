@@ -34,7 +34,7 @@ public class Generator {
 
     var generator = new Generator();
     var db = generator.generateDatabase();
-    LOGGER.debug("db size: " + db.moves().size());
+    LOGGER.debug("db size: {}", db.moves().size());
 
     var serializer = new ProtoSerializer();
     var proto = serializer.toProto(db);
@@ -52,7 +52,7 @@ public class Generator {
 
     var allSituations = Situations.all();
     var totalSize = allSituations.size();
-    LOGGER.debug("total situations: " + totalSize);
+    LOGGER.debug("total situations: {}", totalSize);
 
     var color = WHITE;
     var acc = new HashMap<Situation, Record>();
@@ -60,14 +60,14 @@ public class Generator {
     var iterationNo = 0;
     var totalResolved = 0;
     while (true) {
-      LOGGER.info("Iteration no.: " + (++iterationNo));
+      LOGGER.info("Iteration no.: {}", (++iterationNo));
 
       var numResolved = runIteration(color, allSituations, acc);
       totalResolved += numResolved;
 
-      LOGGER.debug("resolved: " + numResolved);
-      LOGGER.debug("total resolved: " + totalResolved);
-      LOGGER.debug("remaining: " + (totalSize - totalResolved));
+      LOGGER.debug("resolved: {}", numResolved);
+      LOGGER.debug("total resolved: {}", totalResolved);
+      LOGGER.debug("remaining: {}", (totalSize - totalResolved));
 
       if (numResolved == 0) {
         break;
@@ -85,7 +85,7 @@ public class Generator {
 
     var finishTime = System.nanoTime();
     var elapsedTime = finishTime - startTime;
-    LOGGER.debug("elapsed time : " + printDuration(elapsedTime));
+    LOGGER.debug("elapsed time : {}", printDuration(elapsedTime));
 
     return result;
   }
