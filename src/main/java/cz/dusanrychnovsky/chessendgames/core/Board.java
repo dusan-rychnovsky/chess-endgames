@@ -4,7 +4,7 @@ import static cz.dusanrychnovsky.chessendgames.core.PieceType.*;
 import static cz.dusanrychnovsky.chessendgames.core.Row.*;
 import static cz.dusanrychnovsky.chessendgames.core.Column.*;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -14,7 +14,7 @@ public class Board {
   private final Map<Position, Piece> pieces;
 
   public Board(Map<Position, Piece> pieces) {
-    this.pieces = new HashMap<>(pieces);
+    this.pieces = new EnumMap<>(pieces);
   }
 
   public Stream<PiecePosition> pieces() {
@@ -74,7 +74,7 @@ public class Board {
   }
 
   public static class Builder {
-    private final Map<Position, Piece> pieces = new HashMap<>();
+    private final Map<Position, Piece> pieces = new EnumMap<>(Position.class);
 
     public Builder add(Piece piece, Position position) {
       if (this.pieces.containsKey(position)) {
