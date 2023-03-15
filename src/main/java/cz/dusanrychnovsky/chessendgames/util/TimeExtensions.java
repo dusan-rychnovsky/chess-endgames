@@ -1,6 +1,9 @@
 package cz.dusanrychnovsky.chessendgames.util;
 
-public class TimeExtensions {
+public final class TimeExtensions {
+
+  private TimeExtensions() {
+  }
 
   public static String printDuration(long ns) {
     var acc = ns / 1_000_000.f;

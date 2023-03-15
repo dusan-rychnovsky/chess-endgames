@@ -6,7 +6,10 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class MapExtensions {
+public final class MapExtensions {
+
+  private MapExtensions() {
+  }
 
   public static <K, V> Map<K, V> filterByKey(Map<K, V> map, Predicate<K> predicate) {
     return filter(map, entry -> predicate.test(entry.getKey()));

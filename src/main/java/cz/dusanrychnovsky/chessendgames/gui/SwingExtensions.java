@@ -3,7 +3,10 @@ package cz.dusanrychnovsky.chessendgames.gui;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 
-public class SwingExtensions {
+public final class SwingExtensions {
+
+  private SwingExtensions() {
+  }
 
   public static void runOnUiThread(Runnable action) {
     try {
