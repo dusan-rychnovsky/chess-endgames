@@ -68,16 +68,6 @@ public class ChessBoardPanel extends JPanel {
     return new ImageIcon(ChessBoardPanel.class.getResource("/img/" + fileName)).getImage();
   }
 
-  private void setLightBorder(Position pos) {
-    lightBorderPos = pos;
-    repaint();
-  }
-
-  private void clearLightBorder() {
-    lightBorderPos = null;
-    repaint();
-  }
-
   public void addDarkBorder(Position pos) {
     runOnUiThread(() -> {
       darkBorderPos.add(pos);
@@ -189,6 +179,16 @@ public class ChessBoardPanel extends JPanel {
       else {
         clearLightBorder();
       }
+    }
+
+    private void setLightBorder(Position pos) {
+      lightBorderPos = pos;
+      repaint();
+    }
+
+    private void clearLightBorder() {
+      lightBorderPos = null;
+      repaint();
     }
 
     @Override
