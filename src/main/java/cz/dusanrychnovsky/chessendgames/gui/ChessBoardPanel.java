@@ -192,19 +192,29 @@ public class ChessBoardPanel extends JPanel {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) { }
+    public void mousePressed(MouseEvent e) {
+      // no action
+    }
 
     @Override
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseReleased(MouseEvent e) {
+      // no action
+    }
 
     @Override
-    public void mouseEntered(MouseEvent e) { }
+    public void mouseEntered(MouseEvent e) {
+      // no action
+    }
 
     @Override
-    public void mouseExited(MouseEvent e) { }
+    public void mouseExited(MouseEvent e) {
+      // no action
+    }
 
     @Override
-    public void mouseDragged(MouseEvent e) { }
+    public void mouseDragged(MouseEvent e) {
+      // no action
+    }
   }
 
   private record Point(int px, int py) {
