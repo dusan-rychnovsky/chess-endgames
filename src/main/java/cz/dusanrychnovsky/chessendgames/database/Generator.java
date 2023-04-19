@@ -157,11 +157,11 @@ public class Generator {
     // it's safe to ignore any remaining unmarked neighbours - they can't
     // have a lower distance (the algorithm progresses through iterations
     // of increasing distance)
-    return records.reduce(Optional.empty(), (acc, record) -> {
-      if (record.isPresent()) {
-        var numMoves = record.get().numMoves;
+    return records.reduce(Optional.empty(), (acc, rec) -> {
+      if (rec.isPresent()) {
+        var numMoves = rec.get().numMoves;
         if (numMoves != INFINITE && (acc.isEmpty() || numMoves < acc.get().numMoves)) {
-          return record;
+          return rec;
         }
       }
       return acc;
@@ -174,11 +174,11 @@ public class Generator {
    */
   private Optional<Record> selectMax(Stream<Optional<Record>> records) {
     var result = Optional.<Record>empty();
-    for (var record : records.toList()) {
-      if (record.isPresent()) {
-        var numMoves = record.get().numMoves;
+    for (var rec : records.toList()) {
+      if (rec.isPresent()) {
+        var numMoves = rec.get().numMoves;
         if (result.isEmpty() || numMoves > result.get().numMoves) {
-          result = record;
+          result = rec;
         }
       }
       else {
