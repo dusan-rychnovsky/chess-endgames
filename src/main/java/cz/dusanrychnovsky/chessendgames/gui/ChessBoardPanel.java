@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 import static cz.dusanrychnovsky.chessendgames.core.Piece.*;
 import static cz.dusanrychnovsky.chessendgames.gui.SwingExtensions.runOnUiThread;
 
-public class ChessBoardPanel extends JPanel {
+public class ChessBoardPanel {
 
   private static final Logger LOGGER = LogManager.getLogger(ChessBoardPanel.class);
 
@@ -27,25 +27,68 @@ public class ChessBoardPanel extends JPanel {
   private static final int SQUARE_WIDTH = 100;
   private static final int SQUARE_HEIGHT = 100;
 
-  private final Image boardImg;
-  private final Image lightBorderImg;
+  private final JPanel panel;
   private Position lightBorderPos;
-  private final Image darkBorderImg;
   private final Set<Position> darkBorderPos = new HashSet<>();
-  private final Map<Piece, Image> pieceImgs;
-
   private Board board;
 
   private volatile CompletableFuture<Position> future = new CompletableFuture<>();
 
   public ChessBoardPanel(Image boardImg, Image lightBorderImg, Image darkBorderImg, Map<Piece, Image> pieceImgs) {
-    this.boardImg = boardImg;
-    this.lightBorderImg = lightBorderImg;
-    this.darkBorderImg = darkBorderImg;
-    this.pieceImgs = new HashMap<>(pieceImgs);
+    panel = new JPanel()
+    {
+      @Override
+      public void paint(Graphics graphics) {
+        super.paint(graphics);
 
-    addMouseListener(new MouseMovedClickedListener());
-    addMouseMotionListener(new MouseMovedClickedListener());
+        Graphics2D graphics2d = (Graphics2D) graphics;
+        paintBoard(graphics2d);
+
+        if (board != null) {
+          paintSituation(graphics2d, board);
+        }
+
+        if (lightBorderPos != null) {
+          paintBorder(graphics2d, lightBorderImg, ChessBoardPanel.this.lightBorderPos);
+        }
+
+        for (var pos : darkBorderPos) {
+          paintBorder(graphics2d, darkBorderImg, pos);
+        }
+      }
+
+      private void paintSituation(Graphics2D graphics, Board board) {
+        board.pieces()
+          .forEach(piece -> paintPiece(graphics, piece));
+      }
+
+      private void paintPiece(Graphics2D graphics, PiecePosition piece) {
+        var point = Point.fromPosition(piece.position());
+        graphics.drawImage(
+          pieceImgs.get(piece.piece()),
+          point.px,
+          point.py,
+          null
+        );
+      }
+
+      private void paintBorder(Graphics2D graphics, Image img, Position pos) {
+        var point = Point.fromPosition(pos);
+        graphics.drawImage(
+          img,
+          point.px - 2,
+          point.py - 2,
+          null
+        );
+      }
+
+      private void paintBoard(Graphics2D graphics2d) {
+        graphics2d.drawImage(boardImg, 0, 0, null);
+      }
+    };
+
+    panel.addMouseListener(new MouseMovedClickedListener());
+    panel.addMouseMotionListener(new MouseMovedClickedListener());
   }
 
   public static ChessBoardPanel setUp() {
@@ -60,7 +103,7 @@ public class ChessBoardPanel extends JPanel {
         BLACK_KING, loadImage("black-king.png")
       )
     );
-    result.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
+    result.preferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     return result;
   }
 
@@ -68,17 +111,33 @@ public class ChessBoardPanel extends JPanel {
     return new ImageIcon(ChessBoardPanel.class.getResource("/img/" + fileName)).getImage();
   }
 
+  public void attach(JFrame frame, Object constraints) {
+    frame.add(panel, constraints);
+  }
+
+  public void preferredSize(Dimension dimension) {
+    panel.setPreferredSize(dimension);
+  }
+
+  public int width() {
+    return panel.getWidth();
+  }
+
+  public int height() {
+    return panel.getHeight();
+  }
+
   public void addDarkBorder(Position pos) {
     runOnUiThread(() -> {
       darkBorderPos.add(pos);
-      repaint();
+      panel.repaint();
     });
   }
 
   public void clearDarkBorders() {
     runOnUiThread(() -> {
       darkBorderPos.clear();
-      repaint();
+      panel.repaint();
     });
   }
 
@@ -102,56 +161,7 @@ public class ChessBoardPanel extends JPanel {
 
   public void showSituation(Board board) {
     this.board = board;
-    repaint();
-  }
-
-  @Override
-  public void paint(Graphics graphics) {
-    super.paint(graphics);
-
-    Graphics2D graphics2d = (Graphics2D) graphics;
-    paintBoard(graphics2d);
-
-    if (board != null) {
-      paintSituation(graphics2d, board);
-    }
-
-    if (lightBorderPos != null) {
-      paintBorder(graphics2d, lightBorderImg, lightBorderPos);
-    }
-
-    for (var pos : darkBorderPos) {
-      paintBorder(graphics2d, darkBorderImg, pos);
-    }
-  }
-
-  private void paintSituation(Graphics2D graphics, Board board) {
-    board.pieces()
-      .forEach(piece -> paintPiece(graphics, piece));
-  }
-
-  private void paintPiece(Graphics2D graphics, PiecePosition piece) {
-    var point = Point.fromPosition(piece.position());
-    graphics.drawImage(
-      pieceImgs.get(piece.piece()),
-      point.px,
-      point.py,
-      null
-    );
-  }
-
-  private void paintBorder(Graphics2D graphics, Image img, Position pos) {
-    var point = Point.fromPosition(pos);
-    graphics.drawImage(
-      img,
-      point.px - 2,
-      point.py - 2,
-      null
-    );
-  }
-
-  private void paintBoard(Graphics2D graphics2d) {
-    graphics2d.drawImage(boardImg, 0, 0, null);
+    panel.repaint();
   }
 
   private class MouseMovedClickedListener implements MouseMotionListener, MouseListener {
@@ -183,12 +193,12 @@ public class ChessBoardPanel extends JPanel {
 
     private void setLightBorder(Position pos) {
       lightBorderPos = pos;
-      repaint();
+      panel.repaint();
     }
 
     private void clearLightBorder() {
       lightBorderPos = null;
-      repaint();
+      panel.repaint();
     }
 
     @Override

@@ -39,13 +39,13 @@ public class MainWindow {
       window.setLayout(new BorderLayout());
 
       chessBoardPanel = ChessBoardPanel.setUp();
-      window.add(chessBoardPanel, CENTER);
+      chessBoardPanel.attach(window, CENTER);
 
-      statusPanel = new StatusPanel(chessBoardPanel.getWidth());
-      window.add(statusPanel, NORTH);
+      statusPanel = new StatusPanel(chessBoardPanel.width());
+      statusPanel.attach(window, NORTH);
 
-      gameHistoryPanel = new GameHistoryPanel(chessBoardPanel.getHeight() + statusPanel.getHeight());
-      window.add(gameHistoryPanel, EAST);
+      gameHistoryPanel = new GameHistoryPanel(chessBoardPanel.height() + statusPanel.height());
+      gameHistoryPanel.attach(window, EAST);
 
       window.pack();
       window.setLocationRelativeTo(null);
