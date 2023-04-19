@@ -4,22 +4,20 @@ import org.junit.Test;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import static cz.dusanrychnovsky.chessendgames.core.Row.*;
 import static cz.dusanrychnovsky.chessendgames.core.Column.*;
 import static cz.dusanrychnovsky.chessendgames.core.Position.*;
+import static org.junit.Assert.*;
 
 public class RangeTest {
 
-  @Test(expected = NoSuchElementException.class)
+  @Test
   public void whenIteratingBeyondRangeEnd_Throws() {
     var range = Range.from(CB, CC);
     var it = range.iterator();
     assertEquals(CB, it.next());
     assertEquals(CC, it.next());
-    it.next();
+    assertThrows(NoSuchElementException.class, () -> it.next());
   }
 
   // ==========================================================================
