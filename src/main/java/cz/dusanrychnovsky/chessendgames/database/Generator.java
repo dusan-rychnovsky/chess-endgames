@@ -85,7 +85,7 @@ public class Generator {
 
     var finishTime = System.nanoTime();
     var elapsedTime = finishTime - startTime;
-    LOGGER.debug("elapsed time : {}", printDuration(elapsedTime));
+    LOGGER.debug("elapsed time : {}", () -> printDuration(elapsedTime));
 
     return result;
   }
