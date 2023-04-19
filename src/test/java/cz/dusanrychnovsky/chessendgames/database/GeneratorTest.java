@@ -13,7 +13,7 @@ public class GeneratorTest {
   // Generate database
   // ==========================================================================
 
-  @Ignore
+  @Ignore("Takes too long to execute - run on demand.")
   @Test
   public void generateShouldGenerateDbOfCertainSize() {
     assertEquals(175_160, GENERATOR.generateDatabase().moves().size());
