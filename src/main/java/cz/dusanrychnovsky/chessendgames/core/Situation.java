@@ -6,8 +6,17 @@ import static cz.dusanrychnovsky.chessendgames.core.Status.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a situation on a chess board from the position of
+ * the current player.
+ */
 public record Situation (Color color, Board board) {
 
+  /**
+   * @return Status of the represented situation. This is either
+   * {@link Status#IN_PROGRESS} if the game isn't finished or
+   * one of {@link Status#DRAW} or {@link Win} if it is.
+   */
   public Status status() {
     if (isStalemate()) {
       return DRAW;
@@ -18,6 +27,10 @@ public record Situation (Color color, Board board) {
     return IN_PROGRESS;
   }
 
+  /**
+   * @return A collection of all moves which are valid in the represented
+   * situation, together with situations to which each of them lead.
+   */
   public Map<Move, Situation> nextMoves() {
     var result = new HashMap<Move, Situation>();
     board.pieces(color).forEach(piece -> {
@@ -30,6 +43,13 @@ public record Situation (Color color, Board board) {
     return result;
   }
 
+  /**
+   * @return Situation to which the given move leads. Note that the given move,
+   * and therefore also the returned situation, don't need to be valid for the
+   * represented situation.
+   * @throws  IllegalArgumentException if the given move is not applicable
+   * to the represented situation
+   */
   public Situation apply(Move move) {
     var currPiece = board.pieceAt(move.from())
       .orElseThrow(() -> new IllegalArgumentException("No piece at position: " + move.from()));
@@ -44,10 +64,16 @@ public record Situation (Color color, Board board) {
     );
   }
 
+  /**
+   * @return A human-readable text representation of the situation.
+   */
   public String print() {
     return color + "\n" + board.print();
   }
 
+  /**
+   * @return True iff the given move is valid for the represented situation.
+   */
   public boolean isValid(Move move) {
     return
       isCurrentPlayersPiece(move) &&
@@ -88,6 +114,16 @@ public record Situation (Color color, Board board) {
     return piece.isPresent() && piece.get().color() == color;
   }
 
+  /**
+   * @return True iff the represented situation is a check. A situation
+   * is considered check if current player's king is threatened by either
+   * a] the opponent's king standing next to it or b] any other opponent's
+   * piece.
+   *
+   * TODO: This functionality doesn't comply with correct definition
+   * of check in chess and needs to be updated if the game engine gets
+   * extended with support for multiple pieces.
+   */
   public boolean isCheck() {
     return kingsAreAdjacent() || kingCanBeCaptured();
   }
@@ -116,10 +152,23 @@ public record Situation (Color color, Board board) {
     return false;
   }
 
+  /**
+   * @return True iff the represented situation is a mate. A situation
+   * is considered mate if it is a check and the king can't move away.
+   */
   public boolean isMate() {
     return isCheck() && !kingCanMove();
   }
 
+  /**
+   * @return True iff the represented situation is a stalemate. A situation
+   * is considered stalemate if the current player's king can't move but
+   * isn't in check.
+   *
+   * TODO: This functionality doesn't comply with correct definition
+   * of check in chess and needs to be updated if the game engine gets
+   * extended with support for multiple pieces.
+   */
   public boolean isStalemate() {
     return !isCheck() && !kingCanMove();
   }

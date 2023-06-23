@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ *
+ * @param <T>
+ */
 public class Range<T extends Comparable<T>> implements Iterable<T> {
 
   private final Axis<T> axis;

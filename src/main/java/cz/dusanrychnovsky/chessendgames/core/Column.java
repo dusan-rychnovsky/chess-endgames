@@ -1,5 +1,8 @@
 package cz.dusanrychnovsky.chessendgames.core;
 
+/**
+ * Represents a column on a chessboard - A to H.
+ */
 public enum Column implements Navigable<Column> {
   CA, CB, CC, CD, CE, CF, CG, CH;
 
