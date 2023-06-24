@@ -5,8 +5,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
+ * For types with total order, represents an (ordered) range of values between
+ * {@link #from} and {@link #to}.
  *
- * @param <T>
+ * {@link Axis} is an internal concept which captures details of how
+ * to traverse between {@link #from} and {@link #to}.
  */
 public class Range<T extends Comparable<T>> implements Iterable<T> {
 
@@ -22,7 +25,7 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
     return new Range<>(from, to, Axis.get(from, to));
   }
 
-  public Range(T from, T to, Axis<T> axis) {
+  private Range(T from, T to, Axis<T> axis) {
     this.axis = axis;
     this.from = from;
     this.to = to;
@@ -53,10 +56,27 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
     };
   }
 
+  /**
+   * For types with total order, captures details of how to traverse between
+   * the given from and to values.
+   *
+   * It can be either horizontal (such as for {@link Column}, vertical
+   * (such as for {@link Row}) or diagonal (for {@link Position}) axis.
+   */
   @FunctionalInterface
   private interface Axis<T> {
-    Optional<T> next(T from);
 
+    /**
+     * @return Value in the represented total order, which immediately follows
+     * the given of value, in the direction between the represented from
+     * and to values, if such value exists for the represented type.
+     */
+    Optional<T> next(T of);
+
+    /**
+     * @return Axis which represents the direction between the given from and
+     * to values in any total order.
+     */
     static <T extends Comparable<T> & Navigable<T>> Axis<T> get(T from, T to) {
       if (from.compareTo(to) <= 0) {
         // left to right
@@ -68,6 +88,12 @@ public class Range<T extends Comparable<T>> implements Iterable<T> {
       }
     }
 
+    /**
+     * @return Axis which represents the direction between the given from and
+     * to positions.
+     * @throws IllegalArgumentException if the given positions do not form
+     * a proper range
+     */
     static Axis<Position> get(Position from, Position to) {
       if (from.row() == to.row()) {
         // horizontal

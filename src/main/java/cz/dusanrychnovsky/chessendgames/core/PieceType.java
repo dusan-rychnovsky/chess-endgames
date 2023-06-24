@@ -40,5 +40,9 @@ public enum PieceType {
     }
   };
 
+  /**
+   * @return All moves valid from the given position on the board with
+   * the represented piece type.
+   */
   public abstract Set<Move> movesFrom(Position from);
 }

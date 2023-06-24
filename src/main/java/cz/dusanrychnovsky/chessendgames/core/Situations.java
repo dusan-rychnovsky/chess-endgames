@@ -11,6 +11,10 @@ import static java.util.Optional.empty;
 
 public class Situations {
 
+  /**
+   * @return Collection of all valid situations in chess games. This is
+   * currently limited to king and rook vs. king end-games.
+   */
   public static Set<Situation> all() {
     var result = new HashSet<Situation>();
     for (var color : Color.values()) {
