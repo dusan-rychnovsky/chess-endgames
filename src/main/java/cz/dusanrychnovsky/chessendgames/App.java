@@ -13,6 +13,19 @@ import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Core of the application, implemented in hexagonal architecture. Gets
+ * configured with adapters for user interface and user input and implements
+ * the game loop.
+ *
+ * As of today, supported user interfaces are:
+ * * {@link SwingInterface} - GUI based on Java Swing,
+ * * {@link CommandLineInterface} - CLI.
+ *
+ * Supported user inputs are:
+ * * {@link UIPlayer} - UI based, configured with either GUI or CLI,
+ * * {@link DbPlayer} - based on a database with pre-computed moves.
+ */
 public class App {
 
   private static final List<Piece> PIECES = List.of(WHITE_KING, WHITE_ROOK, BLACK_KING);

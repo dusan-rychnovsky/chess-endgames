@@ -5,6 +5,9 @@ public final class TimeExtensions {
   private TimeExtensions() {
   }
 
+  /**
+   * @return The given amount of nanoseconds in a human-readable format.
+   */
   public static String printDuration(long ns) {
     var acc = ns / 1_000_000.f;
 
