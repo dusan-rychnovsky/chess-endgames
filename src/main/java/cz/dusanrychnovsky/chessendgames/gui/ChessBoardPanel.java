@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.gui;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.util.UnexpectedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -152,10 +153,10 @@ public class ChessBoardPanel {
     }
     catch (InterruptedException ex) {
       Thread.currentThread().interrupt();
-      throw new RuntimeException(ex);
+      throw new UnexpectedException(ex);
     }
     catch (ExecutionException ex) {
-      throw new RuntimeException(ex);
+      throw new UnexpectedException(ex);
     }
   }
 

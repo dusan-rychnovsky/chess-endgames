@@ -1,6 +1,7 @@
 package cz.dusanrychnovsky.chessendgames.cli;
 
 import cz.dusanrychnovsky.chessendgames.core.*;
+import cz.dusanrychnovsky.chessendgames.util.UnexpectedException;
 
 import java.io.*;
 import java.util.List;
@@ -76,7 +77,7 @@ public class CommandLineInterface implements UserInterface {
       out.flush();
     }
     catch (IOException ex) {
-      throw new RuntimeException(ex);
+      throw new UnexpectedException(ex);
     }
   }
 
@@ -85,7 +86,7 @@ public class CommandLineInterface implements UserInterface {
       return in.readLine();
     }
     catch (IOException ex) {
-      throw new RuntimeException(ex);
+      throw new UnexpectedException(ex);
     }
   }
 }

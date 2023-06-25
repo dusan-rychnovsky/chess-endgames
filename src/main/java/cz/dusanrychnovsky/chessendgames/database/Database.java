@@ -4,6 +4,7 @@ import cz.dusanrychnovsky.chessendgames.core.Color;
 import cz.dusanrychnovsky.chessendgames.core.Move;
 import cz.dusanrychnovsky.chessendgames.core.Situation;
 import cz.dusanrychnovsky.chessendgames.proto.Movesdb;
+import cz.dusanrychnovsky.chessendgames.util.UnexpectedException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class Database {
       );
     }
     catch (IOException ex) {
-      throw new RuntimeException("Can't load movesdb", ex);
+      throw new UnexpectedException("Can't load movesdb", ex);
     }
   }
 
