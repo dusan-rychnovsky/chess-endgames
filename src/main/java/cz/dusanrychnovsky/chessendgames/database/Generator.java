@@ -17,6 +17,12 @@ import static cz.dusanrychnovsky.chessendgames.core.Color.WHITE;
 import static cz.dusanrychnovsky.chessendgames.util.MapExtensions.*;
 import static cz.dusanrychnovsky.chessendgames.util.TimeExtensions.printDuration;
 
+/**
+ * Pre-computes best moves for all chess positions, currently scoped only
+ * to king plus rook vs king end-games, from the perspective of white player.
+ * Based on Minimax algorithm with alfa-beta pruning. Results are stored
+ * as Protocol Buffers at the given path in local filesystem.
+ */
 public class Generator {
 
   private static final Logger LOGGER = LogManager.getLogger(Generator.class);
@@ -46,8 +52,11 @@ public class Generator {
     LOGGER.info("DONE");
   }
 
+  /**
+   * @return Collection of best moves for all situations, from the perspective
+   * of white player.
+   */
   public Database generateDatabase() {
-
     var startTime = System.nanoTime();
 
     var allSituations = Situations.all();
@@ -57,6 +66,14 @@ public class Generator {
     var color = WHITE;
     var acc = new HashMap<Situation, Record>();
 
+    // Repeatedly iterates through all situations. In each iteration, assigns
+    // values to all situations which are possible to evaluate at that point
+    // (that is, all final situations in first iteration, plus all situations
+    // for which all neighbours have already been evaluated in previous
+    // iterations - though see notes about pruning in {@link #selectMin}
+    // and {@link #selectMax} below).
+    // Stops once no new situations have been evaluated in an iteration (at which
+    // point all situations have been evaluated which are possible to do).
     var iterationNo = 0;
     var totalResolved = 0;
     while (true) {
