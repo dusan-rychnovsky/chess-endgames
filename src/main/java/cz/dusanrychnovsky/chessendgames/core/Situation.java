@@ -104,8 +104,11 @@ public record Situation (Color color, Board board) {
   }
 
   private boolean isCompatibleWithPieceType(Move move) {
-    var piece = board.pieceAt(move.from()).get();
-    var validMoves = piece.type().movesFrom(move.from());
+    var piece = board.pieceAt(move.from());
+    if (piece.isEmpty()) {
+      return false;
+    }
+    var validMoves = piece.get().type().movesFrom(move.from());
     return validMoves.contains(move);
   }
 
